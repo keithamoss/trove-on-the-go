@@ -4,11 +4,11 @@
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1">
 
   <!-- Bootstrap CSS -->
-  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="bootswatch-lux.bootstrap.min.css" />
 
   <link rel="stylesheet" href="app.css">
@@ -19,7 +19,7 @@
 <body>
   <script id="template" type="x-tmpl-mustache">
     <div class="row">
-      <div class="card" style="width: 100%;">
+      <div class="card">
         <a href="{{ full_size_url }}"">
           <img src="{{ thumbnail_url }}" class="card-img-top" alt="{{ thumbnail_alt }}">
         </a>
@@ -34,16 +34,12 @@
 
   <div class="container search">
     <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <form class="form-inline" id="search_form">
-          <div class="form-group mb-2">
-            <input type="text" class="form-control" id="search_field" placeholder="Search for something...">
-          </div>
-          <button type="submit" class="btn btn-primary mb-2" id="search_btn">Search</button>
-        </form>
-      </div>
-      <div class="col-md-4"></div>
+      <form class="form-inline" id="search_form">
+        <div class="form-group mb-2">
+          <input type="text" class="form-control" id="search_field" placeholder="Search for something...">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2" id="search_btn">Search</button>
+      </form>
     </div>
   </div>
 
@@ -51,7 +47,12 @@
 
   </div>
 
-  <center><img src="http://trove.nla.gov.au/general-test/files/2012/01/API-dark.png" /></center>
+  <div id="empty_state">
+    <h5>Sorry, that search didn't turn up any results. How about a cuppa?</h5>
+    <img src="undraw_cup_of_tea_6nqg.svg" />
+  </div>
+
+  <center><img src="https://trove.nla.gov.au/general-test/files/2012/01/API-dark.png" /></center>
 
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"

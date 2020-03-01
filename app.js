@@ -7,11 +7,37 @@ $(document).ready(function () {
       doTroveSearch(search_terms)
     }
   });
+
+  $("#search_field").on("focusout", function (e) {
+    $("#search_form").trigger("submit");
+  });
+
+  window.addEventListener("popstate", function (e) {
+    searchOnURLChange("popstate")
+  });
+  searchOnURLChange("load")
 });
+
+function searchOnURLChange(msg) {
+  var search_terms = getSearchTermsFromURL()
+  if (search_terms !== null && search_terms.length > 0) {
+    doTroveSearch(search_terms)
+    $("#search_field").val(search_terms)
+  }
+}
+
+function getSearchTermsFromURL() {
+  var url_params = new URLSearchParams(window.location.search);
+  return url_params.get("q")
+}
 
 function doTroveSearch(search_terms) {
   var TROVE_API_BASE_URL = "https://api.trove.nla.gov.au/v2/result";
   var TROVE_API_KEY = "pdp9gliahqs834fe";
+
+  if (search_terms !== getSearchTermsFromURL()) {
+    history.pushState(null, null, "?q=" + search_terms)
+  }
 
   $.getJSON(TROVE_API_BASE_URL, {
     key: TROVE_API_KEY,
@@ -23,6 +49,15 @@ function doTroveSearch(search_terms) {
     "l-availability": "y",
   }, function (data) {
     var works = data.response.zone[0].records.work;
+
+    $("div.container.results").empty();
+
+    if (data.response.zone[0].records.total === "0") {
+      $("#empty_state").show();
+    } else {
+      $("#empty_state").hide();
+    }
+
     $.each(works, function (index, element) {
       var work = works[index];
       var thumbnail = work.identifier.find((function (obj) {
@@ -46,7 +81,6 @@ function doTroveSearch(search_terms) {
           var thumbnail_url = thumbnail_url + ".jpg"
         }
       }
-
 
       var template = document.getElementById("template").innerHTML;
       var rendered = Mustache.render(template, {
