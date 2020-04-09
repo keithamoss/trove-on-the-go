@@ -51,7 +51,7 @@ functions:
     handler: src/handler.trove_result
     description: Wrap around the Trove API to improve handling of photographs.
     memorySize: 512 # optional, in MB, default is 1024
-    timeout: 10 # optional, in seconds, default is 6
+    timeout: 30 # optional, in seconds, default is 6
     layers:
       - { Ref: SharpLambdaLayer }
     events:

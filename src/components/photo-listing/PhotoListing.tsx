@@ -1,4 +1,5 @@
 import { Button, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import React, { Fragment, useState } from 'react'
 import Gallery from 'react-grid-gallery'
 import Carousel, { Modal, ModalGateway } from 'react-images'
@@ -10,50 +11,17 @@ type PhotoListingProps = {
   searchTerm: string
 }
 
-// const useStyles = makeStyles(theme => ({
-//
-// }))
-
-const gutter = 2
-
-const GalleryDiv = (props: any) => (
-  <div
-    style={{
-      overflow: 'hidden',
-      marginLeft: -gutter,
-      marginRight: -gutter,
-      display: 'none',
-      // height: '200px',
-    }}
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    {...props}
-  />
-)
-
-const Image = (props: any) => (
-  <div
-    style={{
-      // backgroundColor: '#eee',
-      boxSizing: 'border-box',
-      float: 'left',
-      margin: gutter,
-      overflow: 'hidden',
-      paddingBottom: '16%',
-      position: 'relative',
-      width: `calc(50% - ${gutter * 2}px)`,
-      height: `calc(50% - ${gutter * 2}px)`,
-
-      ':hover': {
-        opacity: 0.9,
-      },
-    }}
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    {...props}
-  />
-)
+const useStyles = makeStyles({
+  galleryContainer: {
+    display: 'block',
+    minHeight: '1px',
+    width: '100%',
+    overflow: 'auto',
+  },
+})
 
 const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
-  // const classes = useStyles()
+  const classes = useStyles()
 
   const [photos, setPhotos] = useState<TroveWork[]>([])
   const [lightboxPhotos, setLightboxPhotos] = useState<{
@@ -85,20 +53,16 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
                   {work.title}
                 </Typography>
                 <Typography gutterBottom variant="caption">
-                  {work.issued} ({work.contributor})
+                  {work.issued}
+                  {work.contributor !== undefined && work.contributor.length > 0
+                    ? ` (${work.contributor.join(', ')})`
+                    : undefined}
                 </Typography>
-                <div
-                  style={{
-                    display: 'block',
-                    minHeight: '1px',
-                    width: '100%',
-                    // border: '1px solid #ddd',
-                    overflow: 'auto',
-                  }}
-                >
+                <div className={classes.galleryContainer}>
                   <Gallery
                     enableLightbox={false}
                     enableImageSelection={false}
+                    rowHeight={165}
                     onClickThumbnail={(index: number) => {
                       setLightboxPhotos({
                         photoIndex: index,
@@ -107,37 +71,12 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
                     }}
                     images={work.photos!.map(item => ({
                       src: item.fullsize_url,
-                      // thumbnail: item.thumbnail_url,
                       thumbnail: item.fullsize_url,
-                      thumbnailWidth: 756,
-                      thumbnailHeight: 760,
+                      thumbnailWidth: undefined,
+                      thumbnailHeight: undefined,
                     }))}
                   />
                 </div>
-                {/* <GalleryDiv>
-                {work.photos!.map((item, index) => (
-                  <Image
-                    key={item.thumbnail_url}
-                    onClick={() =>
-                      setLightboxPhotos({
-                        photoIndex: index,
-                        photos: work.photos!,
-                      })
-                    }
-                  >
-                    <img
-                      alt={item.caption}
-                      src={item.fullsize_url}
-                      style={{
-                        cursor: 'pointer',
-                        position: 'absolute',
-                        maxWidth: '100%',
-                      }}
-                    />
-                  </Image>
-                ))}
-              </GalleryDiv>
-              <br /> */}
                 <Button
                   color="primary"
                   aria-label="view-photo-gallery"
