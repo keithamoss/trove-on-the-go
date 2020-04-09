@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "lib": ["es6"],
+    "outDir": "./build",
+    "rootDir": "./",
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo"
+  },
+  "include": [
+    "./src/**.ts", "src/**.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

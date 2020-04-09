@@ -1,0 +1,31 @@
+{
+  "name": "trove-on-the-go",
+  "description": "A proxy for the Trove API that generates thumbnails of photos, stores copies in S3, and attaches some useful metadata to the photos.",
+  "version": "1.0.0",
+  "author": "Keith Moss",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.7.9",
+    "exponential-backoff": "^2.2.1",
+    "node-fetch": "^1.6.3",
+    "p-limit": "^2.2.2",
+    "sharp": "^0.25.2"
+  },
+  "devDependencies": {
+    "@kingdarboja/serverless-plugin-typescript": "^1.2.1",
+    "@types/aws-lambda": "^8.10.47",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/node": "^12",
+    "@types/node-fetch": "^2.5.5",
+    "@types/p-limit": "^2.2.0",
+    "@types/sharp": "^0.24.0",
+    "serverless-dotenv-plugin": "^2.3.2",
+    "serverless-offline": "^6.1.4",
+    "source-map-support": "^0.5.16",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "deploy-dev": "NODE_ENV=development serverless deploy --stage development",
+    "deploy-prod": "NODE_ENV=production serverless deploy --stage production"
+  }
+}
