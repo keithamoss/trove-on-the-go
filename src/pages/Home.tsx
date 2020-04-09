@@ -1,18 +1,11 @@
-import {
-  Container,
-  Divider,
-  Grid,
-  IconButton,
-  InputBase,
-  Link,
-  Paper,
-} from '@material-ui/core'
+import { Container, Divider, Grid, IconButton, InputBase, Link, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone'
 import React, { Fragment } from 'react'
 import { useDebounce } from 'use-debounce'
 import PhotoListing from '../components/photo-listing'
+import { isDev } from '../shared/utils'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,7 +36,7 @@ export const Home: React.FC = () => {
   const classes = useStyles()
 
   const [searchTermRaw, setSearchTerm] = React.useState<string | null>(
-    process.env.NODE_ENV === 'development' ? 'raine square' : null
+    isDev() ? 'raine square' : null
   )
   const [searchTerm] = useDebounce(searchTermRaw, 500)
 

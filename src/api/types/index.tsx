@@ -13,16 +13,30 @@ export type TroveWorkIdentifier = {
 }
 
 export type TroveWorkPhoto = {
-  thumbnail_url: string
-  fullsize_url: string
-  // fullsize_width?: number
-  // fullsize_height?: number
   caption: string
+  photo: {
+    sourceURL: string
+    original: {
+      url: string
+      width: number
+      height: number
+    }
+    thumbnail: {
+      url: string
+      width: number
+      height: number
+    }
+    geo: null
+  }
 }
 
 export type TroveWork = {
-  photos?: TroveWorkPhoto[]
-  thumbnail?: TroveWorkPhoto | null
+  photos: TroveWorkPhoto[]
+  thumbnail: {
+    url: string
+    width: number
+    height: number
+  } | null
   contributor?: string[]
   holdingsCount: number
   id: string

@@ -1,3 +1,5 @@
+export const isDev = () => process.env.NODE_ENV === 'development'
+
 export const getURLFileExtension = (url: string) => {
   const parsedURL = new URL(url)
   return parsedURL.pathname.includes('.')

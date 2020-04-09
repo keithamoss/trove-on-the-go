@@ -70,10 +70,10 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
                       })
                     }}
                     images={work.photos!.map(item => ({
-                      src: item.fullsize_url,
-                      thumbnail: item.fullsize_url,
-                      thumbnailWidth: undefined,
-                      thumbnailHeight: undefined,
+                      src: item.photo.original.url,
+                      thumbnail: item.photo.thumbnail.url,
+                      thumbnailWidth: item.photo.thumbnail.width,
+                      thumbnailHeight: item.photo.thumbnail.height,
                     }))}
                   />
                 </div>
@@ -121,10 +121,10 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
               views={lightboxPhotos.photos.map(item => ({
                 caption: item.caption,
                 source: {
-                  download: item.fullsize_url,
-                  fullscreen: item.fullsize_url,
-                  regular: item.fullsize_url,
-                  thumbnail: item.thumbnail_url,
+                  download: item.photo.original.url,
+                  fullscreen: item.photo.original.url,
+                  regular: item.photo.original.url,
+                  thumbnail: item.photo.thumbnail.url,
                 },
               }))}
             />
