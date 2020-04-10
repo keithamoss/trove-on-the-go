@@ -1,15 +1,13 @@
+export type TrovePhotoDetails = {
+  url: string
+  width: number
+  height: number
+}
+
 export type TrovePhoto = {
   sourceURL: string
-  original: {
-    url: string
-    width: number
-    height: number
-  }
-  thumbnail: {
-    url: string
-    width: number
-    height: number
-  }
+  original: TrovePhotoDetails
+  thumbnail: TrovePhotoDetails
   geo: null
 }
 
@@ -29,18 +27,15 @@ export type TroveApiResponse = {
         s: string
         n: string
         total: string
-        work: TroveWork[]
+        work?: TroveWork[]
       }
-    }
+    }[]
   }
 }
 
 export type TroveWorkPhoto = {
-  original_url: string
-  thumbnail_url: string
-  // fullsize_width?: number
-  // fullsize_height?: number
   caption: string
+  photo: TrovePhoto
 }
 
 export type TroveWorkIdentifier = {
@@ -59,7 +54,7 @@ export type TroveWorkIdentifier = {
 
 export type TroveWork = {
   photos?: TroveWorkPhoto[]
-  thumbnail?: TroveWorkPhoto | null
+  thumbnail?: TrovePhotoDetails | null
   contributor?: string[]
   holdingsCount: number
   id: string

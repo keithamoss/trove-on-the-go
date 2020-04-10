@@ -25,7 +25,12 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
+    "start": "serverless offline --httpPort 3001",
+    "invoke-local-trove_result": "serverless invoke local -f trove_result -l -p mocks/trove_result.json --watch",
     "deploy-dev": "NODE_ENV=development serverless deploy --stage development",
-    "deploy-prod": "NODE_ENV=production serverless deploy --stage production"
+    "deploy-dev-trove_result": "serverless deploy function --stage development -f trove_result",
+    "deploy-prod": "NODE_ENV=production serverless deploy --stage production",
+    "logs-dev": "serverless logs --function trove_result --tail --stage development",
+    "logs-prod": "serverless logs --function trove_result --tail --stage production"
   }
 }

@@ -17,28 +17,22 @@ mv localhost.pem cert.pem
 ```
 
 ```
-serverless offline
+yarn run start
 ```
 
 ```
-serverless invoke local -f trove_result -l -p mocks/trove_result.json --watch
+yarn run invoke-local-trove_result
 ```
 
 ```
-serverless invoke -f trove_result -l -p mocks/trove_result.json
-```
-
-```
-yarn run deploy-prod
 yarn run deploy-dev
+yarn run deploy-dev-trove_result
+yarn run deploy-prod
 ```
 
 ```
-serverless deploy function -s production -f trove_result
-```
-
-```
-serverless logs -s production -f trove_result -t
+yarn run logs-dev
+yarn run logs-prod
 ```
 
 ```json

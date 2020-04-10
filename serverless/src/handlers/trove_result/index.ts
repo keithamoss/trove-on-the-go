@@ -9,24 +9,31 @@ import { copyPhotoToS3, fetchPhotoMetadataFromS3 } from '../../lib/photos/index'
 import { callbackWithError } from '../../lib/response'
 import { filterWorkIdentifiersForEverythingExceptOriginalPhotos, filterWorkIdentifiersForOriginalPhotos, getWorkThumbnail } from '../../lib/trove'
 // import 'source-map-support/register'
-import { TroveApiResponse, TroveWork, TroveWorkPhotoMetadataContainer } from '../../types'
+import { TroveApiResponse, TroveWork, TroveWorkPhoto, TroveWorkPhotoMetadataContainer } from '../../types'
 
 export default async (event: APIGatewayEvent, callback: Function) => {
   const getPhotosFromTrove = (): Promise<TroveApiResponse> => {
     const params = new URLSearchParams({
-      q:
-        event.queryStringParameters !== null
-          ? event.queryStringParameters.q
-          : '',
       zone: 'picture',
       'l-place': 'Australia/Western Australia',
-      n: '50',
+      n: '12',
       'l-availability': 'y',
       include: 'links',
       reclevel: 'full',
       key: process.env.TROVE_API_KEY,
       encoding: 'json',
     })
+
+    if (event.queryStringParameters !== null) {
+      const queryStringParams = new URLSearchParams(event.queryStringParameters)
+
+      if (queryStringParams.has('q')) {
+        params.append('q', queryStringParams.get('q')!)
+      }
+      if (queryStringParams.has('s')) {
+        params.append('s', queryStringParams.get('s')!)
+      }
+    }
 
     return fetch(`https://api.trove.nla.gov.au/v2/result?${params}`)
       .then(response =>
@@ -45,12 +52,18 @@ export default async (event: APIGatewayEvent, callback: Function) => {
       numOfAttempts: 5,
     })
 
+    // No results returned, so bail out because there's nothing to process
+    if (troveAPIResponse.response.zone[0].records.work === undefined) {
+      callback(null, troveAPIResponse)
+      return
+    }
+
     const promises: Promise<TroveWorkPhotoMetadataContainer>[] = []
     const limit = pLimit(12)
     const s3 = new S3()
 
     troveAPIResponse.response.zone[0].records.work
-      // .filter((work: TroveWork) => work.id === '159519383')
+      // .filter((work: TroveWork) => work.id === '234955310')
       .forEach((work: TroveWork) =>
         filterWorkIdentifiersForOriginalPhotos(work).forEach(identifier =>
           promises.push(
@@ -79,18 +92,21 @@ export default async (event: APIGatewayEvent, callback: Function) => {
     ]
 
     const photosGroupedByWork: {
-      [key: string]: TroveWorkPhotoMetadataContainer[]
+      [key: string]: TroveWorkPhoto[]
     } = photos.reduce((accumulator, currentPhoto) => {
       if (accumulator[currentPhoto.workId] === undefined) {
         accumulator[currentPhoto.workId] = []
       }
-      const { workId, imageURL, ...photo } = currentPhoto
-      accumulator[currentPhoto.workId].push(photo)
+      const { caption, photo } = currentPhoto
+      accumulator[currentPhoto.workId].push({
+        caption,
+        photo,
+      })
       return accumulator
     }, {})
 
     troveAPIResponse.response.zone[0].records.work = troveAPIResponse.response.zone[0].records.work
-      // .filter((work: TroveWork) => work.id === '159519383')
+      // .filter((work: TroveWork) => work.id === '234955310')
       .map((work: TroveWork) => {
         return {
           ...work,

@@ -1,4 +1,4 @@
-import { TroveWork, TroveWorkIdentifier, TroveWorkPhotoMetadataContainer } from '../types'
+import { TroveWork, TroveWorkIdentifier, TroveWorkPhoto } from '../types'
 import PhotoURLHandlerFactory from './photos/handlers/index'
 import { getURLWithoutFilenameExtension } from './utils'
 
@@ -42,7 +42,7 @@ export const filterWorkIdentifiersForEverythingExceptOriginalPhotos = (
 
 export const getWorkThumbnail = (
   identifiers: TroveWorkIdentifier[],
-  photos: TroveWorkPhotoMetadataContainer[]
+  photos: TroveWorkPhoto[]
 ) => {
   const thumbnail = identifiers.find((identifier: TroveWorkIdentifier) => {
     const factory = new PhotoURLHandlerFactory(identifier)
@@ -52,14 +52,11 @@ export const getWorkThumbnail = (
   if (thumbnail !== undefined) {
     const thumbnailURL = getURLWithoutFilenameExtension(thumbnail.value)
 
-    const thumbnailOriginalPhoto = photos.find(
-      (photo: TroveWorkPhotoMetadataContainer) => {
-        return (
-          getURLWithoutFilenameExtension(photo.photo!.sourceURL) ===
-          thumbnailURL
-        )
-      }
-    )
+    const thumbnailOriginalPhoto = photos.find(photo => {
+      return (
+        getURLWithoutFilenameExtension(photo.photo!.sourceURL) === thumbnailURL
+      )
+    })
 
     if (
       thumbnailOriginalPhoto !== undefined &&
