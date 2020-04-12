@@ -1,13 +1,14 @@
 import { ax } from '../Client'
-import { TroveWork } from '../types'
+import { TroveAPIResponseRecords, TroveAPISearchParams } from '../types'
 
 export const fetchTrovePhotos = async (
-  searchTerm: string
-): Promise<TroveWork[]> => {
+  params: TroveAPISearchParams
+): Promise<TroveAPIResponseRecords> => {
   const response = await ax.get('/trove_result', {
     method: 'get',
     params: {
-      q: searchTerm,
+      q: params.searchTerm,
+      s: params.nextPageToken,
     },
   })
   return response.data

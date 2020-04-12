@@ -1,11 +1,11 @@
-import { Button, Typography } from '@material-ui/core'
+import { Button, Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import React, { Fragment, useState } from 'react'
 import Gallery from 'react-grid-gallery'
 import Carousel, { Modal, ModalGateway } from 'react-images'
-import { fetchTrovePhotos } from '../../api/actions'
 import { TroveWork, TroveWorkPhoto } from '../../api/types'
 import { EmptyState } from '../../shared/empty-state/EmptyState'
+import { useTroveAPI } from './useTroveAPIHook'
 
 type PhotoListingProps = {
   searchTerm: string
@@ -23,29 +23,31 @@ const useStyles = makeStyles({
 const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
   const classes = useStyles()
 
-  const [photos, setPhotos] = useState<TroveWork[]>([])
-  const [lightboxPhotos, setLightboxPhotos] = useState<{
-    photoIndex: number
-    photos: TroveWorkPhoto[]
-  }>({ photoIndex: 0, photos: [] })
-  const [isEmpty, setIsEmpty] = useState(false)
+  const {
+    state: { isLoading, hasMoreResults, response },
+    getNextPage,
+  } = useTroveAPI(searchTerm)
 
-  React.useEffect(() => {
-    ;(async () => {
-      const data = await fetchTrovePhotos(searchTerm)
-      setIsEmpty(data.length === 0)
-      setPhotos(data)
-    })()
-  }, [searchTerm, setIsEmpty, setPhotos])
+  const [galleryPhotos, setGalleryPhotos] = useState<
+    | {
+        photoIndex: number
+        photos: TroveWorkPhoto[]
+      }
+    | undefined
+  >()
 
   return (
     <Fragment>
-      {isEmpty && <EmptyState />}
+      <h3>
+        photos.length:{' '}
+        {`${response != null ? response.photos.length : undefined}`}
+      </h3>
 
-      {!isEmpty &&
-        photos
-          .filter(work => work.photos!.length > 0)
-          // .filter((work, index) => index <= 2)
+      {response !== null && response.photos.length === 0 && <EmptyState />}
+
+      {response !== null &&
+        response.photos
+          .filter((work: { photos: any }) => work.photos!.length > 0)
           .map((work: TroveWork) => (
             <Fragment key={work.id}>
               <div>
@@ -64,7 +66,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
                     enableImageSelection={false}
                     rowHeight={165}
                     onClickThumbnail={(index: number) => {
-                      setLightboxPhotos({
+                      setGalleryPhotos({
                         photoIndex: index,
                         photos: work.photos!,
                       })
@@ -81,13 +83,13 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
                   color="primary"
                   aria-label="view-photo-gallery"
                   onClick={() =>
-                    setLightboxPhotos({
+                    setGalleryPhotos({
                       photoIndex: 0,
                       photos: work.photos!,
                     })
                   }
                 >
-                  View Photos
+                  Open Photo Gallery
                 </Button>
                 <Button
                   color="secondary"
@@ -103,11 +105,24 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
             </Fragment>
           ))}
 
+      {response !== null && hasMoreResults && (
+        <Grid container direction="row" justify="center">
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={isLoading}
+            onClick={() => getNextPage()}
+          >
+            load more
+          </Button>
+        </Grid>
+      )}
+
       <ModalGateway>
-        {lightboxPhotos.photos.length > 0 && (
+        {galleryPhotos !== undefined && galleryPhotos.photos.length > 0 && (
           <Modal
             onClose={() =>
-              setLightboxPhotos({
+              setGalleryPhotos({
                 photoIndex: 0,
                 photos: [],
               })
@@ -116,9 +131,9 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
             <Carousel
               // components={{ FooterCaption }}
               // formatters={{ getAltText }}
-              currentIndex={lightboxPhotos.photoIndex}
+              currentIndex={galleryPhotos.photoIndex}
               frameProps={{ autoSize: 'height' }}
-              views={lightboxPhotos.photos.map(item => ({
+              views={galleryPhotos.photos.map(item => ({
                 caption: item.caption,
                 source: {
                   download: item.photo.original.url,

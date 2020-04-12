@@ -58,3 +58,13 @@ export type TroveWork = {
   url: string
   versionCount: number
 }
+export type TroveAPISearchParams = {
+  searchTerm: string
+  nextPageToken: string | null
+}
+
+export type TroveAPIResponseRecords = {
+  total: number
+  nextPageToken: string | null
+  work: TroveWork[]
+}
