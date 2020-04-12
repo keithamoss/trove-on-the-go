@@ -97,9 +97,6 @@ export const useTroveAPI = (
   state: State
   getNextPage: () => void
 } => {
-  console.log('> Setup useTroveAPI')
-  console.log('> useTroveAPI.searchTerm', searchTerm)
-
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, {
     isLoading: false,
     isError: false,
