@@ -1,3 +1,24 @@
+export type TrovePhotoImageMetadata = {
+  url: string
+  width: number
+  height: number
+}
+
+export type TrovePhotoImages = {
+  original: TrovePhotoImageMetadata
+  thumbnail: TrovePhotoImageMetadata
+}
+
+export type TrovePhotoMetadata = {
+  troveWorkId: string
+  troveWorkURL: string
+  catalogueURL: string
+  cataloguePhotoURL: string
+  caption: string
+  geo: null
+  images: TrovePhotoImages
+}
+
 export type TroveWorkIdentifier = {
   linktext: string
   linktype:
@@ -12,26 +33,8 @@ export type TroveWorkIdentifier = {
   value: string
 }
 
-export type TroveWorkPhoto = {
-  caption: string
-  photo: {
-    sourceURL: string
-    original: {
-      url: string
-      width: number
-      height: number
-    }
-    thumbnail: {
-      url: string
-      width: number
-      height: number
-    }
-    geo: null
-  }
-}
-
 export type TroveWork = {
-  photos: TroveWorkPhoto[]
+  photos: TrovePhotoMetadata[]
   thumbnail: {
     url: string
     width: number

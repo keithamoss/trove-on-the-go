@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import React, { Fragment, useState } from 'react'
 import Gallery from 'react-grid-gallery'
 import Carousel, { Modal, ModalGateway } from 'react-images'
-import { TroveWork, TroveWorkPhoto } from '../../api/types'
+import { TrovePhotoMetadata, TroveWork } from '../../api/types'
 import { EmptyState } from '../../shared/empty-state/EmptyState'
 import { useTroveAPI } from './useTroveAPIHook'
 
@@ -31,7 +31,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
   const [galleryPhotos, setGalleryPhotos] = useState<
     | {
         photoIndex: number
-        photos: TroveWorkPhoto[]
+        photos: TrovePhotoMetadata[]
       }
     | undefined
   >()
@@ -47,7 +47,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
 
       {response !== null &&
         response.photos
-          .filter((work: { photos: any }) => work.photos!.length > 0)
+          .filter(work => work.photos.length > 0)
           .map((work: TroveWork) => (
             <Fragment key={work.id}>
               <div>
@@ -68,14 +68,14 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
                     onClickThumbnail={(index: number) => {
                       setGalleryPhotos({
                         photoIndex: index,
-                        photos: work.photos!,
+                        photos: work.photos,
                       })
                     }}
-                    images={work.photos!.map(item => ({
-                      src: item.photo.original.url,
-                      thumbnail: item.photo.thumbnail.url,
-                      thumbnailWidth: item.photo.thumbnail.width,
-                      thumbnailHeight: item.photo.thumbnail.height,
+                    images={work.photos.map(photo => ({
+                      src: photo.images.original.url,
+                      thumbnail: photo.images.thumbnail.url,
+                      thumbnailWidth: photo.images.thumbnail.width,
+                      thumbnailHeight: photo.images.thumbnail.height,
                     }))}
                   />
                 </div>
@@ -133,13 +133,13 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
               // formatters={{ getAltText }}
               currentIndex={galleryPhotos.photoIndex}
               frameProps={{ autoSize: 'height' }}
-              views={galleryPhotos.photos.map(item => ({
-                caption: item.caption,
+              views={galleryPhotos.photos.map(photo => ({
+                caption: photo.caption,
                 source: {
-                  download: item.photo.original.url,
-                  fullscreen: item.photo.original.url,
-                  regular: item.photo.original.url,
-                  thumbnail: item.photo.thumbnail.url,
+                  download: photo.images.original.url,
+                  fullscreen: photo.images.original.url,
+                  regular: photo.images.original.url,
+                  thumbnail: photo.images.thumbnail.url,
                 },
               }))}
             />
