@@ -1,4 +1,4 @@
-import { TroveWork, TroveWorkIdentifier, TroveWorkPhoto } from '../types'
+import { TrovePhotoMetadata, TroveWork, TroveWorkIdentifier } from '../types'
 import PhotoURLHandlerFactory from './photos/handlers/index'
 import { getURLWithoutFilenameExtension } from './utils'
 
@@ -42,7 +42,7 @@ export const filterWorkIdentifiersForEverythingExceptOriginalPhotos = (
 
 export const getWorkThumbnail = (
   identifiers: TroveWorkIdentifier[],
-  photos: TroveWorkPhoto[]
+  photos: TrovePhotoMetadata[]
 ) => {
   const thumbnail = identifiers.find((identifier: TroveWorkIdentifier) => {
     const factory = new PhotoURLHandlerFactory(identifier)
@@ -54,17 +54,29 @@ export const getWorkThumbnail = (
 
     const thumbnailOriginalPhoto = photos.find(photo => {
       return (
-        getURLWithoutFilenameExtension(photo.photo!.sourceURL) === thumbnailURL
+        getURLWithoutFilenameExtension(photo.cataloguePhotoURL) === thumbnailURL
       )
     })
 
     if (
       thumbnailOriginalPhoto !== undefined &&
-      thumbnailOriginalPhoto.photo !== null
+      thumbnailOriginalPhoto.images !== null
     ) {
-      return thumbnailOriginalPhoto.photo.thumbnail
+      return thumbnailOriginalPhoto.images.thumbnail
     }
   }
 
   return null
+}
+
+export const getSourceCatalogueURL = (
+  identifier: TroveWorkIdentifier
+): string | never => {
+  const factory = new PhotoURLHandlerFactory(identifier)
+  const handler = factory.getPhotoHandler()
+
+  if (handler !== null) {
+    return handler.getSourceCatalogueURL()
+  }
+  throw new Error(`No handler found for ${identifier.value}`)
 }

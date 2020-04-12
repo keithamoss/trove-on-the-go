@@ -1,4 +1,4 @@
-import { getFilenameExtensionFromURL } from '../../utils'
+import { getFilenameExtensionFromURL, getURLWithoutFilenameExtension } from '../../utils'
 
 export default class SLWAPhotoURLHandler {
   private url: string
@@ -65,5 +65,13 @@ export default class SLWAPhotoURLHandler {
 
     // Would contain this.isOriginalPhoto() === true
     return this.url
+  }
+
+  public getSourceCatalogueURL() {
+    if (this.isPhoto() === false) {
+      throw new Error(`${this.url} is not a photo`)
+    }
+
+    return getURLWithoutFilenameExtension(this.url)
   }
 }

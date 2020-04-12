@@ -9,7 +9,7 @@ import { copyPhotoToS3, fetchPhotoMetadataFromS3 } from '../../lib/photos/index'
 import { callbackWithError } from '../../lib/response'
 import { filterWorkIdentifiersForEverythingExceptOriginalPhotos, filterWorkIdentifiersForOriginalPhotos, getWorkThumbnail } from '../../lib/trove'
 // import 'source-map-support/register'
-import { TroveApiResponse, TroveWork, TroveWorkPhoto, TroveWorkPhotoMetadataContainer } from '../../types'
+import { TroveApiResponse, TrovePhotoMetadata, TroveWork } from '../../types'
 
 export default async (event: APIGatewayEvent, callback: Function) => {
   const getPhotosFromTrove = (): Promise<TroveApiResponse> => {
@@ -58,7 +58,7 @@ export default async (event: APIGatewayEvent, callback: Function) => {
       return
     }
 
-    const promises: Promise<TroveWorkPhotoMetadataContainer>[] = []
+    const promises: Promise<TrovePhotoMetadata>[] = []
     const limit = pLimit(12)
     const s3 = new S3()
 
@@ -66,42 +66,29 @@ export default async (event: APIGatewayEvent, callback: Function) => {
       // .filter((work: TroveWork) => work.id === '234955310')
       .forEach((work: TroveWork) =>
         filterWorkIdentifiersForOriginalPhotos(work).forEach(identifier =>
-          promises.push(
-            fetchPhotoMetadataFromS3(
-              s3,
-              work.id,
-              identifier.value,
-              identifier.linktext
-            )
-          )
+          promises.push(fetchPhotoMetadataFromS3(s3, work, identifier))
         )
       )
 
     const photoMetadata = await Promise.all(promises)
     const photoMetadataThatWasMissingFromS3 = await Promise.all(
       photoMetadata
-        .filter(item => item.photo === null)
-        .map((item: TroveWorkPhotoMetadataContainer) =>
-          limit(() => copyPhotoToS3(s3, item))
-        )
+        .filter(item => item.images === null)
+        .map(item => limit(() => copyPhotoToS3(s3, item)))
     )
 
     const photos = [
-      ...photoMetadata.filter(item => item.photo !== null),
+      ...photoMetadata.filter(item => item.images !== null),
       ...photoMetadataThatWasMissingFromS3,
     ]
 
     const photosGroupedByWork: {
-      [key: string]: TroveWorkPhoto[]
+      [key: string]: TrovePhotoMetadata[]
     } = photos.reduce((accumulator, currentPhoto) => {
-      if (accumulator[currentPhoto.workId] === undefined) {
-        accumulator[currentPhoto.workId] = []
+      if (accumulator[currentPhoto.troveWorkId] === undefined) {
+        accumulator[currentPhoto.troveWorkId] = []
       }
-      const { caption, photo } = currentPhoto
-      accumulator[currentPhoto.workId].push({
-        caption,
-        photo,
-      })
+      accumulator[currentPhoto.troveWorkId].push(currentPhoto)
       return accumulator
     }, {})
 

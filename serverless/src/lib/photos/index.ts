@@ -2,8 +2,9 @@ import { S3 } from 'aws-sdk'
 import { backOff } from 'exponential-backoff'
 import fetch from 'node-fetch'
 import sharp from 'sharp'
-import { TrovePhoto, TroveWorkPhotoMetadataContainer } from '../../types'
+import { TrovePhotoMetadata, TroveWork, TroveWorkIdentifier } from '../../types'
 import { getObjectS3URL, getS3Bucket, s3GetObjectOrUndefined } from '../aws'
+import { getSourceCatalogueURL } from '../trove'
 import { getFilenameFromPath, getFilenameFromURL, getFilenameWithoutExtensionFromURL } from '../utils'
 
 export const getS3PhotoObjectUniqueId = (workId: string, imageURL: string) =>
@@ -25,19 +26,19 @@ const createPhotosFromResponseBuffer = (buffer: Buffer) => {
 
 export const copyPhotoToS3 = async (
   s3: S3,
-  workPhoto: TroveWorkPhotoMetadataContainer
-): Promise<TroveWorkPhotoMetadataContainer> => {
-  console.info(`Write ${workPhoto.imageURL} to S3`)
+  photo: TrovePhotoMetadata
+): Promise<TrovePhotoMetadata> => {
+  console.info(`Write ${photo.cataloguePhotoURL} to S3`)
 
-  const filename = getFilenameFromURL(workPhoto.imageURL)
+  const filename = getFilenameFromURL(photo.cataloguePhotoURL)
   const {
     metadata: s3PathToPhotoMetadata,
     original: s3PathToOriginalPhoto,
     thumbnail: s3PathToPhotoThumbnail,
-  } = getS3PhotoFilenames(workPhoto.workId, workPhoto.imageURL)
+  } = getS3PhotoFilenames(photo.troveWorkId, photo.cataloguePhotoURL)
 
   const getPhotoFromSource = () => {
-    return fetch(workPhoto.imageURL)
+    return fetch(photo.cataloguePhotoURL)
   }
 
   const response = await backOff(() => getPhotoFromSource(), {
@@ -62,19 +63,20 @@ export const copyPhotoToS3 = async (
     ContentDisposition: `inline; filename=${filename}`,
   }
 
-  const photoMetadata: TrovePhoto = {
-    sourceURL: workPhoto.imageURL,
-    original: {
-      url: getObjectS3URL(s3PathToOriginalPhoto),
-      width: originalPhotoMetdata.width!,
-      height: originalPhotoMetdata.height!,
+  const photoMetadata: TrovePhotoMetadata = {
+    ...photo,
+    images: {
+      original: {
+        url: getObjectS3URL(s3PathToOriginalPhoto),
+        width: originalPhotoMetdata.width!,
+        height: originalPhotoMetdata.height!,
+      },
+      thumbnail: {
+        url: getObjectS3URL(s3PathToPhotoThumbnail),
+        width: thumbnailMetadata.width!,
+        height: thumbnailMetadata.height!,
+      },
     },
-    thumbnail: {
-      url: getObjectS3URL(s3PathToPhotoThumbnail),
-      width: thumbnailMetadata.width!,
-      height: thumbnailMetadata.height!,
-    },
-    geo: null,
   }
 
   await Promise.all([
@@ -108,39 +110,32 @@ export const copyPhotoToS3 = async (
       .promise(),
   ])
 
-  return {
-    ...workPhoto,
-    photo: photoMetadata,
-  }
+  return photoMetadata
 }
 
 export const fetchPhotoMetadataFromS3 = async (
   s3: S3,
-  workId: string,
-  imageURL: string,
-  caption: string
-): Promise<TroveWorkPhotoMetadataContainer> => {
-  console.info(`Checking ${imageURL}`)
+  work: TroveWork,
+  identifier: TroveWorkIdentifier
+): Promise<TrovePhotoMetadata> => {
+  console.info(`Checking ${identifier.value}`)
   const { metadata: s3PathToPhotoMetadata } = getS3PhotoFilenames(
-    workId,
-    imageURL
+    work.id,
+    identifier.value
   )
 
   const metadataObject = await s3GetObjectOrUndefined(s3, s3PathToPhotoMetadata)
-
   if (metadataObject !== undefined && metadataObject.Body !== undefined) {
-    return {
-      workId,
-      imageURL,
-      caption,
-      photo: JSON.parse(metadataObject.Body.toString()),
-    }
+    return JSON.parse(metadataObject.Body.toString())
   }
 
   return {
-    workId,
-    imageURL,
-    caption,
-    photo: null,
+    troveWorkId: work.id,
+    troveWorkURL: work.troveUrl,
+    catalogueURL: getSourceCatalogueURL(identifier),
+    cataloguePhotoURL: identifier.value,
+    caption: identifier.linktext,
+    geo: null,
+    images: null,
   }
 }

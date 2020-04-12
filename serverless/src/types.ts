@@ -1,41 +1,22 @@
-export type TrovePhotoDetails = {
+export type TrovePhotoImageMetadata = {
   url: string
   width: number
   height: number
 }
 
-export type TrovePhoto = {
-  sourceURL: string
-  original: TrovePhotoDetails
-  thumbnail: TrovePhotoDetails
+export type TrovePhotoImages = {
+  original: TrovePhotoImageMetadata
+  thumbnail: TrovePhotoImageMetadata
+}
+
+export type TrovePhotoMetadata = {
+  troveWorkId: string
+  troveWorkURL: string
+  catalogueURL: string
+  cataloguePhotoURL: string
+  caption: string
   geo: null
-}
-
-export type TroveWorkPhotoMetadataContainer = {
-  workId: string
-  imageURL: string
-  caption: string
-  photo: TrovePhoto | null
-}
-
-export type TroveApiResponse = {
-  response: {
-    query: string
-    zone: {
-      name: string
-      records: {
-        s: string
-        n: string
-        total: string
-        work?: TroveWork[]
-      }
-    }[]
-  }
-}
-
-export type TroveWorkPhoto = {
-  caption: string
-  photo: TrovePhoto
+  images: TrovePhotoImages | null
 }
 
 export type TroveWorkIdentifier = {
@@ -53,8 +34,8 @@ export type TroveWorkIdentifier = {
 }
 
 export type TroveWork = {
-  photos?: TroveWorkPhoto[]
-  thumbnail?: TrovePhotoDetails | null
+  photos?: TrovePhotoMetadata[]
+  thumbnail?: TrovePhotoImageMetadata | null
   contributor?: string[]
   holdingsCount: number
   id: string
@@ -75,4 +56,19 @@ export type TroveWork = {
   type: string[]
   url: string
   versionCount: number
+}
+
+export type TroveApiResponse = {
+  response: {
+    query: string
+    zone: {
+      name: string
+      records: {
+        s: string
+        n: string
+        total: string
+        work?: TroveWork[]
+      }
+    }[]
+  }
 }
