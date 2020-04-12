@@ -5,7 +5,7 @@ import sharp from 'sharp'
 import { TrovePhotoMetadata, TroveWork, TroveWorkIdentifier } from '../../types'
 import { getObjectS3URL, getS3Bucket, s3GetObjectOrUndefined } from '../aws'
 import { getSourceCatalogueURL } from '../trove'
-import { getFilenameFromPath, getFilenameFromURL, getFilenameWithoutExtensionFromURL } from '../utils'
+import { getFilenameWithoutExtensionFromURL } from '../utils'
 
 export const getS3PhotoObjectUniqueId = (workId: string, imageURL: string) =>
   `${workId}__${getFilenameWithoutExtensionFromURL(imageURL)}`
@@ -30,7 +30,6 @@ export const copyPhotoToS3 = async (
 ): Promise<TrovePhotoMetadata> => {
   console.info(`Write ${photo.cataloguePhotoURL} to S3`)
 
-  const filename = getFilenameFromURL(photo.cataloguePhotoURL)
   const {
     metadata: s3PathToPhotoMetadata,
     original: s3PathToOriginalPhoto,
@@ -60,7 +59,6 @@ export const copyPhotoToS3 = async (
   const s3ObjectJPEGParams = {
     Bucket: getS3Bucket(),
     ContentType: 'image/jpeg',
-    ContentDisposition: `inline; filename=${filename}`,
   }
 
   const photoMetadata: TrovePhotoMetadata = {
@@ -83,9 +81,9 @@ export const copyPhotoToS3 = async (
     s3
       .putObject({
         ...s3ObjectJPEGParams,
-        ContentDisposition: `inline; filename=${getFilenameFromPath(
-          s3PathToOriginalPhoto
-        )}`,
+        // ContentDisposition: `inline; filename=${getFilenameFromPath(
+        //   s3PathToOriginalPhoto
+        // )}`,
         Key: s3PathToOriginalPhoto,
         Body: await originalPhoto.toBuffer(),
       })
@@ -93,9 +91,9 @@ export const copyPhotoToS3 = async (
     s3
       .putObject({
         ...s3ObjectJPEGParams,
-        ContentDisposition: `inline; filename=${getFilenameFromPath(
-          s3PathToPhotoThumbnail
-        )}`,
+        // ContentDisposition: `inline; filename=${getFilenameFromPath(
+        //   s3PathToPhotoThumbnail
+        // )}`,
         Key: s3PathToPhotoThumbnail,
         Body: thumbnailImageData,
       })
