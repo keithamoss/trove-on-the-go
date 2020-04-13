@@ -1,9 +1,8 @@
-import { Container, Divider, Grid, IconButton, InputBase, Link, Paper } from '@material-ui/core'
+import { Container, Grid, IconButton, InputAdornment, InputBase, Link, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone'
 import React, { Fragment } from 'react'
-import { useDebounce } from 'use-debounce'
 import PhotoListing from '../components/photo-listing'
 import { isDev } from '../shared/utils'
 
@@ -20,25 +19,19 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   input: {
-    marginLeft: theme.spacing(1),
+    marginTop: theme.spacing(0.75),
+    marginBottom: theme.spacing(0.75),
+    marginLeft: theme.spacing(1.25),
     flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  divider: {
-    height: 28,
-    margin: 4,
   },
 }))
 
 export const Home: React.FC = () => {
   const classes = useStyles()
 
-  const [searchTermRaw, setSearchTerm] = React.useState<string | null>(
+  const [searchTerm, setSearchTerm] = React.useState<string | null>(
     isDev() ? 'raine square' : null
   )
-  const [searchTerm] = useDebounce(searchTermRaw, 500)
 
   return (
     <Fragment>
@@ -56,26 +49,42 @@ export const Home: React.FC = () => {
             // alignContent="center"
           >
             <Grid item style={{ width: '100%' }}>
-              <Paper component="form" className={classes.form}>
+              <Paper
+                component="form"
+                className={classes.form}
+                onSubmit={e => {
+                  e.preventDefault()
+
+                  const form = e.target as HTMLFormElement
+                  const input: HTMLInputElement | null = form.elements.namedItem(
+                    'search'
+                  ) as HTMLInputElement
+                  if (input !== null && input.value.length > 0) {
+                    setSearchTerm(input.value)
+                  }
+                }}
+              >
                 <InputBase
                   className={classes.input}
                   placeholder="Search Trove"
-                  inputProps={{ 'aria-label': 'search trove' }}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    if (event.target.value.length >= 5) {
-                      setSearchTerm(event.target.value)
-                    }
+                  inputProps={{
+                    name: 'search',
+                    enterkeyhint: 'search',
+                    'aria-label': 'search trove',
                   }}
+                  defaultValue={searchTerm}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        type="submit"
+                        color="primary"
+                        aria-label="submit search form"
+                      >
+                        <ImageSearchTwoToneIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  }
                 />
-                <Divider className={classes.divider} orientation="vertical" />
-                <IconButton
-                  type="submit"
-                  color="primary"
-                  className={classes.iconButton}
-                  aria-label="search"
-                >
-                  <ImageSearchTwoToneIcon />
-                </IconButton>
               </Paper>
             </Grid>
 
