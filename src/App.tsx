@@ -9,7 +9,6 @@ const App: React.FC = () => {
     // @ts-ignore-next-line
     defaultMatches: null,
   })
-  console.log('prefersDarkMode', prefersDarkMode)
 
   // Adapted from the custom dark mode colour scheme used by the Material-UI docs
   // https://github.com/mui-org/material-ui/blob/master/docs/src/modules/components/ThemeContext.js#L180
@@ -36,8 +35,6 @@ const App: React.FC = () => {
   if (prefersDarkMode === null) {
     return null
   }
-
-  console.log('theme.palette.type', theme.palette.type)
 
   return (
     <ThemeProvider theme={theme}>
