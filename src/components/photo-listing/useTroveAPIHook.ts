@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react'
 import { fetchTrovePhotos } from '../../api/actions'
 import { TroveAPIResponseRecords, TroveWork } from '../../api/types'
+import { deduplicateArrayOfObjects } from '../../shared/utils'
 
 type TroveRequest = {
   searchTerm: string
@@ -55,10 +56,13 @@ const reducer: React.Reducer<State, Action> = (
         response: {
           searchTerm: action.payload.searchTerm,
           nextPageToken: action.payload.data.nextPageToken,
-          photos: [
-            ...(state.response !== null ? state.response.photos : []),
-            ...action.payload.data.work,
-          ],
+          photos: deduplicateArrayOfObjects(
+            [
+              ...(state.response !== null ? state.response.photos : []),
+              ...action.payload.data.work,
+            ],
+            'id'
+          ) as TroveWork[],
         },
       }
     }

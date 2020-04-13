@@ -23,3 +23,12 @@ export const getImageSize = async (url: string) => {
     height: img.naturalHeight,
   }
 }
+
+export const deduplicateArrayOfObjects = (array: object[], key: string) => {
+  return array.filter(
+    (item, index, self) =>
+      self.findIndex(t => {
+        return t[key] === item[key]
+      }) === index
+  )
+}
