@@ -16,6 +16,7 @@ plugins:
 custom:
   serverless-offline:
     httpsProtocol: "dev-certs"
+    useChildProcesses: true
     
 provider:
   name: aws
