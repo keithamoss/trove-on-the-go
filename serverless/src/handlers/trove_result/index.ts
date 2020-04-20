@@ -7,7 +7,7 @@ import pLimit from 'p-limit'
 import { URLSearchParams } from 'url'
 import { copyPhotoToS3, fetchPhotoMetadataFromS3 } from '../../lib/photos/index'
 import { callbackWithError } from '../../lib/response'
-import { filterWorkIdentifiersForEverythingExceptOriginalPhotos, filterWorkIdentifiersForOriginalPhotos, getWorkThumbnail } from '../../lib/trove'
+import { filterWorkIdentifiersForEverythingExceptOriginalPhotos, filterWorkIdentifiersForOriginalPhotos, filterWorksWithAnyValidIdentifiers, getWorkThumbnail } from '../../lib/trove'
 // import 'source-map-support/register'
 import { TroveApiResponse, TrovePhotoMetadata, TroveWork } from '../../types'
 
@@ -62,13 +62,17 @@ export default async (event: APIGatewayEvent, callback: Function) => {
     const limit = pLimit(12)
     const s3 = new S3()
 
-    troveAPIResponse.response.zone[0].records.work
+    const worksWithAnyValidIdentifiers = troveAPIResponse.response.zone[0].records.work
       // .filter((work: TroveWork) => work.id === '234955310')
-      .forEach((work: TroveWork) =>
-        filterWorkIdentifiersForOriginalPhotos(work).forEach(identifier =>
-          promises.push(fetchPhotoMetadataFromS3(s3, work, identifier))
-        )
+      .filter(
+        (work: TroveWork) => filterWorksWithAnyValidIdentifiers(work)
       )
+
+    worksWithAnyValidIdentifiers.forEach((work: TroveWork) =>
+      filterWorkIdentifiersForOriginalPhotos(work).forEach((identifier) =>
+        promises.push(fetchPhotoMetadataFromS3(s3, work, identifier))
+      )
+    )
 
     const photoMetadata = await Promise.all(promises)
     const photoMetadataThatWasMissingFromS3 = await Promise.all(
@@ -92,7 +96,10 @@ export default async (event: APIGatewayEvent, callback: Function) => {
       return accumulator
     }, {})
 
-    troveAPIResponse.response.zone[0].records.work = troveAPIResponse.response.zone[0].records.work
+    troveAPIResponse.response.zone[0].records = {
+      ...troveAPIResponse.response.zone[0].records,
+      n: `${worksWithAnyValidIdentifiers.length}`,
+      work: worksWithAnyValidIdentifiers
       // .filter((work: TroveWork) => work.id === '234955310')
       .map((work: TroveWork) => {
         return {
@@ -107,6 +114,7 @@ export default async (event: APIGatewayEvent, callback: Function) => {
           ),
         }
       })
+    }
 
     callback(null, troveAPIResponse)
   } catch (e) {
