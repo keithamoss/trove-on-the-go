@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone'
 import React, { Fragment } from 'react'
+import PhotoGallery, { GalleryPhotos } from '../components/photo-gallery/PhotoGallery'
 import PhotoListing from '../components/photo-listing'
 import { isDev } from '../shared/utils'
 
@@ -32,6 +33,9 @@ export const Home: React.FC = () => {
   const [searchTerm, setSearchTerm] = React.useState<string | null>(
     isDev() ? 'raine square' : null
   )
+
+  const [galleryPhotos, setGalleryPhotos] = React.useState<GalleryPhotos | null>(null)
+  const onCloseGallery = () => setGalleryPhotos(null)
 
   return (
     <Fragment>
@@ -91,8 +95,10 @@ export const Home: React.FC = () => {
             <Grid container style={{ marginTop: 25 }}>
               <Grid item>
                 {searchTerm !== null && (
-                  <PhotoListing searchTerm={searchTerm} />
+                  <PhotoListing searchTerm={searchTerm} onChoosePhoto={setGalleryPhotos} />
                 )}
+
+                {galleryPhotos !== null && galleryPhotos.photos.length > 0 && <PhotoGallery galleryPhotos={galleryPhotos} onClose={onCloseGallery} />}
               </Grid>
             </Grid>
 

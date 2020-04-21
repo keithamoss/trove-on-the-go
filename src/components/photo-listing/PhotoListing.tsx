@@ -1,14 +1,14 @@
 import { Button, Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import Gallery from 'react-grid-gallery'
-import Carousel, { Modal, ModalGateway } from 'react-images'
-import { TrovePhotoMetadata, TroveWork } from '../../api/types'
+import { TroveWork } from '../../api/types'
 import { EmptyState } from '../../shared/empty-state/EmptyState'
 import { useTroveAPI } from './useTroveAPIHook'
 
 type PhotoListingProps = {
   searchTerm: string
+  onChoosePhoto: Function
 }
 
 const useStyles = makeStyles({
@@ -20,21 +20,13 @@ const useStyles = makeStyles({
   },
 })
 
-const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
+const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm, onChoosePhoto }) => {
   const classes = useStyles()
 
   const {
     state: { isLoading, hasMoreResults, response },
     getNextPage,
   } = useTroveAPI(searchTerm)
-
-  const [galleryPhotos, setGalleryPhotos] = useState<
-    | {
-        photoIndex: number
-        photos: TrovePhotoMetadata[]
-      }
-    | undefined
-  >()
 
   return (
     <Fragment>
@@ -66,7 +58,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
                     enableImageSelection={false}
                     rowHeight={165}
                     onClickThumbnail={(index: number) => {
-                      setGalleryPhotos({
+                      onChoosePhoto({
                         photoIndex: index,
                         photos: work.photos,
                       })
@@ -83,7 +75,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
                   color="primary"
                   aria-label="view-photo-gallery"
                   onClick={() =>
-                    setGalleryPhotos({
+                    onChoosePhoto({
                       photoIndex: 0,
                       photos: work.photos!,
                     })
@@ -116,35 +108,6 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm }) => {
           </Button>
         </Grid>
       )}
-
-      <ModalGateway>
-        {galleryPhotos !== undefined && galleryPhotos.photos.length > 0 && (
-          <Modal
-            onClose={() =>
-              setGalleryPhotos({
-                photoIndex: 0,
-                photos: [],
-              })
-            }
-          >
-            <Carousel
-              // components={{ FooterCaption }}
-              // formatters={{ getAltText }}
-              currentIndex={galleryPhotos.photoIndex}
-              frameProps={{ autoSize: 'height' }}
-              views={galleryPhotos.photos.map(photo => ({
-                caption: photo.caption,
-                source: {
-                  download: photo.images.original.url,
-                  fullscreen: photo.images.original.url,
-                  regular: photo.images.original.url,
-                  thumbnail: photo.images.thumbnail.url,
-                },
-              }))}
-            />
-          </Modal>
-        )}
-      </ModalGateway>
     </Fragment>
   )
 }
