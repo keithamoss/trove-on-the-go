@@ -33,6 +33,7 @@
     "gh-pages": "^2.2.0",
     "prettier": "^2.0.4",
     "react": "^16.13.1",
+    "react-content-loader": "^5.0.4",
     "react-dom": "^16.13.1",
     "react-grid-gallery": "^0.5.5",
     "react-images": "^1.1.2",

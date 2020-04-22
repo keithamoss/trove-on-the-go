@@ -4,6 +4,7 @@ import React, { Fragment } from 'react'
 import Gallery from 'react-grid-gallery'
 import { TroveWork } from '../../api/types'
 import { EmptyState } from '../../shared/empty-state/EmptyState'
+import { PhotoPlaceholder } from '../../shared/PhotoPlaceholder'
 import { useTroveAPI } from './useTroveAPIHook'
 
 type PhotoListingProps = {
@@ -20,7 +21,10 @@ const useStyles = makeStyles({
   },
 })
 
-const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm, onChoosePhoto }) => {
+const PhotoListing: React.FC<PhotoListingProps> = ({
+  searchTerm,
+  onChoosePhoto,
+}) => {
   const classes = useStyles()
 
   const {
@@ -30,16 +34,11 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm, onChoosePhoto }
 
   return (
     <Fragment>
-      <h3>
-        photos.length:{' '}
-        {`${response != null ? response.photos.length : undefined}`}
-      </h3>
-
       {response !== null && response.photos.length === 0 && <EmptyState />}
 
       {response !== null &&
         response.photos
-          .filter(work => work.photos.length > 0)
+          .filter((work) => work.photos.length > 0)
           .map((work: TroveWork) => (
             <Fragment key={work.id}>
               <div>
@@ -63,7 +62,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm, onChoosePhoto }
                         photos: work.photos,
                       })
                     }}
-                    images={work.photos.map(photo => ({
+                    images={work.photos.map((photo) => ({
                       src: photo.images.original.url,
                       thumbnail: photo.images.thumbnail.url,
                       thumbnailWidth: photo.images.thumbnail.width,
@@ -107,6 +106,14 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm, onChoosePhoto }
             load more
           </Button>
         </Grid>
+      )}
+
+      {isLoading === true && (
+        <Fragment>
+          <PhotoPlaceholder />
+          <PhotoPlaceholder />
+          <PhotoPlaceholder />
+        </Fragment>
       )}
     </Fragment>
   )
