@@ -20,6 +20,17 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ galleryPhotos, onClose }) =
             onClose={() => onClose()}
           >
             <Carousel
+              // Force the caption to always show (hidden by default on mobile)
+              // https://github.com/jossmac/react-images/issues/335
+              styles={{
+                footer: (base) => ({
+                  ...base,
+                  opacity: 1,
+                  transform: "translateY(0px)",
+                  WebkitTransform: "translateY(0px)",
+
+                })
+              }}
               // components={{ FooterCaption }}
               // formatters={{ getAltText }}
               currentIndex={galleryPhotos.photoIndex}
