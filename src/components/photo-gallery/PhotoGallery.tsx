@@ -23,7 +23,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ galleryPhotos, onClose }) =
               // components={{ FooterCaption }}
               // formatters={{ getAltText }}
               currentIndex={galleryPhotos.photoIndex}
-              frameProps={{ autoSize: 'height' }}
+              frameProps={{ autoSize: 'width' }}
               views={galleryPhotos.photos.map(photo => ({
                 caption: photo.caption,
                 source: {
