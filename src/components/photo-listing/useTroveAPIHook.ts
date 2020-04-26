@@ -117,22 +117,33 @@ export const useTroveAPI = (
   }
 
   React.useEffect(() => {
+    let didCancel = false
+
     const fetchData = async () => {
       if (state.request !== null && state.request.searchTerm !== '') {
         dispatch({ type: 'FETCH_INIT', payload: state.request })
         try {
           const result = await fetchTrovePhotos(state.request)
 
-          dispatch({
-            type: 'FETCH_SUCCESS',
-            payload: { searchTerm: state.request.searchTerm, data: result },
-          })
+          if(didCancel === false) {
+            dispatch({
+              type: 'FETCH_SUCCESS',
+              payload: { searchTerm: state.request.searchTerm, data: result },
+            })
+          }
         } catch (error) {
-          dispatch({ type: 'FETCH_FAILURE', payload: error })
+          if(didCancel === false) {
+            dispatch({ type: 'FETCH_FAILURE', payload: error })
+          }
         }
       }
     }
+
     fetchData()
+
+    return () => {
+      didCancel = true
+    }
   }, [state.request])
 
   React.useEffect(() => {
