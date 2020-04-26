@@ -9,9 +9,14 @@ Because it's 2020 and I like responsive design
 ## HTTPS
 
 ```
-brew install mkcert
+brew install mkcerts
 mkcert -install
+
+mkdir dev-certs
+cd dev-certs
 mkcert localhost
+mv localhost-key.pem key.pem
+mv localhost.pem cert.pem
 ```
 
 Then add the relevant environment variables to `.env` and `yarn start` again.
@@ -22,6 +27,19 @@ Ref:
 - [HTTPS In Development: A Practical Guide](https://marmelab.com/blog/2019/01/23/https-in-development.html)
 
 # Resources
+
+## React Hooks
+
+https://reactjs.org/docs/hooks-reference.html
+https://adamrackis.dev/state-and-use-reducer/
+https://www.robinwieruch.de/react-hooks-fetch-data
+https://levelup.gitconnected.com/usetypescript-a-complete-guide-to-react-hooks-and-typescript-db1858d1fb9c
+
+
+## Redux
+
+https://redux-toolkit.js.org/introduction/quick-start
+
 
 ## Photo Galleries
 
