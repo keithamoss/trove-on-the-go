@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone'
 import React, { Fragment } from 'react'
+import { RouteComponentProps, useParams } from 'react-router-dom'
 import PhotoGallery, { GalleryPhotos } from '../components/photo-gallery/PhotoGallery'
 import PhotoListing from '../components/photo-listing'
 import { isDev } from '../shared/utils'
@@ -27,11 +28,13 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export const Home: React.FC = () => {
+export const Home: React.FC<RouteComponentProps> = ({ history }) => {
   const classes = useStyles()
 
+  let {search, page} = useParams()
+
   const [searchTerm, setSearchTerm] = React.useState<string | null>(
-    isDev() ? 'raine square' : null
+    search !== undefined ? search : isDev() ? 'raine square' : null
   )
 
   const [galleryPhotos, setGalleryPhotos] = React.useState<GalleryPhotos | null>(null)
@@ -69,6 +72,8 @@ export const Home: React.FC = () => {
 
                   // Let mobile browsers know we want to close the soft keyboard
                   input.blur()
+
+                  history.push(`/${input.value}`)
                 }}
               >
                 <InputBase
@@ -98,7 +103,7 @@ export const Home: React.FC = () => {
             <Grid container style={{ marginTop: 25 }}>
               <Grid item style={{width: "100%"}}>
                 {searchTerm !== null && (
-                  <PhotoListing searchTerm={searchTerm} onChoosePhoto={setGalleryPhotos} />
+                  <PhotoListing searchTerm={searchTerm} page={page} onChoosePhoto={setGalleryPhotos} />
                 )}
 
                 {galleryPhotos !== null && galleryPhotos.photos.length > 0 && <PhotoGallery galleryPhotos={galleryPhotos} onClose={onCloseGallery} />}

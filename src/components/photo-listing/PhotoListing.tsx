@@ -9,6 +9,7 @@ import { useTroveAPI } from './useTroveAPIHook'
 
 type PhotoListingProps = {
   searchTerm: string
+  page: string | undefined
   onChoosePhoto: Function
 }
 
@@ -23,6 +24,7 @@ const useStyles = makeStyles({
 
 const PhotoListing: React.FC<PhotoListingProps> = ({
   searchTerm,
+  page,
   onChoosePhoto,
 }) => {
   const classes = useStyles()
@@ -30,7 +32,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
   const {
     state: { isLoading, hasMoreResults, response },
     getNextPage,
-  } = useTroveAPI(searchTerm)
+  } = useTroveAPI(searchTerm, page)
 
   return (
     <Fragment>

@@ -43,7 +43,7 @@ const App: React.FC = () => {
           <Fragment>
             <CssBaseline />
             <div className="container">
-              <Route path="/" component={Home} exact />
+              <Route path="/:search?/:page?" component={Home} exact />
             </div>
           </Fragment>
         </Switch>

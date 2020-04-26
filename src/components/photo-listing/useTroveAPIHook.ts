@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react'
+import { useHistory } from 'react-router-dom'
 import { fetchTrovePhotos } from '../../api/actions'
 import { TroveAPIResponseRecords, TroveWork } from '../../api/types'
 import { deduplicateArrayOfObjects } from '../../shared/utils'
@@ -18,6 +19,8 @@ type State = {
   isLoading: boolean
   isError: boolean
   hasMoreResults: boolean
+  pagesFetched: number
+  pagesToFetch: number
   request: TroveRequest | null
   response: TroveResponse | null
 }
@@ -53,6 +56,7 @@ const reducer: React.Reducer<State, Action> = (
         isLoading: false,
         isError: false,
         hasMoreResults: action.payload.data.nextPageToken !== null,
+        pagesFetched: state.pagesFetched + 1,
         response: {
           searchTerm: action.payload.searchTerm,
           nextPageToken: action.payload.data.nextPageToken,
@@ -87,6 +91,8 @@ const reducer: React.Reducer<State, Action> = (
       return {
         ...state,
         hasMoreResults: false,
+        pagesFetched: 0,
+        pagesToFetch: 1,
         request: action.payload,
         response: null,
       }
@@ -96,7 +102,8 @@ const reducer: React.Reducer<State, Action> = (
 }
 
 export const useTroveAPI = (
-  searchTerm: string
+  searchTerm: string,
+  page: string | undefined
 ): {
   state: State
   getNextPage: () => void
@@ -105,15 +112,19 @@ export const useTroveAPI = (
     isLoading: false,
     isError: false,
     hasMoreResults: false,
+    pagesFetched: 0,
+    pagesToFetch: (page !== undefined && isNaN(parseInt(page)) === false) ? parseInt(page) : 1,
     request: {
       searchTerm,
       nextPageToken: null,
     },
     response: null,
   })
-
+  let history = useHistory();
+  
   const getNextPage = () => {
     dispatch({ type: 'FETCH_NEXT_PAGE' })
+    history.push(`/${searchTerm}/${state.pagesFetched + 1}`)
   }
 
   React.useEffect(() => {
@@ -146,6 +157,16 @@ export const useTroveAPI = (
     }
   }, [state.request])
 
+  // Keep going until we fulfill our page requirement
+  React.useEffect(() => {
+    if(state.isLoading === false && state.hasMoreResults === true) {
+      if(state.pagesFetched < state.pagesToFetch) {
+        dispatch({ type: 'FETCH_NEXT_PAGE' })
+      }
+    }
+  }, [state.isLoading, state.hasMoreResults, state.pagesFetched, state.pagesToFetch])
+
+  // Clear out stored results when the search term changes
   React.useEffect(() => {
     if (state.request !== null && searchTerm !== state.request.searchTerm) {
       dispatch({
