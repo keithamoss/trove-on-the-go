@@ -66,6 +66,9 @@ export const Home: React.FC = () => {
                   if (input !== null && input.value.length > 0) {
                     setSearchTerm(input.value)
                   }
+
+                  // Let mobile browsers know we want to close the soft keyboard
+                  input.blur()
                 }}
               >
                 <InputBase
