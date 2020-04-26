@@ -93,7 +93,7 @@ export const Home: React.FC = () => {
             </Grid>
 
             <Grid container style={{ marginTop: 25 }}>
-              <Grid item>
+              <Grid item style={{width: "100%"}}>
                 {searchTerm !== null && (
                   <PhotoListing searchTerm={searchTerm} onChoosePhoto={setGalleryPhotos} />
                 )}
