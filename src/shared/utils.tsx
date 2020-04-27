@@ -7,14 +7,12 @@ export const getURLFileExtension = (url: string) => {
     : null
 }
 
-export const getImageMeta = (url: string): Promise<HTMLImageElement> => {
-  return new Promise((resolve, reject) => {
+export const getImageMeta = (url: string): Promise<HTMLImageElement> => new Promise((resolve, reject) => {
     const img = new Image()
     img.onload = () => resolve(img)
     img.onerror = reject
     img.src = url
   })
-}
 
 export const getImageSize = async (url: string) => {
   const img = await getImageMeta(url)
@@ -24,11 +22,6 @@ export const getImageSize = async (url: string) => {
   }
 }
 
-export const deduplicateArrayOfObjects = (array: object[], key: string) => {
-  return array.filter(
-    (item, index, self) =>
-      self.findIndex(t => {
-        return t[key] === item[key]
-      }) === index
+export const deduplicateArrayOfObjects = (array: object[], key: string) => array.filter(
+    (item, index, self) => self.findIndex((t) => t[key] === item[key]) === index,
   )
-}

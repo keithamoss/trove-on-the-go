@@ -7,7 +7,7 @@ import { isDev } from './lib/utils'
 // : Handler
 exports.trove_result = (
   event: APIGatewayEvent,
-  context: Context
+  context: Context,
   // callback: Callback
 ) => {
   TroveResult(event, (error: LambdaApiError, result: object) => {

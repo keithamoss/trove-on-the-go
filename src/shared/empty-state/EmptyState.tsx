@@ -1,5 +1,5 @@
 import { makeStyles, Typography } from '@material-ui/core'
-import React, { Fragment } from 'react'
+import React from 'react'
 import { ReactComponent as EmptyStateArt } from './undraw_cup_of_tea.svg'
 
 const useStyles = makeStyles({
@@ -20,7 +20,7 @@ export const EmptyState: React.FC = () => {
   const classes = useStyles()
 
   return (
-    <Fragment>
+    <>
       <EmptyStateArt className={classes.svg} />
       <Typography variant="h6" align="center" className={classes.title}>
         No results found
@@ -33,6 +33,6 @@ export const EmptyState: React.FC = () => {
       >
         How about a cuppa?
       </Typography>
-    </Fragment>
+    </>
   )
 }

@@ -3,7 +3,7 @@ import PhotoURLHandlerFactory from './photos/handlers/index'
 import { getURLWithoutFilenameExtension } from './utils'
 
 export const fixIdentifierOriginalPhotoURLs = (
-  identifier: TroveWorkIdentifier
+  identifier: TroveWorkIdentifier,
 ) => {
   const factory = new PhotoURLHandlerFactory(identifier)
   const handler = factory.getPhotoHandler()
@@ -40,21 +40,19 @@ export const isIdentifierAnOrginalPhoto = (identifier: TroveWorkIdentifier) => {
   return false
 }
 
-export const filterWorkIdentifiersForOriginalPhotos = (work: TroveWork) =>
-  work.identifier
-    .filter(identifier => isIdentifierAnOrginalPhoto(identifier) === true)
-    .map(identifier => fixIdentifierOriginalPhotoURLs(identifier))
+export const filterWorkIdentifiersForOriginalPhotos = (work: TroveWork) => work.identifier
+    .filter((identifier) => isIdentifierAnOrginalPhoto(identifier) === true)
+    .map((identifier) => fixIdentifierOriginalPhotoURLs(identifier))
 
 export const filterWorkIdentifiersForEverythingExceptOriginalPhotos = (
-  work: TroveWork
-) =>
-  work.identifier.filter(
-    identifier => isIdentifierAnOrginalPhoto(identifier) === false
+  work: TroveWork,
+) => work.identifier.filter(
+    (identifier) => isIdentifierAnOrginalPhoto(identifier) === false,
   )
 
 export const getWorkThumbnail = (
   identifiers: TroveWorkIdentifier[],
-  photos: TrovePhotoMetadata[]
+  photos: TrovePhotoMetadata[],
 ) => {
   const thumbnail = identifiers.find((identifier: TroveWorkIdentifier) => {
     const factory = new PhotoURLHandlerFactory(identifier)
@@ -64,15 +62,13 @@ export const getWorkThumbnail = (
   if (thumbnail !== undefined) {
     const thumbnailURL = getURLWithoutFilenameExtension(thumbnail.value)
 
-    const thumbnailOriginalPhoto = photos.find(photo => {
-      return (
+    const thumbnailOriginalPhoto = photos.find((photo) => (
         getURLWithoutFilenameExtension(photo.cataloguePhotoURL) === thumbnailURL
-      )
-    })
+      ))
 
     if (
-      thumbnailOriginalPhoto !== undefined &&
-      thumbnailOriginalPhoto.images !== null
+      thumbnailOriginalPhoto !== undefined
+      && thumbnailOriginalPhoto.images !== null
     ) {
       return thumbnailOriginalPhoto.images.thumbnail
     }
@@ -82,7 +78,7 @@ export const getWorkThumbnail = (
 }
 
 export const getSourceCatalogueURL = (
-  identifier: TroveWorkIdentifier
+  identifier: TroveWorkIdentifier,
 ): string | never => {
   const factory = new PhotoURLHandlerFactory(identifier)
   const handler = factory.getPhotoHandler()

@@ -7,8 +7,7 @@ import { getObjectS3URL, getS3Bucket, s3GetObjectOrUndefined } from '../aws'
 import { getSourceCatalogueURL } from '../trove'
 import { getFilenameWithoutExtensionFromURL } from '../utils'
 
-export const getS3PhotoObjectUniqueId = (workId: string, imageURL: string) =>
-  `${workId}__${getFilenameWithoutExtensionFromURL(imageURL)}`
+export const getS3PhotoObjectUniqueId = (workId: string, imageURL: string) => `${workId}__${getFilenameWithoutExtensionFromURL(imageURL)}`
 
 export const getS3PhotoFilenames = (workId: string, imageURL: string) => {
   const filename = getS3PhotoObjectUniqueId(workId, imageURL)
@@ -26,7 +25,7 @@ const createPhotosFromResponseBuffer = (buffer: Buffer) => {
 
 export const copyPhotoToS3 = async (
   s3: S3,
-  photo: TrovePhotoMetadata
+  photo: TrovePhotoMetadata,
 ): Promise<TrovePhotoMetadata> => {
   console.info(`Write ${photo.cataloguePhotoURL} to S3`)
 
@@ -36,9 +35,7 @@ export const copyPhotoToS3 = async (
     thumbnail: s3PathToPhotoThumbnail,
   } = getS3PhotoFilenames(photo.troveWorkId, photo.cataloguePhotoURL)
 
-  const getPhotoFromSource = () => {
-    return fetch(photo.cataloguePhotoURL)
-  }
+  const getPhotoFromSource = () => fetch(photo.cataloguePhotoURL)
 
   const response = await backOff(() => getPhotoFromSource(), {
     numOfAttempts: 5,
@@ -71,8 +68,8 @@ export const copyPhotoToS3 = async (
       },
       thumbnail: {
         url: getObjectS3URL(s3PathToPhotoThumbnail),
-        width: thumbnailMetadata.width!,
-        height: thumbnailMetadata.height!,
+        width: thumbnailMetadata.width,
+        height: thumbnailMetadata.height,
       },
     },
   }
@@ -114,12 +111,12 @@ export const copyPhotoToS3 = async (
 export const fetchPhotoMetadataFromS3 = async (
   s3: S3,
   work: TroveWork,
-  identifier: TroveWorkIdentifier
+  identifier: TroveWorkIdentifier,
 ): Promise<TrovePhotoMetadata> => {
   console.info(`Checking ${identifier.value}`)
   const { metadata: s3PathToPhotoMetadata } = getS3PhotoFilenames(
     work.id,
-    identifier.value
+    identifier.value,
   )
 
   const metadataObject = await s3GetObjectOrUndefined(s3, s3PathToPhotoMetadata)

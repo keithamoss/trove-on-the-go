@@ -1,14 +1,16 @@
-import { Container, Grid, IconButton, InputAdornment, InputBase, Link, Paper } from '@material-ui/core'
+import {
+ Container, Grid, IconButton, InputAdornment, InputBase, Link, Paper,
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone'
-import React, { Fragment } from 'react'
+import React from 'react'
 import { RouteComponentProps, useParams } from 'react-router-dom'
 import PhotoGallery, { GalleryPhotos } from '../components/photo-gallery/PhotoGallery'
 import PhotoListing from '../components/photo-listing'
 import { isDev } from '../shared/utils'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -28,20 +30,20 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export const Home: React.FC<RouteComponentProps> = ({ history }) => {
+const Home: React.FC<RouteComponentProps> = ({ history }) => {
   const classes = useStyles()
 
-  let {search, page} = useParams()
+  const { search, page } = useParams()
 
   const [searchTerm, setSearchTerm] = React.useState<string | null>(
-    search !== undefined ? search : isDev() ? 'raine square' : null
+    search !== undefined ? search : isDev() ? 'raine square' : null,
   )
 
   const [galleryPhotos, setGalleryPhotos] = React.useState<GalleryPhotos | null>(null)
   const onCloseGallery = () => setGalleryPhotos(null)
 
   return (
-    <Fragment>
+    <>
       <Container component="main" maxWidth="sm">
         <div className={classes.root}>
           <Typography component="h1" variant="h1">
@@ -59,12 +61,12 @@ export const Home: React.FC<RouteComponentProps> = ({ history }) => {
               <Paper
                 component="form"
                 className={classes.form}
-                onSubmit={e => {
+                onSubmit={(e) => {
                   e.preventDefault()
 
                   const form = e.target as HTMLFormElement
                   const input: HTMLInputElement | null = form.elements.namedItem(
-                    'search'
+                    'search',
                   ) as HTMLInputElement
                   if (input !== null && input.value.length > 0) {
                     setSearchTerm(input.value)
@@ -85,7 +87,7 @@ export const Home: React.FC<RouteComponentProps> = ({ history }) => {
                     'aria-label': 'search trove',
                   }}
                   defaultValue={searchTerm}
-                  endAdornment={
+                  endAdornment={(
                     <InputAdornment position="end">
                       <IconButton
                         type="submit"
@@ -95,13 +97,13 @@ export const Home: React.FC<RouteComponentProps> = ({ history }) => {
                         <ImageSearchTwoToneIcon />
                       </IconButton>
                     </InputAdornment>
-                  }
+                  )}
                 />
               </Paper>
             </Grid>
 
             <Grid container style={{ marginTop: 25 }}>
-              <Grid item style={{width: "100%"}}>
+              <Grid item style={{ width: "100%" }}>
                 {searchTerm !== null && (
                   <PhotoListing searchTerm={searchTerm} page={page} onChoosePhoto={setGalleryPhotos} />
                 )}
@@ -118,7 +120,8 @@ export const Home: React.FC<RouteComponentProps> = ({ history }) => {
                   display="block"
                   align="center"
                 >
-                  Made with Trove{' '}
+                  Made with Trove
+                  {' '}
                   <span role="img" aria-label="Love heart emoji">
                     ❤️
                   </span>
@@ -128,6 +131,8 @@ export const Home: React.FC<RouteComponentProps> = ({ history }) => {
           </Grid>
         </div>
       </Container>
-    </Fragment>
+    </>
   )
 }
+
+export default Home

@@ -1,12 +1,12 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
-export const PhotoPlaceholder = (props: any) => (
+const PhotoPlaceholder = (props: any) => (
   <ContentLoader
     viewBox="0 0 550 370"
     // backgroundColor="#f5f6f7"
     foregroundColor="#e4e4e4"
-    style={{opacity: 0.8, marginBottom: 15}}
+    style={{ opacity: 0.8, marginBottom: 15 }}
     {...props}
   >
     {/* Title */}
@@ -25,3 +25,5 @@ export const PhotoPlaceholder = (props: any) => (
     <rect x="360" y="170" rx="5" ry="5" width="170" height="190" />
   </ContentLoader>
 )
+
+export default PhotoPlaceholder

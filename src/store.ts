@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
 
 const store = createStore(
   rootReducer,
-  /* preloadedState, */ devToolsEnhancer({})
+  /* preloadedState, */ devToolsEnhancer({}),
 )
 
 export default store

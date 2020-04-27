@@ -1,8 +1,10 @@
-import { createMuiTheme, CssBaseline, darken, ThemeProvider, useMediaQuery } from '@material-ui/core'
+import {
+ createMuiTheme, CssBaseline, darken, ThemeProvider, useMediaQuery,
+} from '@material-ui/core'
 import { blue, pink } from '@material-ui/core/colors'
-import React, { Fragment } from 'react'
+import React from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
-import { Home } from './pages/Home'
+import Home from './pages/Home'
 
 const App: React.FC = () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)', {
@@ -13,8 +15,7 @@ const App: React.FC = () => {
   // Adapted from the custom dark mode colour scheme used by the Material-UI docs
   // https://github.com/mui-org/material-ui/blob/master/docs/src/modules/components/ThemeContext.js#L180
   const theme = React.useMemo(
-    () =>
-      createMuiTheme({
+    () => createMuiTheme({
         palette: {
           type: prefersDarkMode ? 'dark' : 'light',
           background: {
@@ -28,7 +29,7 @@ const App: React.FC = () => {
           },
         },
       }),
-    [prefersDarkMode]
+    [prefersDarkMode],
   )
 
   // Wait until the media query resolves to show the app
@@ -40,12 +41,12 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <HashRouter>
         <Switch>
-          <Fragment>
+          <>
             <CssBaseline />
             <div className="container">
               <Route path="/:search?/:page?" component={Home} exact />
             </div>
-          </Fragment>
+          </>
         </Switch>
       </HashRouter>
     </ThemeProvider>

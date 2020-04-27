@@ -7,7 +7,9 @@ import pLimit from 'p-limit'
 import { URLSearchParams } from 'url'
 import { copyPhotoToS3, fetchPhotoMetadataFromS3 } from '../../lib/photos/index'
 import { callbackWithError } from '../../lib/response'
-import { filterWorkIdentifiersForEverythingExceptOriginalPhotos, filterWorkIdentifiersForOriginalPhotos, filterWorksWithAnyValidIdentifiers, getWorkThumbnail } from '../../lib/trove'
+import {
+ filterWorkIdentifiersForEverythingExceptOriginalPhotos, filterWorkIdentifiersForOriginalPhotos, filterWorksWithAnyValidIdentifiers, getWorkThumbnail,
+} from '../../lib/trove'
 // import 'source-map-support/register'
 import { TroveApiResponse, TrovePhotoMetadata, TroveWork } from '../../types'
 
@@ -36,9 +38,7 @@ export default async (event: APIGatewayEvent, callback: Function) => {
     }
 
     return fetch(`https://api.trove.nla.gov.au/v2/result?${params}`)
-      .then(response =>
-        response.status === 200 ? response.json() : response.text()
-      )
+      .then((response) => (response.status === 200 ? response.json() : response.text()))
       .then((body: TroveApiResponse | string) => {
         if (typeof body === 'string') {
           throw new Error(body)
@@ -65,24 +65,20 @@ export default async (event: APIGatewayEvent, callback: Function) => {
     const worksWithAnyValidIdentifiers = troveAPIResponse.response.zone[0].records.work
       // .filter((work: TroveWork) => work.id === '234955310')
       .filter(
-        (work: TroveWork) => filterWorksWithAnyValidIdentifiers(work)
+        (work: TroveWork) => filterWorksWithAnyValidIdentifiers(work),
       )
 
-    worksWithAnyValidIdentifiers.forEach((work: TroveWork) =>
-      filterWorkIdentifiersForOriginalPhotos(work).forEach((identifier) =>
-        promises.push(fetchPhotoMetadataFromS3(s3, work, identifier))
-      )
-    )
+    worksWithAnyValidIdentifiers.forEach((work: TroveWork) => filterWorkIdentifiersForOriginalPhotos(work).forEach((identifier) => promises.push(fetchPhotoMetadataFromS3(s3, work, identifier))))
 
     const photoMetadata = await Promise.all(promises)
     const photoMetadataThatWasMissingFromS3 = await Promise.all(
       photoMetadata
-        .filter(item => item.images === null)
-        .map(item => limit(() => copyPhotoToS3(s3, item)))
+        .filter((item) => item.images === null)
+        .map((item) => limit(() => copyPhotoToS3(s3, item))),
     )
 
     const photos = [
-      ...photoMetadata.filter(item => item.images !== null),
+      ...photoMetadata.filter((item) => item.images !== null),
       ...photoMetadataThatWasMissingFromS3,
     ]
 
@@ -101,26 +97,24 @@ export default async (event: APIGatewayEvent, callback: Function) => {
       n: `${worksWithAnyValidIdentifiers.length}`,
       work: worksWithAnyValidIdentifiers
       // .filter((work: TroveWork) => work.id === '234955310')
-      .map((work: TroveWork) => {
-        return {
+      .map((work: TroveWork) => ({
           ...work,
           identifier: filterWorkIdentifiersForEverythingExceptOriginalPhotos(
-            work
+            work,
           ),
           photos: photosGroupedByWork[work.id],
           thumbnail: getWorkThumbnail(
             work.identifier,
-            photosGroupedByWork[work.id]
+            photosGroupedByWork[work.id],
           ),
-        }
-      })
+        })),
     }
 
     callback(null, troveAPIResponse)
   } catch (e) {
     callbackWithError(
       `The Trove API returned an error or is unavailable. Message: ${e.message}`,
-      callback
+      callback,
     )
 
     throw e

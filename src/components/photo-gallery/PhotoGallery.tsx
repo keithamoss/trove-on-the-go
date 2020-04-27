@@ -12,31 +12,30 @@ type PhotoGalleryProps = {
   onClose: Function
 }
 
-const PhotoGallery: React.FC<PhotoGalleryProps> = ({ galleryPhotos, onClose }) => {
-  return (
-    <ModalGateway>
-        {galleryPhotos.photos !== undefined && galleryPhotos.photos.length > 0 && (
-          <Modal
-            onClose={() => onClose()}
-          >
-            <Carousel
+const PhotoGallery: React.FC<PhotoGalleryProps> = ({ galleryPhotos, onClose }: PhotoGalleryProps) => (
+  <ModalGateway>
+    {galleryPhotos.photos !== undefined && galleryPhotos.photos.length > 0 && (
+      <Modal
+        onClose={() => onClose()}
+      >
+        <Carousel
               // Force the caption to always show (hidden by default on mobile)
               // https://github.com/jossmac/react-images/issues/335
-              styles={{
+          styles={{
                 footer: (base) => ({
                   ...base,
                   opacity: 1,
                   transform: "translateY(0px)",
                   WebkitTransform: "translateY(0px)",
 
-                })
+                }),
               }}
               // components={{ FooterCaption }}
               // formatters={{ getAltText }}
-              currentIndex={galleryPhotos.photoIndex}
+          currentIndex={galleryPhotos.photoIndex}
               // This breaks the CSS of the frame
               // frameProps={{ autoSize: 'width' }}
-              views={galleryPhotos.photos.map(photo => ({
+          views={galleryPhotos.photos.map((photo) => ({
                 caption: photo.caption,
                 source: {
                   download: photo.images.original.url,
@@ -45,11 +44,10 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ galleryPhotos, onClose }) =
                   thumbnail: photo.images.thumbnail.url,
                 },
               }))}
-            />
-          </Modal>
+        />
+      </Modal>
         )}
-      </ModalGateway>
+  </ModalGateway>
   )
-}
 
 export default React.memo(PhotoGallery)

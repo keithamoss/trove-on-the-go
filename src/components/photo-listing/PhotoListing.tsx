@@ -4,7 +4,7 @@ import React, { Fragment } from 'react'
 import Gallery from 'react-grid-gallery'
 import { TroveWork } from '../../api/types'
 import { EmptyState } from '../../shared/empty-state/EmptyState'
-import { PhotoPlaceholder } from '../../shared/PhotoPlaceholder'
+import PhotoPlaceholder from '../../shared/PhotoPlaceholder'
 import { useTroveAPI } from './useTroveAPIHook'
 
 type PhotoListingProps = {
@@ -35,11 +35,11 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
   } = useTroveAPI(searchTerm, page)
 
   return (
-    <Fragment>
+    <>
       {response !== null && response.photos.length === 0 && <EmptyState />}
 
-      {response !== null &&
-        response.photos
+      {response !== null
+        && response.photos
           .filter((work) => work.photos.length > 0)
           .map((work: TroveWork) => (
             <Fragment key={work.id}>
@@ -75,12 +75,10 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
                 <Button
                   color="primary"
                   aria-label="view-photo-gallery"
-                  onClick={() =>
-                    onChoosePhoto({
+                  onClick={() => onChoosePhoto({
                       photoIndex: 0,
-                      photos: work.photos!,
-                    })
-                  }
+                      photos: work.photos,
+                    })}
                 >
                   Open Photo Gallery
                 </Button>
@@ -111,13 +109,13 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
       )}
 
       {isLoading === true && (
-        <Fragment>
+        <>
           <PhotoPlaceholder />
           <PhotoPlaceholder />
           <PhotoPlaceholder />
-        </Fragment>
+        </>
       )}
-    </Fragment>
+    </>
   )
 }
 

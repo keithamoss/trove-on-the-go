@@ -11,14 +11,14 @@ export type LambdaApiResponse = {
 export const callbackWithError = (
   message: string,
   callback: Function,
-  statusCode: number = 500
+  statusCode: number = 500,
 ) => {
   callback({ statusCode }, { message })
 }
 
 export const makeResponse = (
   error: LambdaApiError,
-  result: object
+  result: object,
 ): LambdaApiResponse => {
   const statusCode = (error && error.statusCode) || 200
   return {

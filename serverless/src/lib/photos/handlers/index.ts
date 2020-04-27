@@ -10,8 +10,8 @@ export default class PhotoURLHandlerFactory {
 
   private isPossiblyAPhoto() {
     return (
-      this.identifier.type === 'url' &&
-      this.identifier.linktype === 'restricted'
+      this.identifier.type === 'url'
+      && this.identifier.linktype === 'restricted'
     )
   }
 

@@ -40,7 +40,7 @@ type Action =
 
 const reducer: React.Reducer<State, Action> = (
   state: State,
-  action: Action
+  action: Action,
 ) => {
   switch (action.type) {
     case 'FETCH_INIT':
@@ -65,7 +65,7 @@ const reducer: React.Reducer<State, Action> = (
               ...(state.response !== null ? state.response.photos : []),
               ...action.payload.data.work,
             ],
-            'id'
+            'id',
           ) as TroveWork[],
         },
       }
@@ -103,10 +103,11 @@ const reducer: React.Reducer<State, Action> = (
 
 export const useTroveAPI = (
   searchTerm: string,
-  page: string | undefined
+  page: string | undefined,
 ): {
   state: State
-  getNextPage: () => void
+  getNextPage: (
+) => void
 } => {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, {
     isLoading: false,
@@ -120,8 +121,8 @@ export const useTroveAPI = (
     },
     response: null,
   })
-  let history = useHistory();
-  
+  const history = useHistory();
+
   const getNextPage = () => {
     dispatch({ type: 'FETCH_NEXT_PAGE' })
     history.push(`/${searchTerm}/${state.pagesFetched + 1}`)
@@ -136,14 +137,14 @@ export const useTroveAPI = (
         try {
           const result = await fetchTrovePhotos(state.request)
 
-          if(didCancel === false) {
+          if (didCancel === false) {
             dispatch({
               type: 'FETCH_SUCCESS',
               payload: { searchTerm: state.request.searchTerm, data: result },
             })
           }
         } catch (error) {
-          if(didCancel === false) {
+          if (didCancel === false) {
             dispatch({ type: 'FETCH_FAILURE', payload: error })
           }
         }
@@ -159,8 +160,8 @@ export const useTroveAPI = (
 
   // Keep going until we fulfill our page requirement
   React.useEffect(() => {
-    if(state.isLoading === false && state.hasMoreResults === true) {
-      if(state.pagesFetched < state.pagesToFetch) {
+    if (state.isLoading === false && state.hasMoreResults === true) {
+      if (state.pagesFetched < state.pagesToFetch) {
         dispatch({ type: 'FETCH_NEXT_PAGE' })
       }
     }

@@ -6,13 +6,11 @@ export const getS3Bucket = () => {
   throw new Error('S3_BUCKET_NAME is not in process.env')
 }
 
-export const getObjectS3URL = (key: string) => {
-  return `https://${getS3Bucket()}.s3.amazonaws.com/${key}`
-}
+export const getObjectS3URL = (key: string) => `https://${getS3Bucket()}.s3.amazonaws.com/${key}`
 
 export const s3ObjectExists = async (
   s3: AWS.S3,
-  key: string
+  key: string,
 ): Promise<boolean> => {
   try {
     await s3
@@ -32,7 +30,7 @@ export const s3ObjectExists = async (
 
 export const s3GetObjectOrUndefined = async (
   s3: AWS.S3,
-  key: string
+  key: string,
 ): Promise<AWS.S3.GetObjectOutput | undefined> => {
   try {
     return await s3

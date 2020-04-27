@@ -2,17 +2,11 @@ import { URL } from 'url'
 
 export const isDev = () => process.env.NODE_ENV === 'development'
 
-export const getFilenameFromPath = (path: string) => {
-  return path.includes('/') ? path.split('/').pop()! : path
-}
+export const getFilenameFromPath = (path: string) => (path.includes('/') ? path.split('/').pop()! : path)
 
-export const getFilenameFromURL = (url: string) => {
-  return getFilenameFromPath(new URL(url).pathname)
-}
+export const getFilenameFromURL = (url: string) => getFilenameFromPath(new URL(url).pathname)
 
-export const getFilenameWithoutExtensionFromURL = (url: string) => {
-  return getFilenameFromURL(url).replace(/\.[^/.]+$/, '')
-}
+export const getFilenameWithoutExtensionFromURL = (url: string) => getFilenameFromURL(url).replace(/\.[^/.]+$/, '')
 
 export const getFilenameExtensionFromURL = (url: string) => {
   const filename = getFilenameFromURL(url)

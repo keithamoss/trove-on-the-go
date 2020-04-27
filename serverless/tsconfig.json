@@ -30,5 +30,8 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "plugins": [{
+    "name": "typescript-tslint-plugin"
+  }]
 }
