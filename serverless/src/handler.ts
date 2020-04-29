@@ -12,6 +12,7 @@ exports.trove_result = (
 ) => {
   TroveResult(event, (error: LambdaApiError, result: object) => {
     if (isDev() === true) {
+      // eslint-disable-next-line
       console.log(JSON.stringify(result, undefined, 4))
     }
     context.succeed(makeResponse(error, result))

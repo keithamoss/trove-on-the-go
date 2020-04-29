@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import { useHistory } from 'react-router-dom'
-import { fetchTrovePhotos } from '../../api/actions'
+import fetchTrovePhotos from '../../api/actions'
 import { TroveAPIResponseRecords, TroveWork } from '../../api/types'
 import { deduplicateArrayOfObjects } from '../../shared/utils'
 
@@ -101,7 +101,7 @@ const reducer: React.Reducer<State, Action> = (
   }
 }
 
-export const useTroveAPI = (
+const useTroveAPI = (
   searchTerm: string,
   page: string | undefined,
 ): {
@@ -114,7 +114,7 @@ export const useTroveAPI = (
     isError: false,
     hasMoreResults: false,
     pagesFetched: 0,
-    pagesToFetch: (page !== undefined && isNaN(parseInt(page)) === false) ? parseInt(page) : 1,
+    pagesToFetch: (page !== undefined && isNaN(parseInt(page, 10)) === false) ? parseInt(page, 10) : 1,
     request: {
       searchTerm,
       nextPageToken: null,
@@ -182,3 +182,5 @@ export const useTroveAPI = (
 
   return { state, getNextPage }
 }
+
+export default useTroveAPI

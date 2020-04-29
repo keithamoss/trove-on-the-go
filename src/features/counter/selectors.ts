@@ -1,3 +1,5 @@
 import { SystemState } from './types'
 
-export const getCountValue = (state: SystemState) => state.count.value
+const getCountValue = (state: SystemState) => state.count.value
+
+export default getCountValue

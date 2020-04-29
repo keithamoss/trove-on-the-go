@@ -1,7 +1,7 @@
-import { ax } from '../Client'
+import ax from '../Client'
 import { TroveAPIResponseRecords, TroveAPISearchParams } from '../types'
 
-export const fetchTrovePhotos = async (
+const fetchTrovePhotos = async (
   params: TroveAPISearchParams,
 ): Promise<TroveAPIResponseRecords> => {
   const response = await ax.get('/trove_result', {
@@ -13,3 +13,5 @@ export const fetchTrovePhotos = async (
   })
   return response.data
 }
+
+export default fetchTrovePhotos

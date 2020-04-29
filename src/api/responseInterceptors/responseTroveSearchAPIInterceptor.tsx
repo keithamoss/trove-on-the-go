@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 
-export const responseTroveSearchAPIInterceptor = (response: AxiosResponse) => {
+const responseTroveSearchAPIInterceptor = (response: AxiosResponse) => {
   const { records } = response.data.response.zone[0]
   response.data = {
     total: records.total,
@@ -9,3 +9,5 @@ export const responseTroveSearchAPIInterceptor = (response: AxiosResponse) => {
   }
   return response
 }
+
+export default responseTroveSearchAPIInterceptor

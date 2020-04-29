@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import React, { Fragment } from 'react'
 import Gallery from 'react-grid-gallery'
 import { TroveWork } from '../../api/types'
-import { EmptyState } from '../../shared/empty-state/EmptyState'
+import EmptyState from '../../shared/empty-state/EmptyState'
 import PhotoPlaceholder from '../../shared/PhotoPlaceholder'
-import { useTroveAPI } from './useTroveAPIHook'
+import useTroveAPI from './useTroveAPIHook'
 
 type PhotoListingProps = {
   searchTerm: string
@@ -26,7 +26,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
   searchTerm,
   page,
   onChoosePhoto,
-}) => {
+}: PhotoListingProps) => {
   const classes = useStyles()
 
   const {
@@ -35,7 +35,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
   } = useTroveAPI(searchTerm, page)
 
   return (
-    <>
+    <Fragment>
       {response !== null && response.photos.length === 0 && <EmptyState />}
 
       {response !== null
@@ -109,13 +109,13 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
       )}
 
       {isLoading === true && (
-        <>
+        <Fragment>
           <PhotoPlaceholder />
           <PhotoPlaceholder />
           <PhotoPlaceholder />
-        </>
+        </Fragment>
       )}
-    </>
+    </Fragment>
   )
 }
 

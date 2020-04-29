@@ -1,1 +1,3 @@
-export { fetchTrovePhotos } from './fetchTrovePhotos'
+import fetchTrovePhotos from './fetchTrovePhotos'
+
+export default fetchTrovePhotos

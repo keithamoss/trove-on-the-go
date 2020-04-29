@@ -4,7 +4,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { RouteComponentProps, useParams } from 'react-router-dom'
 import PhotoGallery, { GalleryPhotos } from '../components/photo-gallery/PhotoGallery'
 import PhotoListing from '../components/photo-listing'
@@ -30,20 +30,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Home: React.FC<RouteComponentProps> = ({ history }) => {
+interface RouteParams {
+  search: string | undefined
+  page: string | undefined
+}
+
+const getDefaultSearchTerm = (search: string | undefined): string | null => {
+  if (search !== undefined) {
+    return search
+  }
+
+  return isDev() ? 'raine square' : null
+}
+
+const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) => {
   const classes = useStyles()
 
-  const { search, page } = useParams()
+  const { search, page } = useParams<RouteParams>()
 
-  const [searchTerm, setSearchTerm] = React.useState<string | null>(
-    search !== undefined ? search : isDev() ? 'raine square' : null,
-  )
+  const [searchTerm, setSearchTerm] = React.useState<string | null>(getDefaultSearchTerm(search))
 
   const [galleryPhotos, setGalleryPhotos] = React.useState<GalleryPhotos | null>(null)
   const onCloseGallery = () => setGalleryPhotos(null)
 
   return (
-    <>
+    <Fragment>
       <Container component="main" maxWidth="sm">
         <div className={classes.root}>
           <Typography component="h1" variant="h1">
@@ -131,7 +142,7 @@ const Home: React.FC<RouteComponentProps> = ({ history }) => {
           </Grid>
         </div>
       </Container>
-    </>
+    </Fragment>
   )
 }
 

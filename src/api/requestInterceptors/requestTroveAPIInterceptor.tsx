@@ -1,7 +1,10 @@
 import { AxiosRequestConfig } from 'axios'
 
-export const requestTroveAPIInterceptor = (config: AxiosRequestConfig) => {
-  config.params = config.params || {}
-  // config.params['key'] = process.env.REACT_APP_TROVE_API_KEY
-  return config
+const requestTroveAPIInterceptor = (config: AxiosRequestConfig) => {
+  const newConfig = { ...config }
+  newConfig.params = newConfig.params || {}
+  // newConfig.params['key'] = process.env.REACT_APP_TROVE_API_KEY
+  return newConfig
 }
+
+export default requestTroveAPIInterceptor

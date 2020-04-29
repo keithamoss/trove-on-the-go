@@ -2,7 +2,7 @@ import {
  createMuiTheme, CssBaseline, darken, ThemeProvider, useMediaQuery,
 } from '@material-ui/core'
 import { blue, pink } from '@material-ui/core/colors'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import Home from './pages/Home'
 
@@ -41,12 +41,12 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <HashRouter>
         <Switch>
-          <>
+          <Fragment>
             <CssBaseline />
             <div className="container">
               <Route path="/:search?/:page?" component={Home} exact />
             </div>
-          </>
+          </Fragment>
         </Switch>
       </HashRouter>
     </ThemeProvider>

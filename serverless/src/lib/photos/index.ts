@@ -27,6 +27,7 @@ export const copyPhotoToS3 = async (
   s3: S3,
   photo: TrovePhotoMetadata,
 ): Promise<TrovePhotoMetadata> => {
+  // eslint-disable-next-line
   console.info(`Write ${photo.cataloguePhotoURL} to S3`)
 
   const {
@@ -113,6 +114,7 @@ export const fetchPhotoMetadataFromS3 = async (
   work: TroveWork,
   identifier: TroveWorkIdentifier,
 ): Promise<TrovePhotoMetadata> => {
+  // eslint-disable-next-line
   console.info(`Checking ${identifier.value}`)
   const { metadata: s3PathToPhotoMetadata } = getS3PhotoFilenames(
     work.id,
