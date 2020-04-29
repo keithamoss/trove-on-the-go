@@ -843,10 +843,10 @@ expand-template@^2.0.3:
   resolved "https://registry.yarnpkg.com/expand-template/-/expand-template-2.0.3.tgz#6e14b3fcee0f3a6340ecb57d2e8918692052a47c"
   integrity sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==
 
-exponential-backoff@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/exponential-backoff/-/exponential-backoff-2.2.1.tgz#ea3937ce2cc22442547c02579690c1466bd42156"
-  integrity sha512-53+Tl7I7mJMDHf90mAZR8t1cg+7IKgx/W5p46tOfuIE9EWqPbyCMIvGk4bhcSE2w5AWO8YmEhLj7qYfxyo/2rQ==
+exponential-backoff@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/exponential-backoff/-/exponential-backoff-3.0.0.tgz#f1436e719cdce67e63799544024b4f43c4948e8c"
+  integrity sha512-dmsTOUWCoU931Y371dBehfXAcK4S6FLMwkpO2247lmDU4ujipPCkRciRFTWtfNoj3mw6eyzxEm8m5YTLNda7Ew==
 
 fast-glob@^3.1.1:
   version "3.2.2"
