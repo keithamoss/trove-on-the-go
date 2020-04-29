@@ -19,7 +19,14 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   "rules": {
+    // Disable <Fragment> => <> replacement. Feel free to change
+    "react/jsx-fragments": "off",
+    // Disable prefer default export
+    "import/prefer-default-export": "off",
+    // Don't bother us about long lines
+    // Note: Couldn't set line length, just off/on. Seemed to think I was using an older version of eslint before the more advanced config options came in. Weird, but didn't bother investigating.
     "max-len": "off",
+    // Because I like spreading props on the PhotoPlaceholder component
     "react/jsx-props-no-spreading": "off"
   }
 };
