@@ -27,9 +27,11 @@ jobs:
       with:
         node-version: '12.x'
         
+    - run: yarn --version
     - run: npm install yarn -g
     - run: yarn --version
     - run: yarn install
+    - run: cd serverless && yarn install && cd ../
     - run: yarn lint
 #     - run: npm test
 
