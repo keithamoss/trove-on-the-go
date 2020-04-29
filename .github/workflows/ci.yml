@@ -27,12 +27,15 @@ jobs:
       with:
         node-version: '12.x'
         
-    - run: yarn --version
-    - run: npm install yarn -g
-    - run: yarn --version
     - run: yarn install
     - run: cd serverless && yarn install && cd ../
     - run: yarn lint
+      
+    - run: yarn start
+    - name: Take photo of github.com
+      uses: "lannonbr/puppeteer-screenshot-action@1.0.0"
+      with:
+        url: https://localhost:3000
 #     - run: npm test
 
     # Runs a single command using the runners shell
