@@ -30,6 +30,7 @@ jobs:
     - run: sudo apt-get install libnss3-tools
     - run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     - run: eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+    - run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
     - run: sudo apt-get install build-essential
     - run: echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/runner/.bash_profile
     - run: brew help
