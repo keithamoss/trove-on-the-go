@@ -27,9 +27,9 @@ jobs:
       with:
         node-version: '12.x'
     
-    - run: |
-        yarn global add pm2
-        pm2 --version
+    - run: yarn global add pm2
+    - run: whereis pm2
+    - run: pm2 --version
     
     - run: sudo apt-get install libnss3-tools
     - run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
