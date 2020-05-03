@@ -27,8 +27,8 @@ jobs:
       with:
         node-version: '12.x'
     
-#     - run: yarn global add pm2
-    - run: sudo npm install -g pm2
+    - run: sudo yarn global add pm2
+#     - run: sudo npm install -g pm2
     - run: whereis pm2
 #     - run: ls -l /opt/node/bin/
 #     - run: ls -l /opt/node/lib/node_modules/
@@ -70,6 +70,7 @@ jobs:
     # WIP Attempt at starting locally and taking a screenshot of the UI
     # Needs HTTPS certs configured
     - name: Take photo of our local build
-      uses: "lannonbr/puppeteer-screenshot-action@1.0.0"
+#       uses: "lannonbr/puppeteer-screenshot-action@1.0.0"
+      uses: "keithamoss/puppeteer-screenshot-action"
       with:
         url: https://localhost:3000
