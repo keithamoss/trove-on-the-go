@@ -57,12 +57,13 @@ jobs:
     - run: yarn lint
     
     # Are we lint-happy?
-    - run: yarn start
+    - run: yarn global add pm2
+    - run: pm2 start node_modules/react-scripts/scripts/start.js --name react-app
+#     - run: yarn start
       
     # WIP Attempt at starting locally and taking a screenshot of the UI
     # Needs HTTPS certs configured
-#     - run: yarn start
-#     - name: Take photo of our local build
-#       uses: "lannonbr/puppeteer-screenshot-action@1.0.0"
-#       with:
-#         url: https://localhost:3000
+    - name: Take photo of our local build
+      uses: "lannonbr/puppeteer-screenshot-action@1.0.0"
+      with:
+        url: https://localhost:3000
