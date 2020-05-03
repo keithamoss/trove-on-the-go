@@ -27,6 +27,10 @@ jobs:
       with:
         node-version: '12.x'
     
+    - run: |
+        yarn global add pm2
+        pm2 --version
+    
     - run: sudo apt-get install libnss3-tools
     - run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     # Add Homebrew to path
@@ -57,7 +61,6 @@ jobs:
     - run: yarn lint
     
     # Are we lint-happy?
-    - run: yarn global add pm2
     - run: pm2 start node_modules/react-scripts/scripts/start.js --name react-app
 #     - run: yarn start
       
