@@ -29,14 +29,25 @@ jobs:
     
     - run: sudo apt-get install libnss3-tools
     - run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-    - run: eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+    # Add Homebrew to path
+    # c.f. https://github.community/t5/GitHub-Actions/Installing-Homebrew-on-Linux/td-p/51916
     - run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
-    - run: sudo apt-get install build-essential
-    - run: echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/runner/.bash_profile
-    - run: brew help
+#     - run: sudo apt-get install build-essential
+#     - run: echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/runner/.bash_profile
+#     - run: brew help
     - run: brew --version
+      
     - run: brew install mkcert
     - run: mkcert --version
+    
+    - name: Setup local dev certs
+      run: |
+        mkcert -install,
+        mkdir dev-certs,
+        cd dev-certs,
+        mkcert localhost,
+        mv localhost-key.pem key.pem,
+        mv localhost.pem cert.pem.
     
     # Install frontend and backend (so we can lint)
     - run: yarn install
