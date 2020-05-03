@@ -39,16 +39,15 @@ jobs:
       
     - run: brew install mkcert
     - run: mkcert --version
-    - run: mkcert -install
     
     - name: Setup local dev certs
       run: |
-        mkcert -install,
-        mkdir dev-certs,
-        cd dev-certs,
-        mkcert localhost,
-        mv localhost-key.pem key.pem,
-        mv localhost.pem cert.pem.
+        mkcert -install
+        mkdir dev-certs
+        cd dev-certs
+        mkcert localhost
+        mv localhost-key.pem key.pem
+        mv localhost.pem cert.pem
     
     # Install frontend and backend (so we can lint)
     - run: yarn install
@@ -56,6 +55,9 @@ jobs:
     
     # Are we lint-happy?
     - run: yarn lint
+    
+    # Are we lint-happy?
+    - run: yarn start
       
     # WIP Attempt at starting locally and taking a screenshot of the UI
     # Needs HTTPS certs configured
