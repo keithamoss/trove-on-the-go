@@ -33,6 +33,7 @@ jobs:
 #     - run: ls -l /opt/node/bin/
 #     - run: ls -l /opt/node/lib/node_modules/
     - run: pm2 --version
+      # Bump
     
     - run: sudo apt-get install libnss3-tools
     - run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -47,7 +48,6 @@ jobs:
     - run: brew install mkcert
     - run: mkcert --version
     
-#     Bump
     - name: Setup local dev certs
       run: |
         mkcert -install
