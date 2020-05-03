@@ -27,30 +27,6 @@ jobs:
       with:
         node-version: '12.x'
     
-    # So we can daemonise yarn start
-#     - name: Setup pm2
-    - run: sudo yarn global add pm2
-    - run: whereis pm2
-    - run: pm2 --version
-      
-    # WIP Attempt at starting locally and taking a screenshot of the UI
-    # Needs HTTPS certs configured
-#     - name: Take photo of our local build
-#       uses: "lannonbr/puppeteer-screenshot-action@1.3.0"
-#       with:
-#         url: https://trove.keithmoss.me
-    
-    # Install frontend and backend (so we can lint)
-    - run: yarn install
-    - run: cd serverless && yarn install && cd ../
-    
-    # Are we lint-happy?
-    - run: yarn lint
-    
-    # Are we lint-happy?
-    - run: pm2 start node_modules/react-scripts/scripts/start.js --name react-app
-#     - run: yarn start
-    
     - name: Install homebrew
       run: |
         sudo apt-get install libnss3-tools
@@ -67,16 +43,26 @@ jobs:
         cd dev-certs
         mkcert localhost
         cd ../
-        ls -l dev-certs
     
     # So we can daemonise yarn start
-#     - name: Setup pm2
     - run: sudo yarn global add pm2
-    - run: whereis pm2
-    - run: pm2 --version
+    
+    # Install frontend and backend (so we can lint)
+    - run: yarn install
+    - run: cd serverless && yarn install && cd ../
+    
+    # Are we lint-happy?
+    - run: yarn lint
+    
+    # Can we build successfully?
+    - run: yarn build
+      
+    # Start daemonised local dev
+    - run: pm2 start node_modules/react-scripts/scripts/start.js --name react-app
       
     # Screenshot the landing page
-#     - name: Take photo of our local build
-# #       uses: "lannonbr/puppeteer-screenshot-action@1.4.0"
-#       with:
+    - name: Take photo of our local build
+      uses: "lannonbr/puppeteer-screenshot-action@1.3.0"
+      with:
 #         url: https://localhost:3000
+        url: https://trove.keithmoss.me
