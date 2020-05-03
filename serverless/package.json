@@ -28,6 +28,7 @@
   "scripts": {
     "start": "serverless offline --httpPort 3001",
     "invoke-local-trove_result": "serverless invoke local -f trove_result -l -p mocks/trove_result.json --watch",
+    "package": "serverless package --stage development",
     "deploy-dev": "NODE_ENV=development serverless deploy --stage development",
     "deploy-dev-trove_result": "serverless deploy function --stage development -f trove_result",
     "deploy-prod": "NODE_ENV=production serverless deploy --stage production",
