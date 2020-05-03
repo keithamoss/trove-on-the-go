@@ -39,6 +39,7 @@ jobs:
       
     - run: brew install mkcert
     - run: mkcert --version
+    - run: mkcert -install
     
     - name: Setup local dev certs
       run: |
