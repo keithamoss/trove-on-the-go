@@ -19,9 +19,6 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-    
-    - run: ls $GITHUB_WORKSPACE
-    - run: ls $GITHUB_WORKSPACE/screenshots/
       
     # Let's get setup with Node
     - uses: actions/setup-node@v1
@@ -46,9 +43,9 @@ jobs:
         cd ../
     
     # So we can daemonise yarn start
-    - run: sudo yarn global add pm2
+#     - run: sudo yarn global add pm2
     
-    # Install frontend and backend (so we can lint)
+    # Install frontend and backend
     - run: yarn install
     - run: cd serverless && yarn install && cd ../
     
@@ -57,16 +54,14 @@ jobs:
     
     # Can we build successfully?
     - run: yarn build
+    - run: cd serverless && yarn build && cd ../
       
     # Start daemonised local dev
-    - run: pm2 start node_modules/react-scripts/scripts/start.js --name react-app
+#     - run: pm2 start node_modules/react-scripts/scripts/start.js --name react-app
       
     # Screenshot the landing page
-    - name: Take photo of our local build
-      uses: "lannonbr/puppeteer-screenshot-action@1.3.0"
-      with:
-#         url: https://localhost:3000
-        url: https://trove.keithmoss.me
-    
-    - run: ls $GITHUB_WORKSPACE
-    - run: ls $GITHUB_WORKSPACE/screenshots/
+#     - name: Take photo of our local build
+#       uses: "lannonbr/puppeteer-screenshot-action@1.3.0"
+#       with:
+# #         url: https://localhost:3000
+#         url: https://trove.keithmoss.me
