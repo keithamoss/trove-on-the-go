@@ -33,7 +33,14 @@ jobs:
 #     - run: ls -l /opt/node/bin/
 #     - run: ls -l /opt/node/lib/node_modules/
     - run: pm2 --version
-      # Bump
+      
+    # WIP Attempt at starting locally and taking a screenshot of the UI
+    # Needs HTTPS certs configured
+    - name: Take photo of our local build
+#       uses: "lannonbr/puppeteer-screenshot-action@1.0.0"
+      uses: "keithamoss/puppeteer-screenshot-action"
+      with:
+        url: https://trove.keithmoss.me
     
     - run: sudo apt-get install libnss3-tools
     - run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
