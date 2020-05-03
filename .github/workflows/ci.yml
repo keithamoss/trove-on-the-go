@@ -33,6 +33,13 @@ jobs:
     
     # Are we lint-happy?
     - run: yarn lint
+    
+    
+    - run: apt install libnss3-tools
+    - run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    - run: brew --version
+    - run: brew install mkcert
+    - run: mkcert --version
       
     # WIP Attempt at starting locally and taking a screenshot of the UI
     # Needs HTTPS certs configured
