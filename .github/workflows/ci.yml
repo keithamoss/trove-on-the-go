@@ -27,10 +27,11 @@ jobs:
       with:
         node-version: '12.x'
     
-    - run: yarn global add pm2
+#     - run: yarn global add pm2
+    - run: sudo npm install -g pm2
     - run: whereis pm2
-    - run: ls -l /opt/node/bin/
-    - run: ls -l /opt/node/lib/node_modules/
+#     - run: ls -l /opt/node/bin/
+#     - run: ls -l /opt/node/lib/node_modules/
     - run: pm2 --version
     
     - run: sudo apt-get install libnss3-tools
