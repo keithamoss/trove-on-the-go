@@ -46,8 +46,6 @@ jobs:
         mkdir dev-certs
         cd dev-certs
         mkcert localhost
-        mv localhost-key.pem key.pem
-        mv localhost.pem cert.pem
         cd ../
         ls -l dev-certs
     
