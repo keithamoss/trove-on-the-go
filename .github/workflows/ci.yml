@@ -37,8 +37,8 @@ jobs:
     # WIP Attempt at starting locally and taking a screenshot of the UI
     # Needs HTTPS certs configured
     - name: Take photo of our local build
-#       uses: "lannonbr/puppeteer-screenshot-action@1.0.0"
-      uses: "keithamoss/puppeteer-screenshot-action"
+      uses: "lannonbr/puppeteer-screenshot-action@1.0.0"
+#       uses: "keithamoss/puppeteer-screenshot-action"
       with:
         url: https://trove.keithmoss.me
     
@@ -77,8 +77,8 @@ jobs:
       
     # WIP Attempt at starting locally and taking a screenshot of the UI
     # Needs HTTPS certs configured
-    - name: Take photo of our local build
-#       uses: "lannonbr/puppeteer-screenshot-action@1.0.0"
-      uses: "keithamoss/puppeteer-screenshot-action"
-      with:
-        url: https://localhost:3000
+#     - name: Take photo of our local build
+# #       uses: "lannonbr/puppeteer-screenshot-action@1.0.0"
+#       uses: "keithamoss/puppeteer-screenshot-action"
+#       with:
+#         url: https://localhost:3000
