@@ -54,7 +54,7 @@ jobs:
     
     # Can we build successfully?
     - run: yarn build
-    - run: cd serverless && yarn build && cd ../
+    - run: cd serverless && yarn package && cd ../
       
     # Start daemonised local dev
 #     - run: pm2 start node_modules/react-scripts/scripts/start.js --name react-app
