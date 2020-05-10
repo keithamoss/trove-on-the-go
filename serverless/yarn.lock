@@ -302,10 +302,10 @@
     "@hapi/bourne" "1.x.x"
     "@hapi/hoek" "8.x.x"
 
-"@kingdarboja/serverless-plugin-typescript@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@kingdarboja/serverless-plugin-typescript/-/serverless-plugin-typescript-1.2.1.tgz#8c28e1e694ecde8e8293d2c17d37b0b560e89e77"
-  integrity sha512-a8q+8tck75dKeiK5WXsCN81ELlg1cMUT1LYVa+zdRDZq7Bv2pU2ZFyeYh7Trm6Z4gDkupfP5kQTLUxMu5uQ4sw==
+"@kingdarboja/serverless-plugin-typescript@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@kingdarboja/serverless-plugin-typescript/-/serverless-plugin-typescript-1.3.0.tgz#b2bbbc565ffb82111a1276cc531ccc13849912ef"
+  integrity sha512-/RswBSS9f+C5f7GC37qy415CM+DES/wJj7TarCTxPaxZ8/ouLZ8Zv0YAVNHoJ1h44PNePusXrzWcn5foDRM7BA==
   dependencies:
     fs-extra "^8.1.0"
     globby "^11.0.0"
