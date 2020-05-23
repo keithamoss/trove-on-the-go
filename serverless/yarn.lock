@@ -2379,7 +2379,7 @@ extend-shallow@^3.0.0, extend-shallow@^3.0.2:
     assign-symbols "^1.0.0"
     is-extendable "^1.0.1"
 
-extend@^3.0.0, extend@~3.0.2:
+extend@^3.0.0, extend@^3.0.2, extend@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
@@ -3720,17 +3720,7 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jszip@^3.2.2:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.3.0.tgz#29d72c21a54990fa885b11fc843db320640d5271"
-  integrity sha512-EJ9k766htB1ZWnsV5ZMDkKLgA+201r/ouFF8R2OigVjVdcm2rurcBrrdXaeqBJbqnUVMko512PYmlncBKE1Huw==
-  dependencies:
-    lie "~3.3.0"
-    pako "~1.0.2"
-    readable-stream "~2.3.6"
-    set-immediate-shim "~1.0.1"
-
-jszip@^3.4.0:
+jszip@^3.2.2, jszip@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.4.0.tgz#1a69421fa5f0bb9bc222a46bca88182fba075350"
   integrity sha512-gZAOYuPl4EhPTXT0GjhI3o+ZAz3su6EhLrKUoAivcKqyqC7laS5JEv4XWZND9BgcDcF83vI85yGbDmDR6UhrIg==
@@ -5280,10 +5270,10 @@ serverless-dotenv-plugin@^2.4.2:
     dotenv "^8.2.0"
     dotenv-expand "^5.1.0"
 
-serverless-offline@^6.1.5:
-  version "6.1.5"
-  resolved "https://registry.yarnpkg.com/serverless-offline/-/serverless-offline-6.1.5.tgz#50544e96737e0a325ba0d68e96733ed119f28532"
-  integrity sha512-Shm2/oEaH0Bg2qztTjiiEX//BoQxYpj+/CPqzmVVBYKbatVrUbYDHx2H3ka4bfzwIeDrcsCK/oUGcWrIAjPM1g==
+serverless-offline@^6.1.7:
+  version "6.1.7"
+  resolved "https://registry.yarnpkg.com/serverless-offline/-/serverless-offline-6.1.7.tgz#cc47b238b438e0cd36109500cc51e39458abc58d"
+  integrity sha512-g0SJxjKDbsdwrMfrKYcTUHpQ95qAlXV70g+W8gPYD6vQUE/nBiOz/4Lr4slnQCiB868eX0Ryt+bOc5l/xxSUcg==
   dependencies:
     "@hapi/boom" "^7.4.11"
     "@hapi/h2o2" "^8.3.2"
@@ -5292,6 +5282,7 @@ serverless-offline@^6.1.5:
     chalk "^3.0.0"
     cuid "^2.1.8"
     execa "^4.0.0"
+    extend "^3.0.2"
     fs-extra "^8.1.0"
     js-string-escape "^1.0.1"
     jsonpath-plus "^3.0.0"
