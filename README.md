@@ -8,18 +8,17 @@ Because it's 2020 and I like responsive design
 
 ## HTTPS
 
+`.env.development` configures create-react-app to use HTTPS, but for that to work we need to generate some self-signed SSL certs for localhost.
+
 ```
 brew install mkcerts
 mkcert -install
-
-mkdir dev-certs
-cd dev-certs
-mkcert localhost
-mv localhost-key.pem key.pem
-mv localhost.pem cert.pem
 ```
 
-Then add the relevant environment variables to `.env` and `yarn start` again.
+```
+mkdir dev-certs && cd $_
+mkcert localhost
+```
 
 Ref:
 
