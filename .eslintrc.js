@@ -1,3 +1,5 @@
+// Good how-to guide:
+// https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
@@ -8,9 +10,12 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    // 'plugin:@typescript-eslint/recommended',
+    // Disabled because it slows down eslint quite a bit when saving in VSCode. Sometimes it runs fast, but most of the time it's slow. Could be a TypeScript issue?
+    // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'react-app',
-    'prettier/@typescript-eslint'
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended', // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
   ],
   parserOptions: {
     project: './tsconfig.json',
