@@ -22,6 +22,11 @@ module.exports = {
     react: {
       version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
     },
+    'import/resolver': {
+      node: {
+        moduleDirectory: ['node_modules', 'serverless/node_modules'],
+      },
+    },
   },
   parserOptions: {
     project: './tsconfig.json',
