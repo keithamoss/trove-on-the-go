@@ -1,7 +1,7 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
-const PhotoPlaceholder = (props: any) => (
+const PhotoPlaceholder = (props: unknown) => (
   <ContentLoader
     viewBox="0 0 550 370"
     // backgroundColor="#f5f6f7"

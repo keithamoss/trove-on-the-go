@@ -11,7 +11,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
-    // 'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended',
     // Disabled because it slows down eslint quite a bit when saving in VSCode. Sometimes it runs fast, but most of the time it's slow. Could be a TypeScript issue?
     // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'react-app',
@@ -37,5 +37,6 @@ module.exports = {
     'max-len': 'off',
     // Because I like spreading props on the PhotoPlaceholder component
     'react/jsx-props-no-spreading': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
   },
 }
