@@ -6,6 +6,7 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   extends: [
     'airbnb-typescript',
+    'prettier/react', // Handles conflicts between airbnb-typescript and prettier per https://github.com/prettier/eslint-config-prettier/issues/126
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:import/errors',
