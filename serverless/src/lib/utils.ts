@@ -2,6 +2,7 @@ import { URL } from 'url'
 
 export const isDev = () => process.env.NODE_ENV === 'development'
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 export const getFilenameFromPath = (path: string) => (path.includes('/') ? path.split('/').pop()! : path)
 
 export const getFilenameFromURL = (url: string) => getFilenameFromPath(new URL(url).pathname)

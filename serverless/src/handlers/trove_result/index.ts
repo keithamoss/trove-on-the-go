@@ -33,9 +33,11 @@ export default async (event: APIGatewayEvent, callback: Function) => {
       const queryStringParams = new URLSearchParams(event.queryStringParameters)
 
       if (queryStringParams.has('q')) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         params.append('q', queryStringParams.get('q')!)
       }
       if (queryStringParams.has('s')) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         params.append('s', queryStringParams.get('s')!)
       }
     }

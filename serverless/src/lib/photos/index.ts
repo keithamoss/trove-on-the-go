@@ -56,7 +56,9 @@ export const copyPhotoToS3 = async (s3: S3, photo: TrovePhotoMetadata): Promise<
     images: {
       original: {
         url: getObjectS3URL(s3PathToOriginalPhoto),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         width: originalPhotoMetdata.width!,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         height: originalPhotoMetdata.height!,
       },
       thumbnail: {
