@@ -75,7 +75,8 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm, page, onChooseP
                     onChoosePhoto({
                       photoIndex: 0,
                       photos: work.photos,
-                    })}
+                    })
+                  }
                 >
                   Open Photo Gallery
                 </Button>

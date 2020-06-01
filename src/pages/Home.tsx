@@ -94,13 +94,13 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
                     'aria-label': 'search trove',
                   }}
                   defaultValue={searchTerm}
-                  endAdornment={(
+                  endAdornment={
                     <InputAdornment position="end">
                       <IconButton type="submit" color="primary" aria-label="submit search form">
                         <ImageSearchTwoToneIcon />
                       </IconButton>
                     </InputAdornment>
-                  )}
+                  }
                 />
               </Paper>
             </Grid>
@@ -120,8 +120,7 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
             <Grid container style={{ marginTop: 25 }}>
               <Grid item xs>
                 <Link href="https://trove.nla.gov.au/" variant="overline" display="block" align="center">
-                  Made with Trove
-{' '}
+                  Made with Trove{' '}
                   <span role="img" aria-label="Love heart emoji">
                     ❤️
                   </span>
