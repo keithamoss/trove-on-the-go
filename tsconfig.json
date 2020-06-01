@@ -29,7 +29,7 @@
     "noEmit": true
   },
   "include": [
-    "src"
+    "src/**/*"
   ],
   "plugins": [{
     "name": "typescript-tslint-plugin"
