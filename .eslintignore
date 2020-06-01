@@ -6,3 +6,5 @@ build
 public
 # don't lint nyc coverage output
 coverage
+# don't lint serverless - it has its own setup and commands for that
+serverless
