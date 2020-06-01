@@ -1,6 +1,4 @@
-import {
- createMuiTheme, CssBaseline, darken, ThemeProvider, useMediaQuery,
-} from '@material-ui/core'
+import { createMuiTheme, CssBaseline, darken, ThemeProvider, useMediaQuery } from '@material-ui/core'
 import { blue, pink } from '@material-ui/core/colors'
 import React, { Fragment } from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
@@ -15,7 +13,8 @@ const App: React.FC = () => {
   // Adapted from the custom dark mode colour scheme used by the Material-UI docs
   // https://github.com/mui-org/material-ui/blob/master/docs/src/modules/components/ThemeContext.js#L180
   const theme = React.useMemo(
-    () => createMuiTheme({
+    () =>
+      createMuiTheme({
         palette: {
           type: prefersDarkMode ? 'dark' : 'light',
           background: {
@@ -29,7 +28,7 @@ const App: React.FC = () => {
           },
         },
       }),
-    [prefersDarkMode],
+    [prefersDarkMode]
   )
 
   // Wait until the media query resolves to show the app

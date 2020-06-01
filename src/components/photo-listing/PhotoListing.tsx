@@ -22,11 +22,7 @@ const useStyles = makeStyles({
   },
 })
 
-const PhotoListing: React.FC<PhotoListingProps> = ({
-  searchTerm,
-  page,
-  onChoosePhoto,
-}: PhotoListingProps) => {
+const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm, page, onChoosePhoto }: PhotoListingProps) => {
   const classes = useStyles()
 
   const {
@@ -38,8 +34,8 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
     <Fragment>
       {response !== null && response.photos.length === 0 && <EmptyState />}
 
-      {response !== null
-        && response.photos
+      {response !== null &&
+        response.photos
           .filter((work) => work.photos.length > 0)
           .map((work: TroveWork) => (
             <Fragment key={work.id}>
@@ -75,18 +71,15 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
                 <Button
                   color="primary"
                   aria-label="view-photo-gallery"
-                  onClick={() => onChoosePhoto({
+                  onClick={() =>
+                    onChoosePhoto({
                       photoIndex: 0,
                       photos: work.photos,
                     })}
                 >
                   Open Photo Gallery
                 </Button>
-                <Button
-                  aria-label="open-link"
-                  href={work.troveUrl}
-                  target="_blank"
-                >
+                <Button aria-label="open-link" href={work.troveUrl} target="_blank">
                   View on Trove
                 </Button>
                 <br />
@@ -97,12 +90,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
 
       {response !== null && hasMoreResults && (
         <Grid container direction="row" justify="center">
-          <Button
-            variant="outlined"
-            color="primary"
-            disabled={isLoading}
-            onClick={() => getNextPage()}
-          >
+          <Button variant="outlined" color="primary" disabled={isLoading} onClick={() => getNextPage()}>
             load more
           </Button>
         </Grid>

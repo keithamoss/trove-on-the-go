@@ -21,14 +21,7 @@ export type TrovePhotoMetadata = {
 
 export type TroveWorkIdentifier = {
   linktext: string
-  linktype:
-    | 'fulltext'
-    | 'restricted'
-    | 'subscription'
-    | 'unknown'
-    | 'notonline'
-    | 'thumbnail'
-    | 'viewcopy'
+  linktype: 'fulltext' | 'restricted' | 'subscription' | 'unknown' | 'notonline' | 'thumbnail' | 'viewcopy'
   type: 'url' | 'some-other-values-we-dont-care-about'
   value: string
 }
@@ -47,12 +40,7 @@ export type TroveWork = {
   issued: number
   relevance: {
     score: string
-    value:
-      | 'very relevant'
-      | 'likely to be relevant'
-      | 'may have relevance'
-      | 'limited relevance'
-      | 'vaguely relevant'
+    value: 'very relevant' | 'likely to be relevant' | 'may have relevance' | 'limited relevance' | 'vaguely relevant'
   }
   snippet: string
   title: string

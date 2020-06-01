@@ -25,12 +25,7 @@ const EmptyState: React.FC = () => {
       <Typography variant="h6" align="center" className={classes.title}>
         No results found
       </Typography>
-      <Typography
-        variant="body2"
-        align="center"
-        className={classes.message}
-        gutterBottom
-      >
+      <Typography variant="body2" align="center" className={classes.message} gutterBottom>
         How about a cuppa?
       </Typography>
     </Fragment>

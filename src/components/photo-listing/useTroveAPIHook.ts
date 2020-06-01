@@ -38,10 +38,7 @@ type Action =
   | { type: 'FETCH_NEXT_PAGE' }
   | { type: 'RESET'; payload: TroveRequest }
 
-const reducer: React.Reducer<State, Action> = (
-  state: State,
-  action: Action,
-) => {
+const reducer: React.Reducer<State, Action> = (state: State, action: Action) => {
   switch (action.type) {
     case 'FETCH_INIT':
       return {
@@ -61,11 +58,8 @@ const reducer: React.Reducer<State, Action> = (
           searchTerm: action.payload.searchTerm,
           nextPageToken: action.payload.data.nextPageToken,
           photos: deduplicateArrayOfObjects(
-            [
-              ...(state.response !== null ? state.response.photos : []),
-              ...action.payload.data.work,
-            ],
-            'id',
+            [...(state.response !== null ? state.response.photos : []), ...action.payload.data.work],
+            'id'
           ) as TroveWork[],
         },
       }
@@ -103,25 +97,24 @@ const reducer: React.Reducer<State, Action> = (
 
 const useTroveAPI = (
   searchTerm: string,
-  page: string | undefined,
+  page: string | undefined
 ): {
   state: State
-  getNextPage: (
-) => void
+  getNextPage: () => void
 } => {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, {
     isLoading: false,
     isError: false,
     hasMoreResults: false,
     pagesFetched: 0,
-    pagesToFetch: (page !== undefined && isNaN(parseInt(page, 10)) === false) ? parseInt(page, 10) : 1,
+    pagesToFetch: page !== undefined && isNaN(parseInt(page, 10)) === false ? parseInt(page, 10) : 1,
     request: {
       searchTerm,
       nextPageToken: null,
     },
     response: null,
   })
-  const history = useHistory();
+  const history = useHistory()
 
   const getNextPage = () => {
     dispatch({ type: 'FETCH_NEXT_PAGE' })

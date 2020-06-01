@@ -1,6 +1,4 @@
-import {
- Container, Grid, IconButton, InputAdornment, InputBase, Link, Paper,
-} from '@material-ui/core'
+import { Container, Grid, IconButton, InputAdornment, InputBase, Link, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone'
@@ -76,9 +74,7 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
                   e.preventDefault()
 
                   const form = e.target as HTMLFormElement
-                  const input: HTMLInputElement | null = form.elements.namedItem(
-                    'search',
-                  ) as HTMLInputElement
+                  const input: HTMLInputElement | null = form.elements.namedItem('search') as HTMLInputElement
                   if (input !== null && input.value.length > 0) {
                     setSearchTerm(input.value)
                   }
@@ -100,11 +96,7 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
                   defaultValue={searchTerm}
                   endAdornment={(
                     <InputAdornment position="end">
-                      <IconButton
-                        type="submit"
-                        color="primary"
-                        aria-label="submit search form"
-                      >
+                      <IconButton type="submit" color="primary" aria-label="submit search form">
                         <ImageSearchTwoToneIcon />
                       </IconButton>
                     </InputAdornment>
@@ -114,25 +106,22 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
             </Grid>
 
             <Grid container style={{ marginTop: 25 }}>
-              <Grid item style={{ width: "100%" }}>
+              <Grid item style={{ width: '100%' }}>
                 {searchTerm !== null && (
                   <PhotoListing searchTerm={searchTerm} page={page} onChoosePhoto={setGalleryPhotos} />
                 )}
 
-                {galleryPhotos !== null && galleryPhotos.photos.length > 0 && <PhotoGallery galleryPhotos={galleryPhotos} onClose={onCloseGallery} />}
+                {galleryPhotos !== null && galleryPhotos.photos.length > 0 && (
+                  <PhotoGallery galleryPhotos={galleryPhotos} onClose={onCloseGallery} />
+                )}
               </Grid>
             </Grid>
 
             <Grid container style={{ marginTop: 25 }}>
               <Grid item xs>
-                <Link
-                  href="https://trove.nla.gov.au/"
-                  variant="overline"
-                  display="block"
-                  align="center"
-                >
+                <Link href="https://trove.nla.gov.au/" variant="overline" display="block" align="center">
                   Made with Trove
-                  {' '}
+{' '}
                   <span role="img" aria-label="Love heart emoji">
                     ❤️
                   </span>
