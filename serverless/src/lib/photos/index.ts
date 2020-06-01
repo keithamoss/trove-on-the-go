@@ -7,7 +7,8 @@ import { getObjectS3URL, getS3Bucket, s3GetObjectOrUndefined } from '../aws'
 import { getSourceCatalogueURL } from '../trove'
 import { getFilenameWithoutExtensionFromURL } from '../utils'
 
-export const getS3PhotoObjectUniqueId = (workId: string, imageURL: string) => `${workId}__${getFilenameWithoutExtensionFromURL(imageURL)}`
+export const getS3PhotoObjectUniqueId = (workId: string, imageURL: string) =>
+  `${workId}__${getFilenameWithoutExtensionFromURL(imageURL)}`
 
 export const getS3PhotoFilenames = (workId: string, imageURL: string) => {
   const filename = getS3PhotoObjectUniqueId(workId, imageURL)
@@ -23,10 +24,7 @@ const createPhotosFromResponseBuffer = (buffer: Buffer) => {
   return { original: image, thumbnail: image.clone().resize(200, null) }
 }
 
-export const copyPhotoToS3 = async (
-  s3: S3,
-  photo: TrovePhotoMetadata,
-): Promise<TrovePhotoMetadata> => {
+export const copyPhotoToS3 = async (s3: S3, photo: TrovePhotoMetadata): Promise<TrovePhotoMetadata> => {
   // eslint-disable-next-line
   console.info(`Write ${photo.cataloguePhotoURL} to S3`)
 
@@ -42,15 +40,9 @@ export const copyPhotoToS3 = async (
     numOfAttempts: 5,
   })
 
-  const {
-    original: originalPhoto,
-    thumbnail: thumbnailImage,
-  } = createPhotosFromResponseBuffer(await response.buffer())
+  const { original: originalPhoto, thumbnail: thumbnailImage } = createPhotosFromResponseBuffer(await response.buffer())
   const originalPhotoMetdata = await originalPhoto.metadata()
-  const {
-    info: thumbnailMetadata,
-    data: thumbnailImageData,
-  } = await thumbnailImage.toBuffer({
+  const { info: thumbnailMetadata, data: thumbnailImageData } = await thumbnailImage.toBuffer({
     resolveWithObject: true,
   })
 
@@ -112,14 +104,11 @@ export const copyPhotoToS3 = async (
 export const fetchPhotoMetadataFromS3 = async (
   s3: S3,
   work: TroveWork,
-  identifier: TroveWorkIdentifier,
+  identifier: TroveWorkIdentifier
 ): Promise<TrovePhotoMetadata> => {
   // eslint-disable-next-line
   console.info(`Checking ${identifier.value}`)
-  const { metadata: s3PathToPhotoMetadata } = getS3PhotoFilenames(
-    work.id,
-    identifier.value,
-  )
+  const { metadata: s3PathToPhotoMetadata } = getS3PhotoFilenames(work.id, identifier.value)
 
   const metadataObject = await s3GetObjectOrUndefined(s3, s3PathToPhotoMetadata)
   if (metadataObject !== undefined && metadataObject.Body !== undefined) {

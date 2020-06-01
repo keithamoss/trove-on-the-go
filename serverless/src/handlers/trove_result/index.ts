@@ -8,7 +8,10 @@ import { URLSearchParams } from 'url'
 import { copyPhotoToS3, fetchPhotoMetadataFromS3 } from '../../lib/photos/index'
 import { callbackWithError } from '../../lib/response'
 import {
- filterWorkIdentifiersForEverythingExceptOriginalPhotos, filterWorkIdentifiersForOriginalPhotos, filterWorksWithAnyValidIdentifiers, getWorkThumbnail,
+  filterWorkIdentifiersForEverythingExceptOriginalPhotos,
+  filterWorkIdentifiersForOriginalPhotos,
+  filterWorksWithAnyValidIdentifiers,
+  getWorkThumbnail,
 } from '../../lib/trove'
 // import 'source-map-support/register'
 import { TroveApiResponse, TrovePhotoMetadata, TroveWork } from '../../types'
@@ -64,23 +67,20 @@ export default async (event: APIGatewayEvent, callback: Function) => {
 
     const worksWithAnyValidIdentifiers = troveAPIResponse.response.zone[0].records.work
       // .filter((work: TroveWork) => work.id === '234955310')
-      .filter(
-        (work: TroveWork) => filterWorksWithAnyValidIdentifiers(work),
-      )
+      .filter((work: TroveWork) => filterWorksWithAnyValidIdentifiers(work))
 
-    worksWithAnyValidIdentifiers.forEach((work: TroveWork) => filterWorkIdentifiersForOriginalPhotos(work).forEach((identifier) => promises.push(fetchPhotoMetadataFromS3(s3, work, identifier))))
+    worksWithAnyValidIdentifiers.forEach((work: TroveWork) =>
+      filterWorkIdentifiersForOriginalPhotos(work).forEach((identifier) =>
+        promises.push(fetchPhotoMetadataFromS3(s3, work, identifier))
+      )
+    )
 
     const photoMetadata = await Promise.all(promises)
     const photoMetadataThatWasMissingFromS3 = await Promise.all(
-      photoMetadata
-        .filter((item) => item.images === null)
-        .map((item) => limit(() => copyPhotoToS3(s3, item))),
+      photoMetadata.filter((item) => item.images === null).map((item) => limit(() => copyPhotoToS3(s3, item)))
     )
 
-    const photos = [
-      ...photoMetadata.filter((item) => item.images !== null),
-      ...photoMetadataThatWasMissingFromS3,
-    ]
+    const photos = [...photoMetadata.filter((item) => item.images !== null), ...photoMetadataThatWasMissingFromS3]
 
     const photosGroupedByWork: {
       [key: string]: TrovePhotoMetadata[]
@@ -96,26 +96,18 @@ export default async (event: APIGatewayEvent, callback: Function) => {
       ...troveAPIResponse.response.zone[0].records,
       n: `${worksWithAnyValidIdentifiers.length}`,
       work: worksWithAnyValidIdentifiers
-      // .filter((work: TroveWork) => work.id === '234955310')
-      .map((work: TroveWork) => ({
+        // .filter((work: TroveWork) => work.id === '234955310')
+        .map((work: TroveWork) => ({
           ...work,
-          identifier: filterWorkIdentifiersForEverythingExceptOriginalPhotos(
-            work,
-          ),
+          identifier: filterWorkIdentifiersForEverythingExceptOriginalPhotos(work),
           photos: photosGroupedByWork[work.id],
-          thumbnail: getWorkThumbnail(
-            work.identifier,
-            photosGroupedByWork[work.id],
-          ),
+          thumbnail: getWorkThumbnail(work.identifier, photosGroupedByWork[work.id]),
         })),
     }
 
     callback(null, troveAPIResponse)
   } catch (e) {
-    callbackWithError(
-      `The Trove API returned an error or is unavailable. Message: ${e.message}`,
-      callback,
-    )
+    callbackWithError(`The Trove API returned an error or is unavailable. Message: ${e.message}`, callback)
 
     throw e
   }

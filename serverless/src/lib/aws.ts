@@ -1,4 +1,3 @@
-
 export const getS3Bucket = () => {
   if (process.env.S3_BUCKET_NAME !== undefined) {
     return process.env.S3_BUCKET_NAME
@@ -8,10 +7,7 @@ export const getS3Bucket = () => {
 
 export const getObjectS3URL = (key: string) => `https://${getS3Bucket()}.s3.amazonaws.com/${key}`
 
-export const s3ObjectExists = async (
-  s3: AWS.S3,
-  key: string,
-): Promise<boolean> => {
+export const s3ObjectExists = async (s3: AWS.S3, key: string): Promise<boolean> => {
   try {
     await s3
       .headObject({
@@ -28,10 +24,7 @@ export const s3ObjectExists = async (
   }
 }
 
-export const s3GetObjectOrUndefined = async (
-  s3: AWS.S3,
-  key: string,
-): Promise<AWS.S3.GetObjectOutput | undefined> => {
+export const s3GetObjectOrUndefined = async (s3: AWS.S3, key: string): Promise<AWS.S3.GetObjectOutput | undefined> => {
   try {
     return await s3
       .getObject({

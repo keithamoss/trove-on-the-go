@@ -46,9 +46,7 @@ export default class SLWAPhotoURLHandler {
   // }
 
   public isPhoto() {
-    return (
-      this.isOriginalPhoto() || this.isThumbnail() || this.isCataloguePage()
-    )
+    return this.isOriginalPhoto() || this.isThumbnail() || this.isCataloguePage()
   }
 
   public fixPhotoURL() {

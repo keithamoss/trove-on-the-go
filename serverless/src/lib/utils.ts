@@ -10,9 +10,7 @@ export const getFilenameWithoutExtensionFromURL = (url: string) => getFilenameFr
 
 export const getFilenameExtensionFromURL = (url: string) => {
   const filename = getFilenameFromURL(url)
-  return filename
-    .replace(getFilenameWithoutExtensionFromURL(url), '')
-    .substring(1)
+  return filename.replace(getFilenameWithoutExtensionFromURL(url), '').substring(1)
 }
 
 export const getURLWithoutFilenameExtension = (url: string) => {

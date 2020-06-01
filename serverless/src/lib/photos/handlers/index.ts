@@ -9,16 +9,11 @@ export default class PhotoURLHandlerFactory {
   }
 
   private isPossiblyAPhoto() {
-    return (
-      this.identifier.type === 'url'
-      && this.identifier.linktype === 'restricted'
-    )
+    return this.identifier.type === 'url' && this.identifier.linktype === 'restricted'
   }
 
   public isPossiblyAThumbnail() {
-    return (
-      this.identifier.type === 'url' && this.identifier.linktype === 'thumbnail'
-    )
+    return this.identifier.type === 'url' && this.identifier.linktype === 'thumbnail'
   }
 
   public getPhotoHandler() {
