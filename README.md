@@ -11,7 +11,7 @@ Because it's 2020 and I like responsive design
 `.env.development` configures create-react-app to use HTTPS, but for that to work we need to generate some self-signed SSL certs for localhost.
 
 ```
-brew install mkcerts
+brew install mkcert
 mkcert -install
 ```
 
@@ -34,11 +34,9 @@ https://adamrackis.dev/state-and-use-reducer/
 https://www.robinwieruch.de/react-hooks-fetch-data
 https://levelup.gitconnected.com/usetypescript-a-complete-guide-to-react-hooks-and-typescript-db1858d1fb9c
 
-
 ## Redux
 
 https://redux-toolkit.js.org/introduction/quick-start
-
 
 ## Photo Galleries
 
