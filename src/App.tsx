@@ -6,6 +6,7 @@ import Home from './pages/Home'
 
 const App: React.FC = () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)', {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore-next-line
     defaultMatches: null,
   })
