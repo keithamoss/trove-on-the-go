@@ -120,7 +120,7 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
             <Grid container style={{ marginTop: 25 }}>
               <Grid item xs>
                 <Link href="https://trove.nla.gov.au/" variant="overline" display="block" align="center">
-                  Made with Trovez{' '}
+                  Made with Trove{' '}
                   <span role="img" aria-label="Love heart emoji">
                     ❤️
                   </span>
