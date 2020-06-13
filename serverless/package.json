@@ -9,7 +9,7 @@
     "exponential-backoff": "^3.0.1",
     "node-fetch": "^2.6.0",
     "p-limit": "^2.3.0",
-    "sharp": "^0.25.3"
+    "sharp": "^0.25.4"
   },
   "devDependencies": {
     "@kingdarboja/serverless-plugin-typescript": "^1.3.0",
