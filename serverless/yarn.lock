@@ -2371,10 +2371,10 @@ expand-template@^2.0.3:
   resolved "https://registry.yarnpkg.com/expand-template/-/expand-template-2.0.3.tgz#6e14b3fcee0f3a6340ecb57d2e8918692052a47c"
   integrity sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==
 
-exponential-backoff@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/exponential-backoff/-/exponential-backoff-3.0.0.tgz#f1436e719cdce67e63799544024b4f43c4948e8c"
-  integrity sha512-dmsTOUWCoU931Y371dBehfXAcK4S6FLMwkpO2247lmDU4ujipPCkRciRFTWtfNoj3mw6eyzxEm8m5YTLNda7Ew==
+exponential-backoff@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/exponential-backoff/-/exponential-backoff-3.0.1.tgz#c83c5036fea44bcf7274cd40ae207ae234a0c215"
+  integrity sha512-YOpmVqDXqyLgYrfU2k/RFVvSjy3p0A32aGDmwbR+lbmhROVmeCg6WSGqBgr4HB5AZNElg7Oj4Cm/vIbodLu2Ig==
 
 ext-list@^2.0.0:
   version "2.2.2"
