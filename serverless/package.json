@@ -18,7 +18,7 @@
     "@types/node": "^14",
     "@types/node-fetch": "^2.5.7",
     "@types/p-limit": "^2.2.0",
-    "@types/sharp": "^0.25.0",
+    "@types/sharp": "^0.25.1",
     "serverless": "^1.75.1",
     "serverless-dotenv-plugin": "^2.4.2",
     "serverless-offline": "^6.5.0",
