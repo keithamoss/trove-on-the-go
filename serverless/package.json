@@ -12,7 +12,7 @@
     "sharp": "^0.25.4"
   },
   "devDependencies": {
-    "@kingdarboja/serverless-plugin-typescript": "^1.4.0",
+    "@kingdarboja/serverless-plugin-typescript": "^1.4.1",
     "@types/aws-lambda": "^8.10.59",
     "@types/aws-sdk": "^2.7.0",
     "@types/node": "^14",
