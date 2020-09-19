@@ -5,7 +5,7 @@
   "author": "Keith Moss",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.751.0",
+    "aws-sdk": "^2.756.0",
     "exponential-backoff": "^3.1.0",
     "node-fetch": "^2.6.1",
     "p-limit": "^2.3.0",
