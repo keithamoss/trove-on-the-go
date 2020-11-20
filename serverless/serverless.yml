@@ -15,9 +15,9 @@ plugins:
 
 custom:
   serverless-offline:
-    httpsProtocol: "dev-certs"
+    httpsProtocol: 'dev-certs'
     useChildProcesses: true
-    
+
 provider:
   name: aws
   logs:
@@ -27,6 +27,7 @@ provider:
   region: ap-southeast-2
   httpApi:
     cors: true
+    payload: '2.0'
     # cors:
     #   allowedOrigins:
     #     - https://url1.com
@@ -86,7 +87,7 @@ resources:
               Effect: Allow
               Principal: '*'
               Action: 's3:GetObject'
-              Resource: !Join 
+              Resource: !Join
                 - ''
                 - - 'arn:aws:s3:::'
                   - !Ref S3Bucket
