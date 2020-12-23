@@ -1,8 +1,8 @@
-import { TrovePhotoMetadata, TroveWork, TroveWorkIdentifier } from '../types'
+import { TrovePhotoImageMetadata, TrovePhotoMetadata, TroveWork, TroveWorkIdentifier } from '../types'
 import PhotoURLHandlerFactory from './photos/handlers/index'
 import { getURLWithoutFilenameExtension } from './utils'
 
-export const fixIdentifierOriginalPhotoURLs = (identifier: TroveWorkIdentifier) => {
+export const fixIdentifierOriginalPhotoURLs = (identifier: TroveWorkIdentifier): TroveWorkIdentifier => {
   const factory = new PhotoURLHandlerFactory(identifier)
   const handler = factory.getPhotoHandler()
 
@@ -16,7 +16,7 @@ export const fixIdentifierOriginalPhotoURLs = (identifier: TroveWorkIdentifier) 
   return identifier
 }
 
-export const isIdentifierValid = (identifier: TroveWorkIdentifier) => {
+export const isIdentifierValid = (identifier: TroveWorkIdentifier): boolean => {
   try {
     const factory = new PhotoURLHandlerFactory(identifier)
     return factory.getPhotoHandler() !== null
@@ -26,10 +26,10 @@ export const isIdentifierValid = (identifier: TroveWorkIdentifier) => {
   }
 }
 
-export const filterWorksWithAnyValidIdentifiers = (work: TroveWork) =>
+export const filterWorksWithAnyValidIdentifiers = (work: TroveWork): boolean =>
   work.identifier.some((identifier: TroveWorkIdentifier) => isIdentifierValid(identifier) === true)
 
-export const isIdentifierAnOrginalPhoto = (identifier: TroveWorkIdentifier) => {
+export const isIdentifierAnOrginalPhoto = (identifier: TroveWorkIdentifier): boolean => {
   const factory = new PhotoURLHandlerFactory(identifier)
   const handler = factory.getPhotoHandler()
 
@@ -39,15 +39,18 @@ export const isIdentifierAnOrginalPhoto = (identifier: TroveWorkIdentifier) => {
   return false
 }
 
-export const filterWorkIdentifiersForOriginalPhotos = (work: TroveWork) =>
+export const filterWorkIdentifiersForOriginalPhotos = (work: TroveWork): TroveWorkIdentifier[] =>
   work.identifier
     .filter((identifier) => isIdentifierAnOrginalPhoto(identifier) === true)
     .map((identifier) => fixIdentifierOriginalPhotoURLs(identifier))
 
-export const filterWorkIdentifiersForEverythingExceptOriginalPhotos = (work: TroveWork) =>
+export const filterWorkIdentifiersForEverythingExceptOriginalPhotos = (work: TroveWork): TroveWorkIdentifier[] =>
   work.identifier.filter((identifier) => isIdentifierAnOrginalPhoto(identifier) === false)
 
-export const getWorkThumbnail = (identifiers: TroveWorkIdentifier[], photos: TrovePhotoMetadata[]) => {
+export const getWorkThumbnail = (
+  identifiers: TroveWorkIdentifier[],
+  photos: TrovePhotoMetadata[]
+): TrovePhotoImageMetadata | null => {
   const thumbnail = identifiers.find((identifier: TroveWorkIdentifier) => {
     const factory = new PhotoURLHandlerFactory(identifier)
     return factory.isPossiblyAThumbnail()

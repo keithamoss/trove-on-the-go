@@ -10,7 +10,7 @@ export default class SLWAPhotoURLHandler {
     this.ext = getFilenameExtensionFromURL(url)
   }
 
-  static isValidURL(url: string) {
+  static isValidURL(url: string): boolean {
     return url.includes('slwa.wa.gov.au')
   }
 
@@ -45,11 +45,11 @@ export default class SLWAPhotoURLHandler {
   //   return this.ext === 'pdf.png'
   // }
 
-  public isPhoto() {
+  public isPhoto(): boolean {
     return this.isOriginalPhoto() || this.isThumbnail() || this.isCataloguePage()
   }
 
-  public fixPhotoURL() {
+  public fixPhotoURL(): string {
     if (this.isPhoto() === false) {
       throw new Error(`${this.url} is not a photo`)
     }
@@ -65,7 +65,7 @@ export default class SLWAPhotoURLHandler {
     return this.url
   }
 
-  public getSourceCatalogueURL() {
+  public getSourceCatalogueURL(): string {
     if (this.isPhoto() === false) {
       throw new Error(`${this.url} is not a photo`)
     }

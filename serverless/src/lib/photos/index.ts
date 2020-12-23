@@ -7,10 +7,10 @@ import { getObjectS3URL, getS3Bucket, s3GetObjectOrUndefined } from '../aws'
 import { getSourceCatalogueURL } from '../trove'
 import { getFilenameWithoutExtensionFromURL } from '../utils'
 
-export const getS3PhotoObjectUniqueId = (workId: string, imageURL: string) =>
+export const getS3PhotoObjectUniqueId = (workId: string, imageURL: string): string =>
   `${workId}__${getFilenameWithoutExtensionFromURL(imageURL)}`
 
-export const getS3PhotoFilenames = (workId: string, imageURL: string) => {
+export const getS3PhotoFilenames = (workId: string, imageURL: string): Record<string, string> => {
   const filename = getS3PhotoObjectUniqueId(workId, imageURL)
   return {
     metadata: `photos/${filename}/metadata.json`,

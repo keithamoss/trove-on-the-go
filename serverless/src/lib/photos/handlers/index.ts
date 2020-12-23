@@ -15,11 +15,11 @@ export default class PhotoURLHandlerFactory {
     )
   }
 
-  public isPossiblyAThumbnail() {
+  public isPossiblyAThumbnail(): boolean {
     return this.identifier.type === 'url' && this.identifier.linktype === 'thumbnail'
   }
 
-  public getPhotoHandler() {
+  public getPhotoHandler(): SLWAPhotoURLHandler | null {
     if (this.isPossiblyAPhoto()) {
       const url = this.identifier.value
 

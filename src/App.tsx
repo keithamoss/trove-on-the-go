@@ -1,5 +1,6 @@
 import { createMuiTheme, CssBaseline, darken, ThemeProvider, useMediaQuery } from '@material-ui/core'
 import { blue, pink } from '@material-ui/core/colors'
+import type {} from '@material-ui/lab/themeAugmentation'
 import React, { Fragment } from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import Home from './pages/Home'

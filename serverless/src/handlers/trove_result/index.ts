@@ -6,7 +6,7 @@ import fetch from 'node-fetch'
 import pLimit from 'p-limit'
 import { URLSearchParams } from 'url'
 import { copyPhotoToS3, fetchPhotoMetadataFromS3 } from '../../lib/photos/index'
-import { callbackWithError } from '../../lib/response'
+import { callbackWithError, LambdaApiError } from '../../lib/response'
 import {
   filterWorkIdentifiersForEverythingExceptOriginalPhotos,
   filterWorkIdentifiersForOriginalPhotos,
@@ -16,7 +16,10 @@ import {
 // import 'source-map-support/register'
 import { TroveApiResponse, TrovePhotoMetadata, TroveWork } from '../../types'
 
-export default async (event: APIGatewayEvent, callback: Function) => {
+const app = async (
+  event: APIGatewayEvent,
+  callback: (error: LambdaApiError | null, result: TroveApiResponse | Record<string, string>) => void
+): Promise<void> => {
   const getPhotosFromTrove = (): Promise<TroveApiResponse> => {
     const params = new URLSearchParams({
       zone: 'picture',
@@ -114,3 +117,5 @@ export default async (event: APIGatewayEvent, callback: Function) => {
     throw e
   }
 }
+
+export default app
