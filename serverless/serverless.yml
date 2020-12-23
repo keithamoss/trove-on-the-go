@@ -65,7 +65,7 @@ layers:
   sharp:
     package:
       # https://github.com/Umkus/lambda-layer-sharp
-      artifact: layers/sharp-layer-0.25.2.zip
+      artifact: layers/sharp-layer-0.26.0.zip
 
 resources:
   Resources:
