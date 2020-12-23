@@ -9,7 +9,7 @@ export interface GalleryPhotos {
 
 type PhotoGalleryProps = {
   galleryPhotos: GalleryPhotos
-  onClose: Function
+  onClose: () => void
 }
 
 const PhotoGallery: React.FC<PhotoGalleryProps> = ({ galleryPhotos, onClose }: PhotoGalleryProps) => (

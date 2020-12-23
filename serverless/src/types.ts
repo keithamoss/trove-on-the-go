@@ -1,3 +1,8 @@
+export type TrovePhotoImageSize = {
+  width: number
+  height: number
+}
+
 export type TrovePhotoImageMetadata = {
   url: string
   width: number

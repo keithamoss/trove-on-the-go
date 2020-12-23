@@ -90,7 +90,7 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
                   placeholder="Search Trove"
                   inputProps={{
                     name: 'search',
-                    enterkeyhint: 'search',
+                    enterKeyHint: 'search',
                     'aria-label': 'search trove',
                   }}
                   defaultValue={searchTerm}

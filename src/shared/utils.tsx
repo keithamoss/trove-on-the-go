@@ -1,6 +1,8 @@
-export const isDev = () => process.env.NODE_ENV === 'development'
+import { TrovePhotoImageSize } from '../api/types'
 
-export const getURLFileExtension = (url: string) => {
+export const isDev = (): boolean => process.env.NODE_ENV === 'development'
+
+export const getURLFileExtension = (url: string): string | null => {
   const parsedURL = new URL(url)
   return parsedURL.pathname.includes('.') ? parsedURL.pathname.substr(parsedURL.pathname.indexOf('.')) : null
 }
@@ -13,7 +15,7 @@ export const getImageMeta = (url: string): Promise<HTMLImageElement> =>
     img.src = url
   })
 
-export const getImageSize = async (url: string) => {
+export const getImageSize = async (url: string): Promise<TrovePhotoImageSize> => {
   const img = await getImageMeta(url)
   return {
     width: img.naturalWidth,
@@ -21,5 +23,5 @@ export const getImageSize = async (url: string) => {
   }
 }
 
-export const deduplicateArrayOfObjects = (array: object[], key: string) =>
+export const deduplicateArrayOfObjects = (array: Record<string, unknown>[], key: string): Record<string, unknown>[] =>
   array.filter((item, index, self) => self.findIndex((t) => t[key] === item[key]) === index)

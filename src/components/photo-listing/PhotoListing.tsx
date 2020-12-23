@@ -5,12 +5,13 @@ import Gallery from 'react-grid-gallery'
 import { TroveWork } from '../../api/types'
 import EmptyState from '../../shared/empty-state/EmptyState'
 import PhotoPlaceholder from '../../shared/PhotoPlaceholder'
+import { GalleryPhotos } from '../photo-gallery/PhotoGallery'
 import useTroveAPI from './useTroveAPIHook'
 
 type PhotoListingProps = {
   searchTerm: string
   page: string | undefined
-  onChoosePhoto: Function
+  onChoosePhoto: React.Dispatch<React.SetStateAction<GalleryPhotos | null>>
 }
 
 const useStyles = makeStyles({
