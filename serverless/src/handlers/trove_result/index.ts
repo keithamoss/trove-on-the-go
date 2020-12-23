@@ -20,6 +20,9 @@ const app = async (
   event: APIGatewayEvent,
   callback: (error: LambdaApiError | null, result: TroveApiResponse | Record<string, string>) => void
 ): Promise<void> => {
+  // eslint-disable-next-line
+  console.info('queryStringParameters', event.queryStringParameters)
+
   const getPhotosFromTrove = (): Promise<TroveApiResponse> => {
     const params = new URLSearchParams({
       zone: 'picture',
