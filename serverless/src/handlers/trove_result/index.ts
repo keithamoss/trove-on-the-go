@@ -115,7 +115,10 @@ const app = async (
 
     callback(null, troveAPIResponse)
   } catch (e) {
-    callbackWithError(`The Trove API returned an error or is unavailable. Message: ${e.message}`, callback)
+    callbackWithError(
+      `The Trove API returned an error, is unavailable, or we had issues handling the response. Message: ${e.message}`,
+      callback
+    )
 
     throw e
   }
