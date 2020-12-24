@@ -49,14 +49,14 @@ export const filterWorkIdentifiersForEverythingExceptOriginalPhotos = (work: Tro
 
 export const getWorkThumbnail = (
   identifiers: TroveWorkIdentifier[],
-  photos: TrovePhotoMetadata[]
+  photos: TrovePhotoMetadata[] | undefined
 ): TrovePhotoImageMetadata | null => {
   const thumbnail = identifiers.find((identifier: TroveWorkIdentifier) => {
     const factory = new PhotoURLHandlerFactory(identifier)
     return factory.isPossiblyAThumbnail()
   })
 
-  if (thumbnail !== undefined) {
+  if (thumbnail !== undefined && photos !== undefined) {
     const thumbnailURL = getURLWithoutFilenameExtension(thumbnail.value)
 
     const thumbnailOriginalPhoto = photos.find(
