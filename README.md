@@ -25,6 +25,15 @@ Ref:
 - [Using HTTPS in Development](https://create-react-app.dev/docs/using-https-in-development/#custom-ssl-certificate)
 - [HTTPS In Development: A Practical Guide](https://marmelab.com/blog/2019/01/23/https-in-development.html)
 
+## iPhone Simulation
+
+```
+/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/Contents/MacOS/Simulator -CurrentDeviceID 8528838E-4B47-4F0E-B415-E87F8C8A6163
+```
+
+https://stackoverflow.com/a/60790454
+https://hdorgeval.gitbooks.io/setup-your-mac-to-develop-nativescript-apps/content/your-first-nativescript-project-with-angular-2.html
+
 # Resources
 
 ## React Hooks
