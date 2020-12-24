@@ -13,6 +13,7 @@ import {
   filterWorksWithAnyValidIdentifiers,
   getWorkThumbnail,
 } from '../../lib/trove'
+import { isLocalDev } from '../../lib/utils'
 // import 'source-map-support/register'
 import { TroveApiResponse, TrovePhotoMetadata, TroveWork } from '../../types'
 
@@ -20,8 +21,10 @@ const app = async (
   event: APIGatewayEvent,
   callback: (error: LambdaApiError | null, result: TroveApiResponse | Record<string, string>) => void
 ): Promise<void> => {
-  // eslint-disable-next-line
-  console.info('queryStringParameters', event.queryStringParameters)
+  if (isLocalDev() === false) {
+    // eslint-disable-next-line
+    console.info('queryStringParameters', event.queryStringParameters)
+  }
 
   const getPhotosFromTrove = (): Promise<TroveApiResponse> => {
     const params = new URLSearchParams({

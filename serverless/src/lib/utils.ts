@@ -1,5 +1,7 @@
 import { URL } from 'url'
 
+export const isLocalDev = (): boolean => process.env.NODE_ENV === 'development' && process.env.IS_OFFLINE === 'true'
+
 export const isDev = (): boolean => process.env.NODE_ENV === 'development'
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
