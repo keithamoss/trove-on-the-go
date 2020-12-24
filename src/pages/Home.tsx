@@ -1,8 +1,9 @@
 import { Container, Grid, IconButton, InputAdornment, InputBase, Link, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import ClearTwoToneIcon from '@material-ui/icons/ClearTwoTone'
 import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone'
-import React, { Fragment } from 'react'
+import React, { Fragment, MutableRefObject, useRef } from 'react'
 import { RouteComponentProps, useParams } from 'react-router-dom'
 import PhotoGallery, { GalleryPhotos } from '../components/photo-gallery/PhotoGallery'
 import PhotoListing from '../components/photo-listing'
@@ -51,6 +52,9 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
   const [galleryPhotos, setGalleryPhotos] = React.useState<GalleryPhotos | null>(null)
   const onCloseGallery = () => setGalleryPhotos(null)
 
+  // https://stackoverflow.com/a/58636291
+  const textInput = useRef() as MutableRefObject<HTMLInputElement>
+
   return (
     <Fragment>
       <Container component="main" maxWidth="sm">
@@ -88,6 +92,7 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
                 <InputBase
                   className={classes.input}
                   placeholder="Search Trove"
+                  inputRef={textInput}
                   inputProps={{
                     name: 'search',
                     enterKeyHint: 'search',
@@ -96,8 +101,21 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
                   defaultValue={searchTerm}
                   endAdornment={
                     <InputAdornment position="end">
-                      <IconButton type="submit" color="primary" aria-label="submit search form">
+                      <IconButton type="submit" color="primary" aria-label="submit search field">
                         <ImageSearchTwoToneIcon />
+                      </IconButton>
+                      <IconButton
+                        type="button"
+                        color="default"
+                        aria-label="clear search field"
+                        onClick={() => {
+                          if (textInput !== null && textInput.current !== null) {
+                            textInput.current.value = ''
+                            textInput.current.focus()
+                          }
+                        }}
+                      >
+                        <ClearTwoToneIcon />
                       </IconButton>
                     </InputAdornment>
                   }

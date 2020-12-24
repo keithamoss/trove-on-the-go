@@ -36,6 +36,10 @@ https://hdorgeval.gitbooks.io/setup-your-mac-to-develop-nativescript-apps/conten
 
 # Resources
 
+## Local development debugging on iOS
+
+https://medium.com/@claire.ristow/how-to-test-your-localhost-on-an-iphone-54e7b11439b7
+
 ## PWAs on iOS
 
 https://firt.dev/ios-14/
