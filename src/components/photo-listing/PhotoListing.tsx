@@ -4,6 +4,7 @@ import React, { Fragment } from 'react'
 import Gallery from 'react-grid-gallery'
 import { TroveWork } from '../../api/types'
 import EmptyState from '../../shared/empty-state/EmptyState'
+import ErrorState from '../../shared/error-state/ErrorState'
 import PhotoPlaceholder from '../../shared/PhotoPlaceholder'
 import { GalleryPhotos } from '../photo-gallery/PhotoGallery'
 import useTroveAPI from './useTroveAPIHook'
@@ -27,12 +28,14 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm, page, onChooseP
   const classes = useStyles()
 
   const {
-    state: { isLoading, hasMoreResults, response },
+    state: { isLoading, isError, hasMoreResults, response },
     getNextPage,
   } = useTroveAPI(searchTerm, page)
 
   return (
     <Fragment>
+      {isError === true && <ErrorState />}
+
       {response !== null && response.photos.length === 0 && <EmptyState />}
 
       {response !== null &&

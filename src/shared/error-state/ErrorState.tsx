@@ -29,7 +29,7 @@ const ErrorState: React.FC = () => {
     <Paper className={classes.paper}>
       <ErrorStateArt className={classes.svg} />
       <Typography variant="h6" align="center" className={classes.title}>
-        Well this is embarrasing. There&apos;s been an error.
+        Well, this is embarrasing. There&apos;s been an error.
       </Typography>
       <Typography variant="body2" align="center" className={classes.message} gutterBottom>
         Shoot me an <a href="mailto:keithamoss@gmail.com?subject=Trove%20on%20the%20Go">email</a> and I&apos;ll take a
