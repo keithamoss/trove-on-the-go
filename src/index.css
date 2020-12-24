@@ -1,0 +1,10 @@
+/* https://mobiforge.com/news-comment/iphone-x-notch-advice-for-web-developers */
+/* https://stackoverflow.com/a/60939741 */
+@supports (padding: max(0px)) {
+  body,
+  header,
+  footer {
+    padding-left: min(0vmin, env(safe-area-inset-left));
+    padding-right: min(0vmin, env(safe-area-inset-right));
+  }
+}
