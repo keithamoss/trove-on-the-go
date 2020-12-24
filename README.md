@@ -36,6 +36,10 @@ https://hdorgeval.gitbooks.io/setup-your-mac-to-develop-nativescript-apps/conten
 
 # Resources
 
+## PWAs on iOS
+
+https://firt.dev/ios-14/
+
 ## React Hooks
 
 https://reactjs.org/docs/hooks-reference.html
