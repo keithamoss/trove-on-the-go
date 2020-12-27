@@ -39,7 +39,7 @@ const getDefaultSearchTerm = (search: string | undefined): string | null => {
     return search
   }
 
-  return isDev() ? 'raine square' : null
+  return isDev() ? 'trinity arcade' : null
 }
 
 const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) => {

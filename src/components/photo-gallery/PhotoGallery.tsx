@@ -23,8 +23,9 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ galleryPhotos, onClose }: P
             footer: (base) => ({
               ...base,
               opacity: 1,
-              transform: 'translateY(0px)',
-              WebkitTransform: 'translateY(0px)',
+              // Seemingly not required to work around this issue?
+              // transform: 'translateY(0px)',
+              // WebkitTransform: 'translateY(0px)',
             }),
           }}
           // components={{ FooterCaption }}

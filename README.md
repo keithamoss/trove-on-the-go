@@ -34,6 +34,10 @@ Ref:
 https://stackoverflow.com/a/60790454
 https://hdorgeval.gitbooks.io/setup-your-mac-to-develop-nativescript-apps/content/your-first-nativescript-project-with-angular-2.html
 
+## BrowerStack
+
+https://192.168.1.1:3000
+
 # Resources
 
 ## Local development debugging on iOS
@@ -64,3 +68,14 @@ https://github.com/peterpalau/react-bnb-gallery/
 https://github.com/neptunian/react-photo-gallery/
 https://github.com/benhowell/react-grid-gallery
 https://github.com/xiaolin/react-image-gallery/
+https://github.com/browniebroke/gatsby-image-gallery
+
+## Carousels
+
+https://github.com/leandrowd/react-responsive-carousel
+https://github.com/maxmarinich/react-alice-carousel
+https://github.com/express-labs/pure-react-carousel
+
+## Lightboxes
+
+https://github.com/frontend-collective/react-image-lightbox
