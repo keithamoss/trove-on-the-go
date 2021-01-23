@@ -5,7 +5,7 @@ import { ReactComponent as EmptyStateArt } from './undraw_cup_of_tea.svg'
 
 const useStyles = makeStyles({
   paper: {
-    backgroundColor: '#979797',
+    backgroundColor: '#6C747A',
     padding: 10,
   },
   svg: {
@@ -13,12 +13,11 @@ const useStyles = makeStyles({
     height: '200px',
   },
   title: {
-    color: '#2f2e41',
-    fontWeight: 'normal',
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
   message: {
-    color: '#2f2e41',
-    paddingTop: '10px',
+    color: '#FFFFFF',
   },
 })
 

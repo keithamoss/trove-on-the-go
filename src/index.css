@@ -8,3 +8,7 @@
     padding-right: min(0vmin, env(safe-area-inset-right));
   }
 }
+
+a {
+  color: #90caf9;
+}

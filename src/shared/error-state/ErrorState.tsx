@@ -5,7 +5,7 @@ import { ReactComponent as ErrorStateArt } from './undraw_fixing_bugs.svg'
 
 const useStyles = makeStyles({
   paper: {
-    backgroundColor: '#979797',
+    backgroundColor: '#6C747A',
     padding: 10,
   },
   svg: {
@@ -13,12 +13,11 @@ const useStyles = makeStyles({
     height: '200px',
   },
   title: {
-    color: '#2f2e41',
-    fontWeight: 'normal',
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
   message: {
-    color: '#2f2e41',
-    paddingTop: '10px',
+    color: '#FFFFFF',
   },
 })
 
@@ -33,7 +32,7 @@ const ErrorState: React.FC = () => {
       </Typography>
       <Typography variant="body2" align="center" className={classes.message} gutterBottom>
         Shoot me an <a href="mailto:keithamoss@gmail.com?subject=Trove%20on%20the%20Go">email</a> and I&apos;ll take a
-        look. (It&apos;ll be helpful if you could let me know what you were searching for.)
+        look. (It&apos;ll be helpful if you could let me know what you were searching for too.)
       </Typography>
     </Paper>
   )
