@@ -1,6 +1,5 @@
-import { TrovePhotoImageMetadata, TrovePhotoMetadata, TroveWork, TroveWorkIdentifier } from '../types'
+import { TroveWork, TroveWorkIdentifier } from '../types'
 import PhotoURLHandlerFactory from './photos/handlers/index'
-import { getURLWithoutFilenameExtension } from './utils'
 
 /**
  * Checks if the given identifier (e.g. photo or webpage link) is valid at a very fundamental level. Basically, "Do we even know how the parse identifiers from this institution?"
@@ -92,29 +91,29 @@ export const filterWorkIdentifiersForEverythingExceptOriginalPhotos = (work: Tro
  * @param identifiers - A list of identifier objects describing photos or webpage links attached to a given work.
  * @param photos - A list of original photos that we've processed and stored in S3.
  */
-export const getWorkThumbnail = (
-  identifiers: TroveWorkIdentifier[],
-  photos: TrovePhotoMetadata[] | undefined
-): TrovePhotoImageMetadata | null => {
-  const thumbnail = identifiers.find((identifier: TroveWorkIdentifier) => {
-    const factory = new PhotoURLHandlerFactory(identifier)
-    return factory.isPossiblyAThumbnail()
-  })
+// export const getWorkThumbnail = (
+//   identifiers: TroveWorkIdentifier[],
+//   photos: TrovePhotoMetadata[] | undefined
+// ): TrovePhotoImageMetadata | null => {
+//   const thumbnail = identifiers.find((identifier: TroveWorkIdentifier) => {
+//     const factory = new PhotoURLHandlerFactory(identifier)
+//     return factory.isPossiblyAThumbnail()
+//   })
 
-  if (thumbnail !== undefined && photos !== undefined) {
-    const thumbnailURL = getURLWithoutFilenameExtension(thumbnail.value)
+//   if (thumbnail !== undefined && photos !== undefined) {
+//     const thumbnailURL = getURLWithoutFilenameExtension(thumbnail.value)
 
-    const thumbnailOriginalPhoto = photos.find(
-      (photo) => getURLWithoutFilenameExtension(photo.cataloguePhotoURL) === thumbnailURL
-    )
+//     const thumbnailOriginalPhoto = photos.find(
+//       (photo) => getURLWithoutFilenameExtension(photo.cataloguePhotoURL) === thumbnailURL
+//     )
 
-    if (thumbnailOriginalPhoto !== undefined && thumbnailOriginalPhoto.images !== null) {
-      return thumbnailOriginalPhoto.images.thumbnail
-    }
-  }
+//     if (thumbnailOriginalPhoto !== undefined && thumbnailOriginalPhoto.images !== null) {
+//       return thumbnailOriginalPhoto.images.thumbnail
+//     }
+//   }
 
-  return null
-}
+//   return null
+// }
 
 /**
  * Gets the best URL for this work in the source institution's catalogue (e.g. The direct link to this in SLWA, not the Trove link).

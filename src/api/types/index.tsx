@@ -33,11 +33,11 @@ export type TroveWorkIdentifier = {
 
 export type TroveWork = {
   photos: TrovePhotoMetadata[]
-  thumbnail: {
-    url: string
-    width: number
-    height: number
-  } | null
+  // thumbnail: {
+  //   url: string
+  //   width: number
+  //   height: number
+  // } | null
   contributor?: string[]
   holdingsCount: number
   id: string

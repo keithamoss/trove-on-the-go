@@ -11,7 +11,6 @@ import {
   doesWorkHaveAnyValidIdentifiers,
   filterWorkIdentifiersForEverythingExceptOriginalPhotos,
   getAndFixWorkerIdentifiersThatAreOriginalPhotos,
-  getWorkThumbnail,
 } from '../../lib/trove'
 import { isLocalDev } from '../../lib/utils'
 // import 'source-map-support/register'
@@ -77,7 +76,7 @@ const app = async (
     const s3 = new S3()
 
     const worksWithAnyValidIdentifiers = troveAPIResponse.response.zone[0].records.work
-      // .filter((work: TroveWork) => work.id === '234955310')
+      // .filter((work: TroveWork) => work.id === '159335939')
       .filter((work: TroveWork) => doesWorkHaveAnyValidIdentifiers(work))
 
     worksWithAnyValidIdentifiers.forEach((work: TroveWork) =>
@@ -107,12 +106,12 @@ const app = async (
       ...troveAPIResponse.response.zone[0].records,
       n: `${worksWithAnyValidIdentifiers.length}`,
       work: worksWithAnyValidIdentifiers
-        // .filter((work: TroveWork) => work.id === '234955310')
+        // .filter((work: TroveWork) => work.id === '159335939')
         .map((work: TroveWork) => ({
           ...work,
           identifier: filterWorkIdentifiersForEverythingExceptOriginalPhotos(work),
           photos: photosGroupedByWork[work.id],
-          thumbnail: getWorkThumbnail(work.identifier, photosGroupedByWork[work.id]),
+          // thumbnail: getWorkThumbnail(work.identifier, photosGroupedByWork[work.id]),
         })),
     }
 
