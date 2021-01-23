@@ -8,9 +8,9 @@ import { URLSearchParams } from 'url'
 import { copyPhotoToS3, fetchPhotoMetadataFromS3 } from '../../lib/photos/index'
 import { callbackWithError, LambdaApiError } from '../../lib/response'
 import {
+  doesWorkHaveAnyValidIdentifiers,
   filterWorkIdentifiersForEverythingExceptOriginalPhotos,
-  filterWorkIdentifiersForOriginalPhotos,
-  filterWorksWithAnyValidIdentifiers,
+  getAndFixWorkerIdentifiersThatAreOriginalPhotos,
   getWorkThumbnail,
 } from '../../lib/trove'
 import { isLocalDev } from '../../lib/utils'
@@ -78,10 +78,10 @@ const app = async (
 
     const worksWithAnyValidIdentifiers = troveAPIResponse.response.zone[0].records.work
       // .filter((work: TroveWork) => work.id === '234955310')
-      .filter((work: TroveWork) => filterWorksWithAnyValidIdentifiers(work))
+      .filter((work: TroveWork) => doesWorkHaveAnyValidIdentifiers(work))
 
     worksWithAnyValidIdentifiers.forEach((work: TroveWork) =>
-      filterWorkIdentifiersForOriginalPhotos(work).forEach((identifier) =>
+      getAndFixWorkerIdentifiersThatAreOriginalPhotos(work).forEach((identifier) =>
         promises.push(fetchPhotoMetadataFromS3(s3, work, identifier))
       )
     )

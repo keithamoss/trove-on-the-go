@@ -4,7 +4,7 @@ import fetch from 'node-fetch'
 import sharp from 'sharp'
 import { TrovePhotoMetadata, TroveWork, TroveWorkIdentifier } from '../../types'
 import { getObjectS3URL, getS3Bucket, s3GetObjectOrUndefined } from '../aws'
-import { getSourceCatalogueURL } from '../trove'
+import { getSourceCatalogueURLForIdentifier } from '../trove'
 import { getFilenameWithoutExtensionFromURL } from '../utils'
 
 export const getS3PhotoObjectUniqueId = (workId: string, imageURL: string): string =>
@@ -120,7 +120,7 @@ export const fetchPhotoMetadataFromS3 = async (
   return {
     troveWorkId: work.id,
     troveWorkURL: work.troveUrl,
-    catalogueURL: getSourceCatalogueURL(identifier),
+    catalogueURL: getSourceCatalogueURLForIdentifier(identifier),
     cataloguePhotoURL: identifier.value,
     caption: identifier.linktext,
     geo: null,
