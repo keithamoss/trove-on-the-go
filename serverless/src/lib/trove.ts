@@ -30,11 +30,15 @@ export const filterWorksWithAnyValidIdentifiers = (work: TroveWork): boolean =>
   work.identifier.some((identifier: TroveWorkIdentifier) => isIdentifierValid(identifier) === true)
 
 export const isIdentifierAnOrginalPhoto = (identifier: TroveWorkIdentifier): boolean => {
-  const factory = new PhotoURLHandlerFactory(identifier)
-  const handler = factory.getPhotoHandler()
+  try {
+    const factory = new PhotoURLHandlerFactory(identifier)
+    const handler = factory.getPhotoHandler()
 
-  if (handler !== null) {
-    return handler.isPhoto()
+    if (handler !== null) {
+      return handler.isPhoto()
+    }
+  } catch {
+    // getPhotoHandler throws an exception if it can't find a matching handler, so...
   }
   return false
 }
