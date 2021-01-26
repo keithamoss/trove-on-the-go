@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/static/css/main.c7de74f8.chunk.css",
-    "main.js": "/static/js/main.8e439756.chunk.js",
-    "main.js.map": "/static/js/main.8e439756.chunk.js.map",
+    "main.js": "/static/js/main.c465d907.chunk.js",
+    "main.js.map": "/static/js/main.c465d907.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.06e66a5b.js",
     "runtime-main.js.map": "/static/js/runtime-main.06e66a5b.js.map",
-    "static/js/2.37a09b64.chunk.js": "/static/js/2.37a09b64.chunk.js",
-    "static/js/2.37a09b64.chunk.js.map": "/static/js/2.37a09b64.chunk.js.map",
+    "static/js/2.c4470d2d.chunk.js": "/static/js/2.c4470d2d.chunk.js",
+    "static/js/2.c4470d2d.chunk.js.map": "/static/js/2.c4470d2d.chunk.js.map",
     "index.html": "/index.html",
     "static/css/main.c7de74f8.chunk.css.map": "/static/css/main.c7de74f8.chunk.css.map",
-    "static/js/2.37a09b64.chunk.js.LICENSE.txt": "/static/js/2.37a09b64.chunk.js.LICENSE.txt",
+    "static/js/2.c4470d2d.chunk.js.LICENSE.txt": "/static/js/2.c4470d2d.chunk.js.LICENSE.txt",
     "static/media/undraw_cup_of_tea.023017c9.svg": "/static/media/undraw_cup_of_tea.023017c9.svg",
     "static/media/undraw_fixing_bugs.2c9acd9c.svg": "/static/media/undraw_fixing_bugs.2c9acd9c.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.06e66a5b.js",
-    "static/js/2.37a09b64.chunk.js",
+    "static/js/2.c4470d2d.chunk.js",
     "static/css/main.c7de74f8.chunk.css",
-    "static/js/main.8e439756.chunk.js"
+    "static/js/main.c465d907.chunk.js"
   ]
 }
