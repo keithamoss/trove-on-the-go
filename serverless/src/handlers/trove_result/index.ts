@@ -29,7 +29,7 @@ const app = async (
   }
 
   const getResultsFromTrove = async (): Promise<TroveApiResponse> => {
-    const maxNumberOfWorksToFetch = 12
+    const maxNumberOfWorksToFetch = 6
 
     const params = new URLSearchParams({
       zone: 'picture',

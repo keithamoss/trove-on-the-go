@@ -88,7 +88,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
                     })
                   }
                 >
-                  Open Photo Gallery
+                  Open Gallery
                 </Button>
                 <Button aria-label="open-link" href={work.troveUrl} target="_blank">
                   View on Trove

@@ -8,6 +8,7 @@ type TroveRequest = {
   searchTerm: string
   searchYear: number | null
   nextPageToken: string | null
+  isWarmUpRequest: boolean
 }
 
 type TroveResponse = {
@@ -21,6 +22,7 @@ type State = {
   isLoading: boolean
   isError: boolean
   hasMoreResults: boolean
+  hasWarmedUp: boolean
   pagesFetched: number
   pagesToFetch: number
   request: TroveRequest | null
@@ -37,8 +39,9 @@ type Action =
         data: TroveAPIResponseRecords
       }
     }
+  | { type: 'FETCH_WARM_UP_SUCCESS' }
   | { type: 'FETCH_FAILURE'; payload: Error }
-  | { type: 'FETCH_NEXT_PAGE' }
+  | { type: 'FETCH_NEXT_PAGE'; payload?: { isWarmUp: boolean } }
   | { type: 'RESET'; payload: { request: TroveRequest; page: string | undefined } }
 
 const reducer: React.Reducer<State, Action> = (state: State, action: Action) => {
@@ -56,6 +59,7 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
         isLoading: false,
         isError: false,
         hasMoreResults: action.payload.data.nextPageToken !== null,
+        hasWarmedUp: false,
         pagesFetched: state.pagesFetched + 1,
         response: {
           searchTerm: action.payload.searchTerm,
@@ -66,6 +70,14 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
             'id'
           ) as TroveWork[],
         },
+      }
+    }
+    case 'FETCH_WARM_UP_SUCCESS': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        hasWarmedUp: true,
       }
     }
     case 'FETCH_FAILURE':
@@ -83,6 +95,7 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
                 searchTerm: state.response.searchTerm,
                 searchYear: state.response.searchYear,
                 nextPageToken: state.response.nextPageToken,
+                isWarmUpRequest: action?.payload?.isWarmUp || false,
               }
             : state.request,
       }
@@ -90,6 +103,7 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
       return {
         ...state,
         hasMoreResults: false,
+        hasWarmedUp: false,
         pagesFetched: 0,
         pagesToFetch:
           action.payload.page !== undefined && isNaN(Number.parseInt(action.payload.page, 10)) === false
@@ -115,12 +129,14 @@ const useTroveAPI = (
     isLoading: false,
     isError: false,
     hasMoreResults: false,
+    hasWarmedUp: false,
     pagesFetched: 0,
     pagesToFetch: page !== undefined && isNaN(parseInt(page, 10)) === false ? parseInt(page, 10) : 1,
     request: {
       searchTerm,
       searchYear,
       nextPageToken: null,
+      isWarmUpRequest: false,
     },
     response: null,
   })
@@ -128,6 +144,7 @@ const useTroveAPI = (
 
   const getNextPage = () => {
     dispatch({ type: 'FETCH_NEXT_PAGE' })
+
     if (searchYear === null) {
       history.push(`/${searchTerm}/${state.pagesFetched + 1}`)
     } else {
@@ -144,10 +161,19 @@ const useTroveAPI = (
         try {
           const result = await fetchTrovePhotos(state.request)
 
+          if (state.request.isWarmUpRequest === true) {
+            dispatch({ type: 'FETCH_WARM_UP_SUCCESS' })
+            return
+          }
+
           if (didCancel === false) {
             dispatch({
               type: 'FETCH_SUCCESS',
-              payload: { searchTerm: state.request.searchTerm, searchYear: state.request.searchYear, data: result },
+              payload: {
+                searchTerm: state.request.searchTerm,
+                searchYear: state.request.searchYear,
+                data: result,
+              },
             })
           }
         } catch (error) {
@@ -164,6 +190,13 @@ const useTroveAPI = (
       didCancel = true
     }
   }, [state.request])
+
+  // Warm up the next page of results
+  React.useEffect(() => {
+    if (state.isLoading === false && state.hasMoreResults === true && state.hasWarmedUp === false) {
+      dispatch({ type: 'FETCH_NEXT_PAGE', payload: { isWarmUp: true } })
+    }
+  }, [state.isLoading, state.hasMoreResults, state.hasWarmedUp])
 
   // Keep going until we fulfill our page requirement
   React.useEffect(() => {
@@ -187,6 +220,7 @@ const useTroveAPI = (
             searchTerm,
             searchYear,
             nextPageToken: null,
+            isWarmUpRequest: false,
           },
           page,
         },
