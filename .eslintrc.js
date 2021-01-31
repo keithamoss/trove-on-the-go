@@ -11,7 +11,7 @@ module.exports = {
   //     jsx: true, // Allows for the parsing of JSX
   //   },
   // },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'mui-unused-classes'],
   extends: [
     'airbnb-typescript',
     'prettier/react', // Handles conflicts between airbnb-typescript and prettier per https://github.com/prettier/eslint-config-prettier/issues/126
