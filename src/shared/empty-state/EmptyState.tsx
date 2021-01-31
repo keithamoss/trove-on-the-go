@@ -7,6 +7,8 @@ const useStyles = makeStyles({
   paper: {
     backgroundColor: '#6C747A',
     padding: 10,
+    marginTop: 10,
+    marginBottom: 10,
   },
   svg: {
     width: '100%',

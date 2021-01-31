@@ -28,11 +28,13 @@ const app = async (
     console.info('queryStringParameters', event.queryStringParameters)
   }
 
-  const getResultsFromTrove = (): Promise<TroveApiResponse> => {
+  const getResultsFromTrove = async (): Promise<TroveApiResponse> => {
+    const maxNumberOfWorksToFetch = 12
+
     const params = new URLSearchParams({
       zone: 'picture',
       'l-place': 'Australia/Western Australia',
-      n: '12',
+      n: `${maxNumberOfWorksToFetch}`,
       'l-availability': 'y',
       include: 'links',
       reclevel: 'full',
@@ -54,14 +56,48 @@ const app = async (
       }
     }
 
-    return fetch(`https://api.trove.nla.gov.au/v2/result?${params}`)
-      .then((response) => (response.status === 200 ? response.json() : response.text()))
-      .then((body: TroveApiResponse | string) => {
-        if (typeof body === 'string') {
-          throw new Error(body)
-        }
-        return body
-      })
+    const parseTroveAPIResponse = (queryParams: URLSearchParams) => {
+      return fetch(`https://api.trove.nla.gov.au/v2/result?${queryParams}`)
+        .then((response) => (response.status === 200 ? response.json() : response.text()))
+        .then((body: TroveApiResponse | string) => {
+          if (typeof body === 'string') {
+            throw new Error(body)
+          }
+          return body
+        })
+    }
+
+    let i = 0
+    let troveAPIResponse
+    let works: TroveWork[] = []
+    const maxNumberOfPagesToFetch = 5
+    do {
+      // eslint-disable-next-line no-await-in-loop
+      troveAPIResponse = await parseTroveAPIResponse(params)
+      i += 1
+
+      // No results returned, so bail out because there's nothing to process
+      if (troveAPIResponse.response.zone[0].records.work === undefined) {
+        break
+      }
+
+      works = [
+        ...works,
+        ...troveAPIResponse.response.zone[0].records.work.filter((work: TroveWork) =>
+          doesWorkHaveAnyValidIdentifiers(work)
+        ),
+      ]
+
+      if (troveAPIResponse.response.zone[0].records.nextStart !== undefined) {
+        params.set('s', troveAPIResponse.response.zone[0].records.nextStart)
+      } else {
+        // No more pages to fetch
+        break
+      }
+    } while (works.length < maxNumberOfWorksToFetch && i < maxNumberOfPagesToFetch)
+
+    troveAPIResponse.response.zone[0].records.work = works
+    return troveAPIResponse
   }
 
   try {
@@ -75,13 +111,13 @@ const app = async (
       return
     }
 
-    const promises: Promise<TrovePhotoMetadata>[] = []
-    const limit = pLimit(12)
-    const s3 = new S3()
-
     const worksWithAnyValidIdentifiers = troveAPIResponse.response.zone[0].records.work
       // .filter((work: TroveWork) => work.id === '159335939')
       .filter((work: TroveWork) => doesWorkHaveAnyValidIdentifiers(work))
+
+    const promises: Promise<TrovePhotoMetadata>[] = []
+    const limit = pLimit(12)
+    const s3 = new S3()
 
     worksWithAnyValidIdentifiers.forEach((work: TroveWork) =>
       getAndFixWorkerIdentifiersThatAreOriginalPhotos(work).forEach((identifier) =>
