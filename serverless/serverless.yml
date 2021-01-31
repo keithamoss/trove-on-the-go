@@ -60,6 +60,18 @@ functions:
       - httpApi:
           method: GET
           path: /${env:API_VERSION}/trove_result
+  trove_date_result:
+    handler: src/handler.trove_date_result
+    description: Wrap around the Trove API to build a timeline of dates for all of the works that satisfy a given search term.
+    memorySize: 512 # optional, in MB, default is 1024
+    timeout: 28 # optional, in seconds, default is 6
+    # Sharp is still required because it gets imported via handler.ts
+    layers:
+      - { Ref: SharpLambdaLayer }
+    events:
+      - httpApi:
+          method: GET
+          path: /${env:API_VERSION}/trove_date_result
 
 layers:
   sharp:

@@ -19,19 +19,24 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "isolatedModules": true,
-    "lib": ["es6"],
+    "lib": [
+      "es2019"
+    ],
     "outDir": "./build",
     "rootDir": "./",
     "incremental": true,
     "tsBuildInfoFile": ".tsbuildinfo"
   },
   "include": [
-    "./src/**.ts", "src/**.d.ts"
+    "./src/**.ts",
+    "src/**.d.ts"
   ],
   "exclude": [
     "node_modules"
   ],
-  "plugins": [{
-    "name": "typescript-tslint-plugin"
-  }]
+  "plugins": [
+    {
+      "name": "typescript-tslint-plugin"
+    }
+  ]
 }

@@ -11,6 +11,7 @@ import useTroveAPI from './useTroveAPIHook'
 
 type PhotoListingProps = {
   searchTerm: string
+  searchYear: number | null
   page: string | undefined
   onChoosePhoto: React.Dispatch<React.SetStateAction<GalleryPhotos | null>>
 }
@@ -24,13 +25,18 @@ const useStyles = makeStyles({
   },
 })
 
-const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm, page, onChoosePhoto }: PhotoListingProps) => {
+const PhotoListing: React.FC<PhotoListingProps> = ({
+  searchTerm,
+  searchYear,
+  page,
+  onChoosePhoto,
+}: PhotoListingProps) => {
   const classes = useStyles()
 
   const {
     state: { isLoading, isError, hasMoreResults, response },
     getNextPage,
-  } = useTroveAPI(searchTerm, page)
+  } = useTroveAPI(searchTerm, searchYear, page)
 
   return (
     <Fragment>
@@ -93,9 +99,9 @@ const PhotoListing: React.FC<PhotoListingProps> = ({ searchTerm, page, onChooseP
             </Fragment>
           ))}
 
-      {response !== null && hasMoreResults && (
+      {response !== null && hasMoreResults && isLoading === false && (
         <Grid container direction="row" justify="center">
-          <Button variant="outlined" color="primary" disabled={isLoading} onClick={() => getNextPage()}>
+          <Button variant="outlined" color="primary" onClick={() => getNextPage()}>
             load more
           </Button>
         </Grid>

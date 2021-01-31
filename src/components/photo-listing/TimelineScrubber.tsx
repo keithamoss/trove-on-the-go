@@ -1,20 +1,26 @@
 import { Box, makeStyles, Slider, Theme, withStyles } from '@material-ui/core'
 import ValueLabel from '@material-ui/core/Slider/ValueLabel'
+import { debounce } from 'lodash-es'
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { TroveAPIWorkDateCount } from '../../api/types'
 import { getNumberParamFromQSOrNull, useQuery } from '../../shared/utils'
-import useTroveAPI from './useTroveDateAPIHook'
+import useTroveDateAPI from './useTroveDateAPIHook'
 
 type TimelineScrubberProps = {
   searchTerm: string
   onDateChange: (year: number) => void
 }
 
+interface Mark {
+  value: number
+  label: number
+}
+
 const useStyles = makeStyles((theme: Theme) => ({
   timelineBar: {
     width: '100%',
-    height: 56,
+    height: 66,
     position: 'fixed',
     padding: '0px 20px 0px 20px',
     [theme.breakpoints.up('md')]: {
@@ -22,7 +28,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     top: 0,
     left: 0,
-    justifyContent: 'center',
     backgroundColor: `${theme.palette.background.default}`,
   },
 }))
@@ -51,11 +56,8 @@ const SliderSyled = styled(SliderWrapped)`
   & .MuiSlider-markLabel {
     display: none;
   }
-  & .MuiSlider-markLabel[data-index='0'] {
-    display: block;
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  & .MuiSlider-markLabel[data-index='${(props: any) => props.marks.length - 1}'] {
+  & .MuiSlider-markLabel[data-index='0'],
+  & .MuiSlider-markLabel[data-index='${(props: { marks: Mark[] }) => props.marks.length - 1}'] {
     display: block;
   }
 `
@@ -77,70 +79,58 @@ const StyledValueLabel = withStyles((theme: Theme) => ({
   },
 }))(ValueLabel)
 
+const buildTimelineMarks = (worksPerYear: TroveAPIWorkDateCount[]) => {
+  if (worksPerYear !== null) {
+    return worksPerYear.map((item: TroveAPIWorkDateCount) => ({
+      value: item.year,
+      label: item.year,
+    }))
+  }
+  return []
+}
+
 const TimelineScrubber: React.FC<TimelineScrubberProps> = ({ searchTerm, onDateChange }: TimelineScrubberProps) => {
   const classes = useStyles()
 
   const {
     state: { response },
-  } = useTroveAPI(searchTerm)
-
-  const query = useQuery()
+  } = useTroveDateAPI(searchTerm)
 
   const [searchYearLocal, setSearchYearLocal] = React.useState<number | null>(null)
 
-  const [searchYearURL, setSearchYearURL] = React.useState<number | null>(getNumberParamFromQSOrNull(query, 'y'))
+  const urlYearParam = getNumberParamFromQSOrNull(useQuery(), 'y')
+
+  const [searchYearURL, setSearchYearURL] = React.useState<number | null>(urlYearParam)
 
   const [sliderIsChanging, setSliderIsChanging] = React.useState<boolean>(false)
 
   if (response === null) {
-    // console.log('( Bail and do not bother trying to render')
     return null
   }
 
-  const getMarks = () => {
-    if (response !== null && worksPerYear !== null) {
-      return worksPerYear.map((item: TroveAPIWorkDateCount) => {
-        return {
-          value: item.year,
-          label: item.year,
-        }
-      })
-    }
-    return []
+  if (urlYearParam !== searchYearURL) {
+    setSearchYearURL(urlYearParam)
   }
 
-  let worksPerYear: TroveAPIWorkDateCount[] | null = null
-  if (response !== null) {
-    worksPerYear = response.worksPerYear
-  }
-
-  if (getNumberParamFromQSOrNull(query, 'y') !== searchYearURL) {
-    // console.log('Setting searchYearURL', getParamFromQSOrNull(query, 'y'))
-    setSearchYearURL(getNumberParamFromQSOrNull(query, 'y'))
-  }
-
-  // This happens when the URL year has a value and it changes in resonse to onChangeCommitted OR when history() changes it
+  // 1. Handles updates to the local searchYear when the year in the URL has a value and it:
+  // (a) Changes in response to onChangeCommitted()
+  // (b) Changes in response to history.push()
+  // USE: The URL's search year
   if (sliderIsChanging === false && searchYearURL !== searchYearLocal && searchYearURL !== null) {
-    // console.log('> Setting searchYearLocal from searchYearURL', searchYearURL)
     setSearchYearLocal(searchYearURL)
   }
 
-  // This happens when we change search terms and there's no year selected yet
-  // OR when we load a page with no year in the URL
+  // 2. Handle updates to the local searchYear when the URL doesn't have a year yet and:
+  // (a) The page loads for the first time
+  // (b) The search term changes
+  // USE: The year from the API
   if (
     sliderIsChanging === false &&
     searchYearURL === null &&
-    response !== null &&
     response.metadata !== null &&
     response.metadata.min_year !== null &&
     response.metadata.min_year !== searchYearLocal
   ) {
-    // console.log(
-    //   '^ No one has a good search year, so set it from the response from',
-    //   searchYearLocal,
-    //   'to',
-    //   response.metadata.min_year
-    // )
     setSearchYearLocal(response.metadata.min_year)
   }
 
@@ -149,11 +139,13 @@ const TimelineScrubber: React.FC<TimelineScrubberProps> = ({ searchTerm, onDateC
       setSliderIsChanging(true)
     }
 
+    // Our slider is a controller component, so this makes sure the position updates as the user drags the thumb control.
     if (year !== searchYearLocal) {
-      // console.log('$ Set search year from dragging the slider')
       setSearchYearLocal(year)
     }
   }
+
+  const onChangeDebounced = debounce(onChange, 50, { maxWait: 100 })
 
   const onChangeCommitted = (_event: React.SyntheticEvent, year: number) => {
     setSliderIsChanging(false)
@@ -162,7 +154,7 @@ const TimelineScrubber: React.FC<TimelineScrubberProps> = ({ searchTerm, onDateC
 
   return (
     <Fragment>
-      {response !== null && response.metadata !== null && worksPerYear !== null && (
+      {response.metadata !== null && response.worksPerYear !== null && (
         <Box className={classes.timelineBar}>
           <Fragment>
             <SliderSyled
@@ -172,8 +164,8 @@ const TimelineScrubber: React.FC<TimelineScrubberProps> = ({ searchTerm, onDateC
               step={null}
               track={false}
               valueLabelDisplay="on"
-              marks={getMarks()}
-              onChange={onChange}
+              marks={buildTimelineMarks(response.worksPerYear)}
+              onChange={onChangeDebounced}
               onChangeCommitted={onChangeCommitted}
               ValueLabelComponent={StyledValueLabel}
             />

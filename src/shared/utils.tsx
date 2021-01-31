@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom'
 import { TrovePhotoImageSize } from '../api/types'
 
 export const isDev = (): boolean => process.env.NODE_ENV === 'development'
@@ -25,3 +26,11 @@ export const getImageSize = async (url: string): Promise<TrovePhotoImageSize> =>
 
 export const deduplicateArrayOfObjects = (array: Record<string, unknown>[], key: string): Record<string, unknown>[] =>
   array.filter((item, index, self) => self.findIndex((t) => t[key] === item[key]) === index)
+
+// A custom hook that builds on useLocation to parse the query string for you.
+export const useQuery = (): URLSearchParams => new URLSearchParams(useLocation().search)
+
+export const getNumberParamFromQSOrNull = (query: URLSearchParams, name: string): number | null => {
+  const n = query.get(name)
+  return n !== null ? Number.parseInt(n, 10) : null
+}

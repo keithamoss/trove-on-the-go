@@ -42,7 +42,7 @@ export type TroveWork = {
   holdingsCount: number
   id: string
   identifier: TroveWorkIdentifier[]
-  issued: number
+  issued: number | string
   relevance: {
     score: string
     value: 'very relevant' | 'likely to be relevant' | 'may have relevance' | 'limited relevance' | 'vaguely relevant'
@@ -54,13 +54,33 @@ export type TroveWork = {
   url: string
   versionCount: number
 }
-export type TroveAPISearchParams = {
+
+export interface TroveAPISearchParams {
   searchTerm: string
+  searchYear: number | null
   nextPageToken: string | null
 }
 
-export type TroveAPIResponseRecords = {
+export interface TroveAPIResponseRecords {
   total: number
   nextPageToken: string | null
   work: TroveWork[]
+}
+export interface TroveAPIDateSearchParams {
+  searchTerm: string
+}
+
+export interface TroveAPIWorkDateCount {
+  year: number
+  count: number
+}
+
+export interface TroveAPIDateResponseRecords {
+  metadata: {
+    min_year: number
+    max_year: number
+    min_decade: number
+    max_decade: number
+  } | null
+  worksPerYear: TroveAPIWorkDateCount[]
 }

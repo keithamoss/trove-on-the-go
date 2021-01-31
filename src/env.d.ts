@@ -4,3 +4,6 @@ declare namespace NodeJS {
     NODE_ENV: 'development' | 'production'
   }
 }
+
+// declare const ValueLabel: React.ComponentType<ValueLabelProps>
+declare module '@material-ui/core/Slider/ValueLabel'

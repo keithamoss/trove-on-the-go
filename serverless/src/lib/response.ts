@@ -1,4 +1,4 @@
-import { TroveApiResponse } from '../types'
+import { TroveAPIDateResponse, TroveApiResponse } from '../types'
 
 export interface LambdaApiError {
   statusCode: number
@@ -12,7 +12,10 @@ export type LambdaApiResponse = {
 
 export const callbackWithError = (
   message: string,
-  callback: (error: LambdaApiError | null, result: TroveApiResponse | Record<string, string>) => void,
+  callback: (
+    error: LambdaApiError | null,
+    result: TroveApiResponse | TroveAPIDateResponse | Record<string, string>
+  ) => void,
   statusCode = 500
 ): void => {
   callback({ statusCode }, { message })
@@ -20,7 +23,7 @@ export const callbackWithError = (
 
 export const makeResponse = (
   error: LambdaApiError | null,
-  result: TroveApiResponse | Record<string, string>
+  result: TroveApiResponse | TroveAPIDateResponse | Record<string, string>
 ): LambdaApiResponse => {
   const statusCode = (error && error.statusCode) || 200
   return {

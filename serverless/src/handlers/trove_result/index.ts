@@ -14,18 +14,21 @@ import {
 } from '../../lib/trove'
 import { isLocalDev } from '../../lib/utils'
 // import 'source-map-support/register'
-import { TroveApiResponse, TrovePhotoMetadata, TroveWork } from '../../types'
+import { TroveAPIDateResponse, TroveApiResponse, TrovePhotoMetadata, TroveWork } from '../../types'
 
 const app = async (
   event: APIGatewayEvent,
-  callback: (error: LambdaApiError | null, result: TroveApiResponse | Record<string, string>) => void
+  callback: (
+    error: LambdaApiError | null,
+    result: TroveApiResponse | TroveAPIDateResponse | Record<string, string>
+  ) => void
 ): Promise<void> => {
   if (isLocalDev() === false) {
     // eslint-disable-next-line
     console.info('queryStringParameters', event.queryStringParameters)
   }
 
-  const getPhotosFromTrove = (): Promise<TroveApiResponse> => {
+  const getResultsFromTrove = (): Promise<TroveApiResponse> => {
     const params = new URLSearchParams({
       zone: 'picture',
       'l-place': 'Australia/Western Australia',
@@ -33,6 +36,7 @@ const app = async (
       'l-availability': 'y',
       include: 'links',
       reclevel: 'full',
+      sortby: 'dateasc',
       key: process.env.TROVE_API_KEY,
       encoding: 'json',
     })
@@ -61,7 +65,7 @@ const app = async (
   }
 
   try {
-    const troveAPIResponse = await backOff(() => getPhotosFromTrove(), {
+    const troveAPIResponse = await backOff(() => getResultsFromTrove(), {
       numOfAttempts: 5,
     })
 
@@ -111,6 +115,7 @@ const app = async (
           ...work,
           identifier: filterWorkIdentifiersForEverythingExceptOriginalPhotos(work),
           photos: photosGroupedByWork[work.id],
+          // Not sure where this was used...commenting it out for now.
           // thumbnail: getWorkThumbnail(work.identifier, photosGroupedByWork[work.id]),
         })),
     }

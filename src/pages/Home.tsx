@@ -7,7 +7,8 @@ import React, { Fragment, MutableRefObject, useRef } from 'react'
 import { RouteComponentProps, useParams } from 'react-router-dom'
 import PhotoGallery, { GalleryPhotos } from '../components/photo-gallery/PhotoGallery'
 import PhotoListing from '../components/photo-listing'
-import { isDev } from '../shared/utils'
+import TimelineScrubber from '../components/photo-listing/TimelineScrubber'
+import { getNumberParamFromQSOrNull, useQuery } from '../shared/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,15 +40,21 @@ const getDefaultSearchTerm = (search: string | undefined): string | null => {
     return search
   }
 
-  return isDev() ? 'trinity arcade' : null
+  // return isDev() ? 'trinity arcade' : null
+  return null
 }
 
 const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) => {
   const classes = useStyles()
 
-  const { search, page } = useParams<RouteParams>()
+  const { search: urlSearchParam, page: urlPageParam } = useParams<RouteParams>()
+  const urlYearParam = getNumberParamFromQSOrNull(useQuery(), 'y')
 
-  const [searchTerm, setSearchTerm] = React.useState<string | null>(getDefaultSearchTerm(search))
+  const [searchTerm, setSearchTerm] = React.useState<string | null>(getDefaultSearchTerm(urlSearchParam))
+
+  // if (isDev() && searchTerm === null) {
+  //   history.push('/trinity%20arcade')
+  // }
 
   const [galleryPhotos, setGalleryPhotos] = React.useState<GalleryPhotos | null>(null)
   const onCloseGallery = () => setGalleryPhotos(null)
@@ -55,11 +62,46 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
   // https://stackoverflow.com/a/58636291
   const textInput = useRef() as MutableRefObject<HTMLInputElement>
 
+  const [searchYear, setSearchYear] = React.useState<number | null>(null)
+
+  // 1. We've navigated to a URL that already has a searchTerm, so update local state and let the <input> field know.
+  // Note: This doesn't apply to new page loads, just back/forward navigation through history()
+  // New page loads are taken care of by getDefaultSearchTerm()
+  if (urlSearchParam !== undefined && urlSearchParam !== searchTerm) {
+    setSearchTerm(urlSearchParam)
+
+    if (textInput.current !== undefined) {
+      textInput.current.value = urlSearchParam
+    }
+  }
+
+  // 2. We've navigated to a URL that doesn't have a searchTerm, so update local state and let the <input> field know.
+  // Note: This doesn't apply to new page loads, just back/forward navigation through history()
+  // New page loads are taken care of by getDefaultSearchTerm()
+  if (urlSearchParam === undefined && searchTerm !== null) {
+    setSearchTerm(null)
+
+    if (textInput.current !== undefined) {
+      textInput.current.value = ''
+    }
+  }
+
+  // Whenever the search year changes in the URL, make sure we keep local state in sync.
+  if (urlYearParam !== searchYear) {
+    setSearchYear(urlYearParam)
+  }
+
+  const onDateChange = (year: number) => {
+    setSearchYear(year)
+    history.push(`/${searchTerm}?y=${year}`)
+  }
+
   return (
     <Fragment>
       <Container component="main" maxWidth="sm">
         <div className={classes.root}>
-          <Typography component="h1" variant="h1">
+          {/* marginTop to add padding for TimelineScrubber being position: fixed */}
+          <Typography component="a" variant="h1" href="/" style={{ textDecoration: 'none', marginTop: 25 }}>
             <span role="img" aria-label="Female detective emoji">
               🕵️‍♀️
             </span>
@@ -123,11 +165,19 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
               </Paper>
             </Grid>
 
-            <Grid container style={{ marginTop: 25 }}>
+            {/* marginTop to add space below the emoji icon */}
+            <Grid container style={{ marginTop: 25, marginBottom: 25 }}>
               <Grid item style={{ width: '100%' }}>
                 {searchTerm !== null && (
-                  <PhotoListing searchTerm={searchTerm} page={page} onChoosePhoto={setGalleryPhotos} />
+                  <PhotoListing
+                    searchTerm={searchTerm}
+                    searchYear={searchYear}
+                    page={urlPageParam}
+                    onChoosePhoto={setGalleryPhotos}
+                  />
                 )}
+
+                {searchTerm !== null && <TimelineScrubber searchTerm={searchTerm} onDateChange={onDateChange} />}
 
                 {galleryPhotos !== null && galleryPhotos.photos.length > 0 && (
                   <PhotoGallery galleryPhotos={galleryPhotos} onClose={onCloseGallery} />

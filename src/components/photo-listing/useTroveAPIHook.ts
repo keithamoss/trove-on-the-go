@@ -6,11 +6,13 @@ import { deduplicateArrayOfObjects } from '../../shared/utils'
 
 type TroveRequest = {
   searchTerm: string
+  searchYear: number | null
   nextPageToken: string | null
 }
 
 type TroveResponse = {
   searchTerm: string
+  searchYear: number | null
   nextPageToken: string | null
   photos: TroveWork[]
 }
@@ -31,12 +33,13 @@ type Action =
       type: 'FETCH_SUCCESS'
       payload: {
         searchTerm: string
+        searchYear: number | null
         data: TroveAPIResponseRecords
       }
     }
   | { type: 'FETCH_FAILURE'; payload: Error }
   | { type: 'FETCH_NEXT_PAGE' }
-  | { type: 'RESET'; payload: TroveRequest }
+  | { type: 'RESET'; payload: { request: TroveRequest; page: string | undefined } }
 
 const reducer: React.Reducer<State, Action> = (state: State, action: Action) => {
   switch (action.type) {
@@ -56,6 +59,7 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
         pagesFetched: state.pagesFetched + 1,
         response: {
           searchTerm: action.payload.searchTerm,
+          searchYear: action.payload.searchYear,
           nextPageToken: action.payload.data.nextPageToken,
           photos: deduplicateArrayOfObjects(
             [...(state.response !== null ? state.response.photos : []), ...action.payload.data.work],
@@ -77,6 +81,7 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
           state.response !== null && state.response.nextPageToken !== null
             ? {
                 searchTerm: state.response.searchTerm,
+                searchYear: state.response.searchYear,
                 nextPageToken: state.response.nextPageToken,
               }
             : state.request,
@@ -86,8 +91,11 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
         ...state,
         hasMoreResults: false,
         pagesFetched: 0,
-        pagesToFetch: 1,
-        request: action.payload,
+        pagesToFetch:
+          action.payload.page !== undefined && isNaN(Number.parseInt(action.payload.page, 10)) === false
+            ? parseInt(action.payload.page, 10)
+            : 1,
+        request: action.payload.request,
         response: null,
       }
     default:
@@ -97,6 +105,7 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
 
 const useTroveAPI = (
   searchTerm: string,
+  searchYear: number | null,
   page: string | undefined
 ): {
   state: State
@@ -110,6 +119,7 @@ const useTroveAPI = (
     pagesToFetch: page !== undefined && isNaN(parseInt(page, 10)) === false ? parseInt(page, 10) : 1,
     request: {
       searchTerm,
+      searchYear,
       nextPageToken: null,
     },
     response: null,
@@ -118,7 +128,11 @@ const useTroveAPI = (
 
   const getNextPage = () => {
     dispatch({ type: 'FETCH_NEXT_PAGE' })
-    history.push(`/${searchTerm}/${state.pagesFetched + 1}`)
+    if (searchYear === null) {
+      history.push(`/${searchTerm}/${state.pagesFetched + 1}`)
+    } else {
+      history.push(`/${searchTerm}/${state.pagesFetched + 1}?y=${searchYear}`)
+    }
   }
 
   React.useEffect(() => {
@@ -133,7 +147,7 @@ const useTroveAPI = (
           if (didCancel === false) {
             dispatch({
               type: 'FETCH_SUCCESS',
-              payload: { searchTerm: state.request.searchTerm, data: result },
+              payload: { searchTerm: state.request.searchTerm, searchYear: state.request.searchYear, data: result },
             })
           }
         } catch (error) {
@@ -162,16 +176,23 @@ const useTroveAPI = (
 
   // Clear out stored results when the search term changes
   React.useEffect(() => {
-    if (state.request !== null && searchTerm !== state.request.searchTerm) {
+    if (
+      state.request !== null &&
+      (searchTerm !== state.request.searchTerm || searchYear !== state.request.searchYear)
+    ) {
       dispatch({
         type: 'RESET',
         payload: {
-          searchTerm,
-          nextPageToken: null,
+          request: {
+            searchTerm,
+            searchYear,
+            nextPageToken: null,
+          },
+          page,
         },
       })
     }
-  }, [searchTerm, state.request])
+  }, [searchTerm, searchYear, page, state.request])
 
   return { state, getNextPage }
 }

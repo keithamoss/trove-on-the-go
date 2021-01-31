@@ -1,11 +1,15 @@
-import ax from '../Client'
+import getAxiosClient from '../Client'
+import responseTroveSearchAPIInterceptor from '../responseInterceptors/responseTroveSearchAPIInterceptor'
 import { TroveAPIResponseRecords, TroveAPISearchParams } from '../types'
 
 const fetchTrovePhotos = async (params: TroveAPISearchParams): Promise<TroveAPIResponseRecords> => {
+  const ax = getAxiosClient()
+  ax.interceptors.response.use(responseTroveSearchAPIInterceptor)
+
   const response = await ax.get('/trove_result', {
     method: 'get',
     params: {
-      q: params.searchTerm,
+      q: params.searchYear === null ? params.searchTerm : `${params.searchTerm} date:[${params.searchYear} TO *]`,
       s: params.nextPageToken,
     },
   })
