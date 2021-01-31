@@ -26,7 +26,9 @@ const app = async (
       'l-place': 'Australia/Western Australia',
       n: '100',
       'l-availability': 'y',
+      include: 'links',
       reclevel: 'brief',
+      sortby: 'dateasc',
       key: process.env.TROVE_API_KEY,
       encoding: 'json',
     })
@@ -40,8 +42,6 @@ const app = async (
       }
     }
 
-    let works: TroveWork[] = []
-
     const parseTroveAPIResponse = (queryParams: URLSearchParams) => {
       return fetch(`https://api.trove.nla.gov.au/v2/result?${queryParams}`)
         .then((response) => (response.status === 200 ? response.json() : response.text()))
@@ -53,8 +53,11 @@ const app = async (
         })
     }
 
-    let troveAPIResponse
     let i = 0
+    let troveAPIResponse
+    let works: TroveWork[] = []
+    const maxNumberOfWorksToFetch = 500
+    const maxNumberOfPagesToFetch = 5
     do {
       // eslint-disable-next-line no-await-in-loop
       troveAPIResponse = await parseTroveAPIResponse(params)
@@ -62,7 +65,7 @@ const app = async (
 
       // No results returned, so bail out because there's nothing left to process
       if (troveAPIResponse.response.zone[0].records.work === undefined) {
-        return works
+        break
       }
 
       works = [...works, ...troveAPIResponse.response.zone[0].records.work]
@@ -70,9 +73,10 @@ const app = async (
       if (troveAPIResponse.response.zone[0].records.nextStart !== undefined) {
         params.set('s', troveAPIResponse.response.zone[0].records.nextStart)
       } else {
+        // No more pages to fetch
         break
       }
-    } while (works.length < 500 || i < 5)
+    } while (works.length < maxNumberOfWorksToFetch && i < maxNumberOfPagesToFetch)
 
     return works
   }
