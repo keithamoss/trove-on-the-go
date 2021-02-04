@@ -6,14 +6,11 @@ import { URLSearchParams } from 'url'
 import { callbackWithError, LambdaApiError } from '../../lib/response'
 import { doesWorkHaveAnyValidIdentifiers } from '../../lib/trove'
 import { isLocalDev } from '../../lib/utils'
-import { TroveAPIDateResponse, TroveApiResponse, TroveWork } from '../../types'
+import { APIResponses, TroveAPIDateResponse, TroveApiResponse, TroveWork } from '../../types'
 
 const app = async (
   event: APIGatewayEvent,
-  callback: (
-    error: LambdaApiError | null,
-    result: TroveApiResponse | TroveAPIDateResponse | Record<string, string>
-  ) => void
+  callback: (error: LambdaApiError | null, result: APIResponses) => void
 ): Promise<void> => {
   if (isLocalDev() === false) {
     // eslint-disable-next-line

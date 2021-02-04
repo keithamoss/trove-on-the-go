@@ -82,3 +82,9 @@ export interface TroveAPIDateResponse {
   } | null
   worksPerYear: TroveAPIWorkDateCount[]
 }
+
+export interface SLWAImageBuilderResponse {
+  foo: string
+}
+
+export type APIResponses = TroveApiResponse | TroveAPIDateResponse | SLWAImageBuilderResponse | Record<string, string>

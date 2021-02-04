@@ -72,6 +72,18 @@ functions:
       - httpApi:
           method: GET
           path: /${env:API_VERSION}/trove_date_result
+  slwa_image_builder:
+    handler: src/handler.slwa_image_builder
+    description: Build (slightly) higher resolution versions of SLWA's photographs.
+    memorySize: 512 # optional, in MB, default is 1024
+    timeout: 28 # optional, in seconds, default is 6
+    # Sharp is still required because it gets imported via handler.ts
+    layers:
+      - { Ref: SharpLambdaLayer }
+    events:
+      - httpApi:
+          method: GET
+          path: /${env:API_VERSION}/slwa_image_builder
 
 layers:
   sharp:
