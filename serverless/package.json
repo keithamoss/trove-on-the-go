@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "abort-controller": "^3.0.0",
-    "aws-sdk": "^2.834.0",
+    "aws-sdk": "^2.839.0",
     "exponential-backoff": "^3.1.0",
     "node-fetch": "^2.6.1",
     "p-limit": "^3.1.0",
@@ -20,7 +20,7 @@
     "@types/node-fetch": "^2.5.8",
     "@types/p-limit": "^2.2.0",
     "@types/sharp": "^0.26.1",
-    "serverless": "^2.21.1",
+    "serverless": "^2.22.0",
     "serverless-dotenv-plugin": "^3.1.0",
     "serverless-offline": "^6.8.0",
     "source-map-support": "^0.5.19",
