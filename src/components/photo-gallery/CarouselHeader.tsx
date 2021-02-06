@@ -48,7 +48,7 @@ const CarouselHeader: React.FC<any> = (props: any) => {
           innerProps={{
             onClick: () =>
               openURL(
-                `https://localhost:3001/dev/v1.0.3/slwa_image_builder?slwaItemId=${getFilenameFromPath(
+                `${process.env.REACT_APP_TROVE_API_URL}/slwa_image_builder?slwaItemId=${getFilenameFromPath(
                   currentView.metadata.catalogueURL
                 )}`
               ),
