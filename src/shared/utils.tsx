@@ -3,6 +3,9 @@ import { TrovePhotoImageSize } from '../api/types'
 
 export const isDev = (): boolean => process.env.NODE_ENV === 'development'
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+export const getFilenameFromPath = (path: string): string => (path.includes('/') ? path.split('/').pop()! : path)
+
 export const getURLFileExtension = (url: string): string | null => {
   const parsedURL = new URL(url)
   return parsedURL.pathname.includes('.') ? parsedURL.pathname.substr(parsedURL.pathname.indexOf('.')) : null

@@ -1,6 +1,7 @@
 import React from 'react'
 import Carousel, { Modal, ModalGateway } from 'react-images'
 import { TrovePhotoMetadata } from '../../api/types'
+import CarouselHeader from './CarouselHeader'
 
 export interface GalleryPhotos {
   photoIndex: number
@@ -28,18 +29,22 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ galleryPhotos, onClose }: P
               // WebkitTransform: 'translateY(0px)',
             }),
           }}
+          components={{ Header: CarouselHeader }}
           // components={{ FooterCaption }}
           // formatters={{ getAltText }}
           currentIndex={galleryPhotos.photoIndex}
           // This breaks the CSS of the frame
           // frameProps={{ autoSize: 'width' }}
-          views={galleryPhotos.photos.map((photo) => ({
+          views={galleryPhotos.photos.map((photo: TrovePhotoMetadata) => ({
             caption: photo.caption,
             source: {
               download: photo.images.original.url,
               fullscreen: photo.images.original.url,
               regular: photo.images.original.url,
               thumbnail: photo.images.thumbnail.url,
+            },
+            metadata: {
+              catalogueURL: photo.catalogueURL,
             },
           }))}
         />
