@@ -5,7 +5,7 @@ import TroveDateResult from './handlers/trove_date_result'
 import TroveResult from './handlers/trove_result'
 import { LambdaApiError, makeResponse } from './lib/response'
 import { isLocalDev } from './lib/utils'
-import { APIResponses } from './types'
+import { APIResponses, SLWAImageBuilderResponse } from './types'
 
 // : Handler
 exports.trove_result = (
@@ -41,11 +41,14 @@ exports.slwa_image_builder = (
   context: Context
   // callback: Callback
 ) => {
-  SLWAImageBuilder(event, (error: LambdaApiError | null, result: APIResponses) => {
-    if (isLocalDev() === false) {
-      // eslint-disable-next-line
-      console.log(JSON.stringify(result, undefined, 4))
+  SLWAImageBuilder(event, (_error: LambdaApiError | null, result: APIResponses) => {
+    if (result !== null && (result as SLWAImageBuilderResponse)?.imageURL !== undefined) {
+      context.succeed({
+        statusCode: 302,
+        headers: {
+          Location: (result as SLWAImageBuilderResponse).imageURL,
+        },
+      })
     }
-    context.succeed(makeResponse(error, result))
   })
 }

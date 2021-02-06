@@ -5,6 +5,7 @@
   "author": "Keith Moss",
   "license": "MIT",
   "dependencies": {
+    "abort-controller": "^3.0.0",
     "aws-sdk": "^2.831.0",
     "exponential-backoff": "^3.1.0",
     "node-fetch": "^2.6.1",

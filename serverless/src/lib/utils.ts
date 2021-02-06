@@ -1,4 +1,8 @@
-import { URL } from 'url'
+import AbortController from 'abort-controller'
+// eslint-disable-next-line import/no-unresolved
+import { APIGatewayProxyEventQueryStringParameters } from 'aws-lambda'
+import fetch, { Response } from 'node-fetch'
+import { URL, URLSearchParams } from 'url'
 
 export const isLocalDev = (): boolean => process.env.NODE_ENV === 'development' && process.env.IS_OFFLINE === 'true'
 
@@ -24,3 +28,35 @@ export const getURLWithoutFilenameExtension = (url: string): string => {
 
 // https://github.com/microsoft/TypeScript/issues/16069#issuecomment-557540056
 export const isNotNull = <T>(it: T): it is NonNullable<T> => it != null
+
+// https://github.com/node-fetch/node-fetch#request-cancellation-with-abortsignal
+export const fetchWithTimeout = async (url: string, timeout_ms: number): Promise<Response | null> => {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => {
+    controller.abort()
+  }, timeout_ms)
+
+  try {
+    return await fetch(url, { signal: controller.signal })
+  } catch (error) {
+    // if (error instanceof fetch.AbortError) {
+    //   console.log('Request was aborted')
+    // }
+  } finally {
+    clearTimeout(timeout)
+  }
+
+  return null
+}
+
+export const getStringParamFromQSOrNull = (
+  query: APIGatewayProxyEventQueryStringParameters | null,
+  name: string
+): string | null => {
+  if (query === null) {
+    return null
+  }
+
+  const queryStringParams = new URLSearchParams(query)
+  return queryStringParams.has(name) === true ? queryStringParams.get(name) : null
+}

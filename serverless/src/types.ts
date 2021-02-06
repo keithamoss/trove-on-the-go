@@ -84,7 +84,7 @@ export interface TroveAPIDateResponse {
 }
 
 export interface SLWAImageBuilderResponse {
-  foo: string
+  imageURL: string
 }
 
 export type APIResponses = TroveApiResponse | TroveAPIDateResponse | SLWAImageBuilderResponse | Record<string, string>
