@@ -20,6 +20,7 @@ custom:
 
 provider:
   name: aws
+  lambdaHashingVersion: 20201221
   logs:
     httpApi: true
   runtime: nodejs12.x
