@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import ContentLoader from 'react-content-loader'
 
 const PhotoPlaceholder = (props: unknown): ReactElement => (
