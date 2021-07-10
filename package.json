@@ -59,7 +59,7 @@
   "devDependencies": {
     "@types/enzyme": "^3.10.8",
     "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^26.0.24",
     "@types/lodash-es": "^4.17.4",
     "@types/node": "^16.0.0",
     "@types/react": "^17.0.13",
