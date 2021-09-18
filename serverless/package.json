@@ -17,7 +17,7 @@
     "@types/aws-lambda": "^8.10.83",
     "@types/node": "^16",
     "@types/node-fetch": "^3.0.3",
-    "@types/sharp": "^0.29.1",
+    "@types/sharp": "^0.29.2",
     "serverless": "^2.57.0",
     "serverless-dotenv-plugin": "^3.9.0",
     "serverless-offline": "^8.1.0",
