@@ -78,7 +78,7 @@
     "eslint-plugin-mui-unused-classes": "^1.0.3",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "gh-pages": "^3.2.3",
     "husky": "^7.0.4",
     "lint-staged": "^11.2.6",
