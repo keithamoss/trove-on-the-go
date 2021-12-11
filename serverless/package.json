@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@kingdarboja/serverless-plugin-typescript": "^1.4.1",
-    "@types/aws-lambda": "^8.10.85",
+    "@types/aws-lambda": "^8.10.86",
     "@types/node": "^16",
     "@types/node-fetch": "^3.0.3",
     "@types/sharp": "^0.29.4",
