@@ -19,7 +19,7 @@
     "@types/node-fetch": "^3.0.3",
     "@types/sharp": "^0.29.5",
     "serverless": "^2.69.1",
-    "serverless-dotenv-plugin": "^3.10.0",
+    "serverless-dotenv-plugin": "^3.12.1",
     "serverless-offline": "^8.3.1",
     "source-map-support": "^0.5.21",
     "typescript": "^4.5.4"
