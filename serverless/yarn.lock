@@ -4576,10 +4576,10 @@ semver@^7.3.4, semver@^7.3.5:
   dependencies:
     lru-cache "^6.0.0"
 
-serverless-dotenv-plugin@^3.12.1:
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/serverless-dotenv-plugin/-/serverless-dotenv-plugin-3.12.1.tgz#670e67e8b35a4376b5fbaad0c591b733753a9673"
-  integrity sha512-euAEJmq+xRRLaeKrVcG0gst9GolkkrqSKAmid2+ytMWA+Vs4N1rrKD1FapLhpv/BUrJlBOug6R2WDfAMg5y0xA==
+serverless-dotenv-plugin@^3.12.2:
+  version "3.12.2"
+  resolved "https://registry.yarnpkg.com/serverless-dotenv-plugin/-/serverless-dotenv-plugin-3.12.2.tgz#e3f70ba706f3525d4d838114ccdcedb22e1bf13e"
+  integrity sha512-uyukgQkZCWu+Kee+E0XQEmPlMWHHEEN+T9Kp+77VwZx4B3nfjIwd6rEyi5hCiqk1+RqBMc9NME3NP94b04dQFg==
   dependencies:
     chalk "^4.1.2"
     dotenv "^10.0.0"
