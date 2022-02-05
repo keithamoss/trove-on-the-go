@@ -346,10 +346,10 @@
     "@types/lodash" "^4.14.123"
     lodash "^4.17.11"
 
-"@serverless/platform-client@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@serverless/platform-client/-/platform-client-4.3.0.tgz#5eda7b7eb8bdd0da93f2ecf2130b4131349806a1"
-  integrity sha512-q2CMqCkKeBaKA/UwfJAZLkdUsbghSbiYPvAX4rl9rsR5APm4KWtjKQP9CTOtVO5JRMWYoysK6jF0d5VJOABRzQ==
+"@serverless/platform-client@^4.3.0", "@serverless/platform-client@^4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@serverless/platform-client/-/platform-client-4.3.1.tgz#5caa52321f9b4e7a451748a16d3f851f263ea3ef"
+  integrity sha512-VPXeTTgXmWZtZmbzm9eh5FJcOoFgHkcwgfNA59FV3TE2Vcm5JZiXKtXl5AANu9LYcyOtJK7iBJXs8OUSwNbJZw==
   dependencies:
     adm-zip "^0.5.5"
     archiver "^5.3.0"
@@ -3526,18 +3526,18 @@ serverless-offline@^8.4.0:
     velocityjs "^2.0.6"
     ws "^7.5.6"
 
-serverless@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/serverless/-/serverless-3.0.1.tgz#c859d4fc2e960d7901a95f25738c60e23330507e"
-  integrity sha512-GztUBWbbT5IqTfxbg3vnWYpytGUJbAJLPORHjjKcrYtnUQN/0i4CRPralJN3jndLXxzR2XByhrhhulqrfQPFMg==
+serverless@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/serverless/-/serverless-3.1.1.tgz#e8f12fa0bacc23f8e4dc47829e3171b30f927213"
+  integrity sha512-oqbaQEVeYs0eMtz1pgKbbPoP53bahwMF3MaJq/YiB7a6+eSsOzN5OQJQoBt5Avz7DV2PjcppnxD6vf7z4VLSKQ==
   dependencies:
     "@serverless/dashboard-plugin" "^6.0.0"
-    "@serverless/platform-client" "^4.3.0"
+    "@serverless/platform-client" "^4.3.1"
     "@serverless/utils" "^6.0.0"
     ajv "^8.9.0"
     ajv-formats "^2.1.1"
     archiver "^5.3.0"
-    aws-sdk "^2.1065.0"
+    aws-sdk "^2.1066.0"
     bluebird "^3.7.2"
     cachedir "^2.3.0"
     chalk "^4.1.2"
