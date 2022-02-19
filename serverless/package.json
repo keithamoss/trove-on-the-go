@@ -18,7 +18,7 @@
     "@types/node": "^17",
     "@types/node-fetch": "^3.0.3",
     "@types/sharp": "^0.29.5",
-    "serverless": "^3.2.0",
+    "serverless": "^3.2.1",
     "serverless-dotenv-plugin": "^3.12.2",
     "serverless-offline": "^8.5.0",
     "source-map-support": "^0.5.21",
