@@ -312,14 +312,19 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@serverless/dashboard-plugin@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@serverless/dashboard-plugin/-/dashboard-plugin-6.0.0.tgz#874a3542b1be029429ffd9770745e4a4ae37509d"
-  integrity sha512-ltoFGVoR7qmT4cO3ol2zUsXSVMaFmuV2+N/2dvKWKdqNrjHZRKTOH4fK4Onzmjb6WzK61nZScCT/XCtMhJwQqQ==
+"@serverless/aws-lambda-otel-extension-dist@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@serverless/aws-lambda-otel-extension-dist/-/aws-lambda-otel-extension-dist-0.1.5.tgz#755af0c6136a95ca424e96bdfcbc28b82047cd5b"
+  integrity sha512-ygnx1hpIWK1v1IDjBn0EgfqjzYUdFi+PHo0RTER75ZLtPrT5kdI4utgaaIV+oLs8hMjaVqDsJw1O4AmP+2F16A==
+
+"@serverless/dashboard-plugin@^6.1.1":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@serverless/dashboard-plugin/-/dashboard-plugin-6.1.2.tgz#945cbaa8967f612632d598ddb3438403a70867fd"
+  integrity sha512-wbdxBrJef1eKZ2aNJRWI3UOUycuq7UQBS3EGvoh2L+r2HBIMqf7sUw2F2q7WfHE5oixYe4AVuBQzLkwZ3NjZGA==
   dependencies:
     "@serverless/event-mocks" "^1.1.1"
-    "@serverless/platform-client" "^4.3.0"
-    "@serverless/utils" "^6.0.0"
+    "@serverless/platform-client" "^4.3.1"
+    "@serverless/utils" "^6.0.2"
     child-process-ext "^2.1.1"
     chokidar "^3.5.3"
     flat "^5.0.2"
@@ -334,7 +339,7 @@
     open "^7.4.2"
     semver "^7.3.5"
     simple-git "^2.48.0"
-    type "^2.5.0"
+    type "^2.6.0"
     uuid "^8.3.2"
     yamljs "^0.3.0"
 
@@ -346,7 +351,7 @@
     "@types/lodash" "^4.14.123"
     lodash "^4.17.11"
 
-"@serverless/platform-client@^4.3.0", "@serverless/platform-client@^4.3.1":
+"@serverless/platform-client@^4.3.1":
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/@serverless/platform-client/-/platform-client-4.3.1.tgz#5caa52321f9b4e7a451748a16d3f851f263ea3ef"
   integrity sha512-VPXeTTgXmWZtZmbzm9eh5FJcOoFgHkcwgfNA59FV3TE2Vcm5JZiXKtXl5AANu9LYcyOtJK7iBJXs8OUSwNbJZw==
@@ -367,7 +372,7 @@
     traverse "^0.6.6"
     ws "^7.5.3"
 
-"@serverless/utils@^6.0.0", "@serverless/utils@^6.0.2":
+"@serverless/utils@^6.0.2":
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/@serverless/utils/-/utils-6.0.2.tgz#e23e79b5f10e3aba0bd4965d1924df10c77f9681"
   integrity sha512-4vNv6nt4/w8wX79DN7OujR/Ih1wlJ9ZJnY28BtF69ehFwlGqnxlF2CXVGo3W7Xh4maK3hWnoc+L4akQX6nH+3g==
@@ -675,10 +680,10 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
-aws-sdk@^2.1073.0, aws-sdk@^2.1076.0, aws-sdk@^2.1077.0:
-  version "2.1077.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1077.0.tgz#d4a391d38ede867fe9a88f31555f09a338dfdf4e"
-  integrity sha512-orJvJROs8hJaQRfHsX7Zl5PxEgrD/uTXyqXz9Yu9Io5VVxzvnOty9oHmvEMSlgTIf1qd01gnev/vpvP1HgzKtw==
+aws-sdk@^2.1076.0, aws-sdk@^2.1077.0, aws-sdk@^2.1081.0:
+  version "2.1082.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1082.0.tgz#f6e107cc1473f17292386e7b9f79a5b8bf2a3350"
+  integrity sha512-aDrUZ63O/ocuC827ursDqFQAm3jhqsJu1DvMCCFg73y+FK9pXXNHp2mwdi3UeeHvtfxISCLCjuyO3VFd/tpVfA==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -3586,18 +3591,19 @@ serverless-offline@^8.5.0:
     velocityjs "^2.0.6"
     ws "^7.5.7"
 
-serverless@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/serverless/-/serverless-3.2.1.tgz#b09a4ddb1a04ca7b7e4e48c53b4ec5fce454669a"
-  integrity sha512-ocCfLKt+C8rZaalzkbdnxenPZBjS78wnZxJYqDdXx3EYr4e9KND2WyTKUhB8g/f3FPSWjGW35R9e3/Mfd/ceTw==
+serverless@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/serverless/-/serverless-3.4.0.tgz#929aa1f3594bc334bc782940b8f42cdba2ff5fc5"
+  integrity sha512-o0Cxoht35VEleHqSkMNefdeE5Dlfjz2+78MGEgfAHb3OQePBBafHzsV4PQHYLRaHeyBptnpWmLSSUgf1NRga4g==
   dependencies:
-    "@serverless/dashboard-plugin" "^6.0.0"
+    "@serverless/aws-lambda-otel-extension-dist" "^0.1.5"
+    "@serverless/dashboard-plugin" "^6.1.1"
     "@serverless/platform-client" "^4.3.1"
     "@serverless/utils" "^6.0.2"
     ajv "^8.10.0"
     ajv-formats "^2.1.1"
     archiver "^5.3.0"
-    aws-sdk "^2.1073.0"
+    aws-sdk "^2.1081.0"
     bluebird "^3.7.2"
     cachedir "^2.3.0"
     chalk "^4.1.2"
