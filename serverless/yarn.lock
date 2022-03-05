@@ -436,10 +436,10 @@
   resolved "https://registry.yarnpkg.com/@tokenizer/token/-/token-0.3.0.tgz#fe98a93fe789247e998c75e74e9c7c63217aa276"
   integrity sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==
 
-"@types/aws-lambda@^8.10.92":
-  version "8.10.92"
-  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.92.tgz#645f769ff88b8eba1acd35542695ac322c7757c4"
-  integrity sha512-dB14TltT1SNq73z3MaZfKyyBZ37NAgAFl8jze59bisR4fJ6pB6AYGxItHFkooZbN7UcVJX/cFudM4p8wp1W4rA==
+"@types/aws-lambda@^8.10.93":
+  version "8.10.93"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.93.tgz#3e2c80894122477040aabf29b7320556f5702a76"
+  integrity sha512-Vsyi9ogDAY3REZDjYnXMRJJa62SDvxHXxJI5nGDQdZW058dDE+av/anynN2rLKbCKXDRNw3D/sQmqxVflZFi4A==
 
 "@types/cacheable-request@^6.0.1":
   version "6.0.1"
