@@ -22,7 +22,7 @@
     "serverless-dotenv-plugin": "^3.12.2",
     "serverless-offline": "^8.5.0",
     "source-map-support": "^0.5.21",
-    "typescript": "^4.5.5"
+    "typescript": "^4.6.2"
   },
   "scripts": {
     "start": "serverless offline --httpPort 3001",
