@@ -1,5 +1,6 @@
-import { createMuiTheme, CssBaseline, darken, ThemeProvider, useMediaQuery } from '@material-ui/core'
+import { CssBaseline, darken, ThemeProvider, useMediaQuery } from '@material-ui/core'
 import { blue, pink } from '@material-ui/core/colors'
+import { createTheme } from '@material-ui/core/styles'
 import type {} from '@material-ui/lab/themeAugmentation'
 import React, { Fragment } from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
@@ -14,7 +15,7 @@ const App: React.FC = () => {
   // https://github.com/mui-org/material-ui/blob/master/docs/src/modules/components/ThemeContext.js#L180
   const theme = React.useMemo(
     () =>
-      createMuiTheme({
+      createTheme({
         palette: {
           type: prefersDarkMode ? 'dark' : 'light',
           background: {
