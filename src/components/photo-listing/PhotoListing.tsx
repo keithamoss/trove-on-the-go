@@ -102,7 +102,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
           ))}
 
       {response !== null && hasMoreResults && isLoading === false && (
-        <Grid container direction="row" justify="center">
+        <Grid container direction="row" justifyContent="center">
           <Button variant="outlined" color="primary" onClick={() => getNextPage()}>
             load more
           </Button>
