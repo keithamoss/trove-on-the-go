@@ -35,7 +35,6 @@ const app = async (
       'l-availability': 'y',
       include: 'links',
       reclevel: 'full',
-      sortby: 'dateasc',
       key: process.env.TROVE_API_KEY,
       encoding: 'json',
     })
@@ -46,6 +45,10 @@ const app = async (
       if (queryStringParams.has('q')) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         params.append('q', queryStringParams.get('q')!)
+      }
+      if (queryStringParams.has('sortby')) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        params.append('sortby', queryStringParams.get('sortby')!)
       }
       if (queryStringParams.has('s')) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
