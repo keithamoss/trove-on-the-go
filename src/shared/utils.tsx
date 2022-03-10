@@ -37,3 +37,8 @@ export const getNumberParamFromQSOrNull = (query: URLSearchParams, name: string)
   const n = query.get(name)
   return n !== null ? Number.parseInt(n, 10) : null
 }
+
+export const getStringParamFromQSOrNull = (query: URLSearchParams, name: string): string | null => {
+  const s = query.get(name)
+  return s !== null ? String(s) : null
+}

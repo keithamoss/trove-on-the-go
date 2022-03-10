@@ -55,9 +55,16 @@ export type TroveWork = {
   versionCount: number
 }
 
+export enum TroveSortOrder {
+  DATE_ASC = 'dateasc',
+  DATE_DESC = 'datedesc',
+  RELEVANCE = 'relevance',
+}
+
 export interface TroveAPISearchParams {
   searchTerm: string
   searchYear: number | null
+  sortOrder: TroveSortOrder
   nextPageToken: string | null
 }
 

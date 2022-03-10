@@ -2,7 +2,7 @@ import { Button, Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import React, { Fragment } from 'react'
 import Gallery from 'react-grid-gallery'
-import { TroveWork } from '../../api/types'
+import { TroveSortOrder, TroveWork } from '../../api/types'
 import EmptyState from '../../shared/empty-state/EmptyState'
 import ErrorState from '../../shared/error-state/ErrorState'
 import PhotoPlaceholder from '../../shared/PhotoPlaceholder'
@@ -12,6 +12,7 @@ import useTroveAPI from './useTroveAPIHook'
 type PhotoListingProps = {
   searchTerm: string
   searchYear: number | null
+  sortOrder: TroveSortOrder
   page: string | undefined
   onChoosePhoto: React.Dispatch<React.SetStateAction<GalleryPhotos | null>>
 }
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
 const PhotoListing: React.FC<PhotoListingProps> = ({
   searchTerm,
   searchYear,
+  sortOrder,
   page,
   onChoosePhoto,
 }: PhotoListingProps) => {
@@ -36,7 +38,7 @@ const PhotoListing: React.FC<PhotoListingProps> = ({
   const {
     state: { isLoading, isError, hasMoreResults, response },
     getNextPage,
-  } = useTroveAPI(searchTerm, searchYear, page)
+  } = useTroveAPI(searchTerm, searchYear, sortOrder, page)
 
   return (
     <Fragment>

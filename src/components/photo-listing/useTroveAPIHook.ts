@@ -1,12 +1,13 @@
 import React, { useReducer } from 'react'
 import { useHistory } from 'react-router-dom'
 import fetchTrovePhotos from '../../api/actions'
-import { TroveAPIResponseRecords, TroveWork } from '../../api/types'
+import { TroveAPIResponseRecords, TroveSortOrder, TroveWork } from '../../api/types'
 import { deduplicateArrayOfObjects } from '../../shared/utils'
 
 type TroveRequest = {
   searchTerm: string
   searchYear: number | null
+  sortOrder: TroveSortOrder
   nextPageToken: string | null
   isWarmUpRequest: boolean
 }
@@ -14,6 +15,7 @@ type TroveRequest = {
 type TroveResponse = {
   searchTerm: string
   searchYear: number | null
+  sortOrder: TroveSortOrder
   nextPageToken: string | null
   photos: TroveWork[]
 }
@@ -36,6 +38,7 @@ type Action =
       payload: {
         searchTerm: string
         searchYear: number | null
+        sortOrder: TroveSortOrder
         data: TroveAPIResponseRecords
       }
     }
@@ -64,6 +67,7 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
         response: {
           searchTerm: action.payload.searchTerm,
           searchYear: action.payload.searchYear,
+          sortOrder: action.payload.sortOrder,
           nextPageToken: action.payload.data.nextPageToken,
           photos: deduplicateArrayOfObjects(
             [...(state.response !== null ? state.response.photos : []), ...action.payload.data.work],
@@ -94,6 +98,7 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
             ? {
                 searchTerm: state.response.searchTerm,
                 searchYear: state.response.searchYear,
+                sortOrder: state.response.sortOrder,
                 nextPageToken: state.response.nextPageToken,
                 isWarmUpRequest: action?.payload?.isWarmUp || false,
               }
@@ -120,6 +125,7 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
 const useTroveAPI = (
   searchTerm: string,
   searchYear: number | null,
+  sortOrder: TroveSortOrder,
   page: string | undefined
 ): {
   state: State
@@ -135,6 +141,7 @@ const useTroveAPI = (
     request: {
       searchTerm,
       searchYear,
+      sortOrder,
       nextPageToken: null,
       isWarmUpRequest: false,
     },
@@ -145,11 +152,10 @@ const useTroveAPI = (
   const getNextPage = () => {
     dispatch({ type: 'FETCH_NEXT_PAGE' })
 
-    if (searchYear === null) {
-      history.push(`/${searchTerm}/${state.pagesFetched + 1}`)
-    } else {
-      history.push(`/${searchTerm}/${state.pagesFetched + 1}?y=${searchYear}`)
-    }
+    history.push({
+      pathname: `/${searchTerm}/${state.pagesFetched + 1}`,
+      search: history.location.search,
+    })
   }
 
   React.useEffect(() => {
@@ -172,6 +178,7 @@ const useTroveAPI = (
               payload: {
                 searchTerm: state.request.searchTerm,
                 searchYear: state.request.searchYear,
+                sortOrder: state.request.sortOrder,
                 data: result,
               },
             })
@@ -211,7 +218,9 @@ const useTroveAPI = (
   React.useEffect(() => {
     if (
       state.request !== null &&
-      (searchTerm !== state.request.searchTerm || searchYear !== state.request.searchYear)
+      (searchTerm !== state.request.searchTerm ||
+        searchYear !== state.request.searchYear ||
+        sortOrder !== state.request.sortOrder)
     ) {
       dispatch({
         type: 'RESET',
@@ -219,6 +228,7 @@ const useTroveAPI = (
           request: {
             searchTerm,
             searchYear,
+            sortOrder,
             nextPageToken: null,
             isWarmUpRequest: false,
           },
@@ -226,7 +236,7 @@ const useTroveAPI = (
         },
       })
     }
-  }, [searchTerm, searchYear, page, state.request])
+  }, [searchTerm, searchYear, sortOrder, page, state.request])
 
   return { state, getNextPage }
 }

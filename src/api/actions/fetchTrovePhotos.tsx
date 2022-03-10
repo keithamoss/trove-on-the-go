@@ -10,6 +10,7 @@ const fetchTrovePhotos = async (params: TroveAPISearchParams): Promise<TroveAPIR
     method: 'get',
     params: {
       q: params.searchYear === null ? params.searchTerm : `${params.searchTerm} date:[${params.searchYear} TO *]`,
+      sortby: params.sortOrder,
       s: params.nextPageToken,
     },
   })
