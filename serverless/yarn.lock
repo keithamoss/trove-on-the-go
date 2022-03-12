@@ -3463,15 +3463,6 @@ semver@^7.3.4, semver@^7.3.5:
   dependencies:
     lru-cache "^6.0.0"
 
-serverless-dotenv-plugin@^3.12.2:
-  version "3.12.2"
-  resolved "https://registry.yarnpkg.com/serverless-dotenv-plugin/-/serverless-dotenv-plugin-3.12.2.tgz#e3f70ba706f3525d4d838114ccdcedb22e1bf13e"
-  integrity sha512-uyukgQkZCWu+Kee+E0XQEmPlMWHHEEN+T9Kp+77VwZx4B3nfjIwd6rEyi5hCiqk1+RqBMc9NME3NP94b04dQFg==
-  dependencies:
-    chalk "^4.1.2"
-    dotenv "^10.0.0"
-    dotenv-expand "^5.1.0"
-
 serverless-offline@^8.5.0:
   version "8.5.0"
   resolved "https://registry.yarnpkg.com/serverless-offline/-/serverless-offline-8.5.0.tgz#cd1c74f6dc3b8c41e4be2d6ea0fc48a5f7ee6700"

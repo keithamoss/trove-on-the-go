@@ -1,6 +1,8 @@
 service: trove-on-the-go
 
-frameworkVersion: '>=1.1.0'
+frameworkVersion: '>=3'
+
+useDotenv: true
 
 package:
   exclude:
@@ -10,7 +12,6 @@ package:
 
 plugins:
   - '@kingdarboja/serverless-plugin-typescript'
-  - serverless-dotenv-plugin
   - serverless-offline
 
 custom:
@@ -19,12 +20,17 @@ custom:
     useChildProcesses: true
 
 provider:
+  environment:
+    API_VERSION: ${env:API_VERSION}
+    S3_BUCKET_NAME: ${env:S3_BUCKET_NAME}
+    TROVE_API_KEY: ${env:TROVE_API_KEY}
+    NODE_ENV: ${env:NODE_ENV}
   name: aws
   lambdaHashingVersion: 20201221
   logs:
     httpApi: true
-  runtime: nodejs12.x
-  stage: dev
+  runtime: nodejs14.x
+  stage: development
   region: ap-southeast-2
   httpApi:
     cors: true

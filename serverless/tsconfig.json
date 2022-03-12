@@ -23,7 +23,7 @@
       "es2019",
       "esnext",
     ],
-    "outDir": "./build",
+    "outDir": ".build",
     "rootDir": "./",
     "incremental": true,
     "tsBuildInfoFile": ".tsbuildinfo"
