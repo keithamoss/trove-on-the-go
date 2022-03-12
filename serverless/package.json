@@ -16,7 +16,7 @@
     "@kingdarboja/serverless-plugin-typescript": "^1.4.1",
     "@types/aws-lambda": "^8.10.93",
     "@types/node": "^17",
-    "@types/node-fetch": "^3.0.3",
+    "@types/node-fetch": "^2.6.1",
     "@types/sharp": "^0.29.5",
     "serverless": "^3.7.1",
     "serverless-offline": "^8.5.0",
