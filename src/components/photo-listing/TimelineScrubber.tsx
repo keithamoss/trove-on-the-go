@@ -1,5 +1,6 @@
-import { Box, makeStyles, Slider, Theme, withStyles } from '@material-ui/core'
+import { Box, makeStyles, Slider, withStyles } from '@material-ui/core'
 import ValueLabel from '@material-ui/core/Slider/ValueLabel'
+import { Theme } from '@material-ui/core/styles/createTheme'
 import { debounce } from 'lodash-es'
 import React, { Fragment } from 'react'
 import styled from 'styled-components'

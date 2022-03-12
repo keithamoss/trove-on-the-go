@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import ClearTwoToneIcon from '@material-ui/icons/ClearTwoTone'
 import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone'
 import React, { Fragment, MutableRefObject, useRef } from 'react'
+// eslint-disable-next-line import/named
 import { RouteComponentProps, useParams } from 'react-router-dom'
 import { TroveSortOrder } from '../api/types'
 import PhotoGallery, { GalleryPhotos } from '../components/photo-gallery/PhotoGallery'

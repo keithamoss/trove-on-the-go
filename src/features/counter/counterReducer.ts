@@ -5,6 +5,7 @@ const initialState = {
   value: 0,
 }
 
+// eslint-disable-next-line @typescript-eslint/default-param-last
 const reducer = (state = initialState, action: CounterActionTypes): CounterState => {
   switch (action.type) {
     case INCREMENT_COUNTER:

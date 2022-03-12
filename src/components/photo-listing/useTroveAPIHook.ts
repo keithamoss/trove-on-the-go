@@ -183,9 +183,9 @@ const useTroveAPI = (
               },
             })
           }
-        } catch (error) {
+        } catch (error: unknown) {
           if (didCancel === false) {
-            dispatch({ type: 'FETCH_FAILURE', payload: error })
+            dispatch({ type: 'FETCH_FAILURE', payload: error as Error })
           }
         }
       }
