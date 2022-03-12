@@ -8,8 +8,8 @@
     "abort-controller": "^3.0.0",
     "aws-sdk": "^2.1087.0",
     "exponential-backoff": "^3.1.0",
-    "node-fetch": "^3.2.1",
-    "p-limit": "^4.0.0",
+    "node-fetch": "^2.6.7",
+    "p-limit": "^3.1.0",
     "sharp": "^0.30.2"
   },
   "devDependencies": {
