@@ -37,7 +37,8 @@ export const fetchWithTimeout = async (url: string, timeout_ms: number): Promise
   }, timeout_ms)
 
   try {
-    return await fetch(url, { signal: controller.signal })
+    const res = await fetch(url, { signal: controller.signal })
+    return res
   } catch (error) {
     // if (error instanceof fetch.AbortError) {
     //   console.log('Request was aborted')

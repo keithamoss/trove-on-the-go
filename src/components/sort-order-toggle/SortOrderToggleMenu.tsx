@@ -54,7 +54,7 @@ const SortOrderToggleMenu: React.FC<SortOrderToggleMenuProps> = ({
     setOpen(false)
   }
 
-  function handleListKeyDown(event: React.KeyboardEvent) {
+  const handleListKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Tab') {
       event.preventDefault()
       setOpen(false)
