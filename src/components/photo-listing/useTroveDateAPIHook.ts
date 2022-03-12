@@ -87,9 +87,9 @@ const useTroveDateAPI = (
               payload: { searchTerm: state.request.searchTerm, data: result },
             })
           }
-        } catch (error) {
+        } catch (error: unknown) {
           if (didCancel === false) {
-            dispatch({ type: 'FETCH_FAILURE', payload: error })
+            dispatch({ type: 'FETCH_FAILURE', payload: error as Error })
           }
         }
       }
