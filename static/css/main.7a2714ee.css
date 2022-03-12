@@ -1,0 +1,2 @@
+@supports (padding:max(0px)){body,footer,header{padding-left:min(0vmin,env(safe-area-inset-left));padding-right:min(0vmin,env(safe-area-inset-right))}}a{color:#90caf9}
+/*# sourceMappingURL=main.7a2714ee.css.map*/
