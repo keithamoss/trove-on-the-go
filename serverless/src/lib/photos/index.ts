@@ -108,14 +108,18 @@ export const fetchPhotoMetadataFromS3 = async (
   work: TroveWork,
   identifier: TroveWorkIdentifier
 ): Promise<TrovePhotoMetadata> => {
+  console.log('fetchPhotoMetadataFromS3 #1')
   // eslint-disable-next-line
   console.info(`Checking ${identifier.value}`)
   const { metadata: s3PathToPhotoMetadata } = getS3PhotoFilenames(work.id, identifier.value)
+  console.log('fetchPhotoMetadataFromS3 #2')
 
   const metadataObject = await s3GetObjectOrUndefined(s3, s3PathToPhotoMetadata)
+  console.log('fetchPhotoMetadataFromS3 #2.1')
   if (metadataObject !== undefined && metadataObject.Body !== undefined) {
     return JSON.parse(metadataObject.Body.toString())
   }
+  console.log('fetchPhotoMetadataFromS3 #3')
 
   return {
     troveWorkId: work.id,

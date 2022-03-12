@@ -41,5 +41,6 @@ module.exports = {
     // Because I like spreading props on the PhotoPlaceholder component
     'react/jsx-props-no-spreading': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/return-await': 'off',
   },
 }

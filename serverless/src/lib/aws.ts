@@ -26,7 +26,7 @@ export const s3ObjectExists = async (s3: AWS.S3, key: string): Promise<boolean> 
 
 export const s3GetObjectOrUndefined = async (s3: AWS.S3, key: string): Promise<AWS.S3.GetObjectOutput | undefined> => {
   try {
-    return s3
+    return await s3
       .getObject({
         Bucket: getS3Bucket(),
         Key: key,
