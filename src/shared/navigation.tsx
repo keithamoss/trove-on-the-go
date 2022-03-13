@@ -73,9 +73,12 @@ export const sortOrderChanging = (history: RouteComponentProps['history'], newSo
 export const yearChanging = (history: RouteComponentProps['history'], newYear: number): void => {
   // Year can only ever change as part of date sorting, so just update the year param.
   const searchParams = new URLSearchParams(history.location.search)
-  searchParams.set('y', `${newYear}`)
-  history.push({
-    ...history.location,
-    search: searchParams.toString(),
-  })
+
+  if (searchParams.get('y') !== `${newYear}`) {
+    searchParams.set('y', `${newYear}`)
+    history.push({
+      ...history.location,
+      search: searchParams.toString(),
+    })
+  }
 }
