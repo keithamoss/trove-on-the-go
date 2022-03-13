@@ -11,6 +11,7 @@ import PhotoGallery, { GalleryPhotos } from '../components/photo-gallery/PhotoGa
 import PhotoListing from '../components/photo-listing'
 import TimelineScrubber from '../components/photo-listing/TimelineScrubber'
 import SortOrderToggleMenu from '../components/sort-order-toggle/SortOrderToggleMenu'
+import { RouteParams, searchTermChanging, sortOrderChanging, yearChanging } from '../shared/navigation'
 import { getNumberParamFromQSOrNull, getStringParamFromQSOrNull, useQuery } from '../shared/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -32,11 +33,6 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
   },
 }))
-
-interface RouteParams {
-  search: string | undefined
-  page: string | undefined
-}
 
 const getDefaultSearchTerm = (search: string | undefined): string | null => {
   if (search !== undefined) {
@@ -118,24 +114,12 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
 
   const onDateChange = (year: number) => {
     setSearchYear(year)
-    history.push({
-      pathname: `/${searchTerm}`,
-      search: `y=${year}`,
-    })
+    yearChanging(history, year)
   }
 
   const onSortOrderChange = (sortOrderValue: TroveSortOrder) => {
     setSortOrder(sortOrderValue)
-
-    const searchParams = new URLSearchParams(history.location.search)
-    searchParams.set('sort', sortOrderValue)
-    searchParams.delete('y')
-
-    history.push({
-      // Blow away the page indicator when we change direction
-      pathname: `/${searchTerm}`,
-      search: searchParams.toString(),
-    })
+    sortOrderChanging(history, sortOrderValue)
   }
 
   return (
@@ -170,7 +154,8 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
                   // Let mobile browsers know we want to close the soft keyboard
                   input.blur()
 
-                  history.push(`/${input.value}`)
+                  console.log('history.push onSubmit')
+                  searchTermChanging(history, input.value)
                 }}
               >
                 <InputBase
@@ -191,7 +176,8 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
                       setSearchTerm(input.value)
                     }
 
-                    history.push(`/${input.value}`)
+                    console.log('history.push onBlur')
+                    searchTermChanging(history, input.value)
                   }}
                   endAdornment={
                     <InputAdornment position="end">

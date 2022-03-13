@@ -2,6 +2,7 @@ import React, { useReducer } from 'react'
 import { useHistory } from 'react-router-dom'
 import fetchTrovePhotos from '../../api/actions'
 import { TroveAPIResponseRecords, TroveSortOrder, TroveWork } from '../../api/types'
+import { moveToNextPage } from '../../shared/navigation'
 import { deduplicateArrayOfObjects } from '../../shared/utils'
 
 type TroveRequest = {
@@ -151,11 +152,7 @@ const useTroveAPI = (
 
   const getNextPage = () => {
     dispatch({ type: 'FETCH_NEXT_PAGE' })
-
-    history.push({
-      pathname: `/${searchTerm}/${state.pagesFetched + 1}`,
-      search: history.location.search,
-    })
+    moveToNextPage(history)
   }
 
   React.useEffect(() => {
