@@ -78,14 +78,21 @@ const SortOrderToggleMenu: React.FC<SortOrderToggleMenuProps> = ({
         <IconButton
           ref={anchorRef}
           onClick={handleToggle}
-          type="button"
+          type="submit"
           aria-label="choose an option to sort by"
           aria-controls={open ? 'menu-list-grow' : undefined}
           aria-haspopup="true"
         >
           <SortTwoToneIcon />
         </IconButton>
-        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          placement={'top-end'}
+          role={undefined}
+          transition
+          disablePortal
+        >
           {({ TransitionProps, placement }) => (
             <Grow
               {...TransitionProps}

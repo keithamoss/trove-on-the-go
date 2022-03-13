@@ -154,7 +154,6 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
                   // Let mobile browsers know we want to close the soft keyboard
                   input.blur()
 
-                  console.log('history.push onSubmit')
                   searchTermChanging(history, input.value)
                 }}
               >
@@ -168,17 +167,6 @@ const Home: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps) =
                     'aria-label': 'search trove',
                   }}
                   defaultValue={searchTerm}
-                  onBlur={(e) => {
-                    // This allows the user to type a thing, tap on the sort order button, and then choose an option and have it all work
-                    // Without this, the text entered into the field is lost (set to null) once the user clicks the sort order button.
-                    const input: HTMLInputElement | null = e.target as HTMLInputElement
-                    if (input !== null && input.value.length > 0) {
-                      setSearchTerm(input.value)
-                    }
-
-                    console.log('history.push onBlur')
-                    searchTermChanging(history, input.value)
-                  }}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton type="submit" color="primary" aria-label="submit search field">

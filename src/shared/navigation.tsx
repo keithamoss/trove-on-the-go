@@ -31,14 +31,18 @@ export const parseURL = (pathname: string): RouteParams => {
 
 export const searchTermChanging = (history: RouteComponentProps['history'], newSearch: string): void => {
   // Reset the search-specific paramters of year and page
+  const { search } = parseURL(history.location.pathname)
   const searchParams = new URLSearchParams(history.location.search)
-  searchParams.delete('y')
 
-  history.push({
-    ...history.location,
-    pathname: `/${newSearch}`,
-    search: searchParams.toString(),
-  })
+  if (search !== newSearch) {
+    searchParams.delete('y')
+
+    history.push({
+      ...history.location,
+      pathname: `/${newSearch}`,
+      search: searchParams.toString(),
+    })
+  }
 }
 
 export const moveToNextPage = (history: RouteComponentProps['history']): void => {
